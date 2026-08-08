@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Just Angles | Pro Anti-AI Layout Editor</title>
+    <title>Just Angles | Pro Layout Editor</title>
     <!-- Fabric.js Vector Canvas Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <!-- Google Fonts for Webtoons & Publishing -->
@@ -37,7 +37,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 24px;
+            padding: 10px 20px;
             box-sizing: border-box;
             background-color: var(--bg-surface);
             border-bottom: 1px solid var(--border-muted);
@@ -49,34 +49,34 @@
             align-items: center;
             gap: 10px;
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-decoration: none;
             color: var(--text-main);
         }
 
-        .logo-icon { width: 26px; height: 26px; }
+        .logo-icon { width: 24px; height: 24px; }
 
         .layout-badge {
             background: rgba(0, 255, 136, 0.12);
             border: 1px solid var(--mint);
             color: var(--mint);
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-size: 0.75rem;
             font-weight: 700;
         }
 
-        .header-actions { display: flex; gap: 10px; }
+        .header-actions { display: flex; gap: 8px; }
 
         .btn-action {
-            padding: 8px 14px;
+            padding: 6px 12px;
             background-color: #2F3642;
             color: var(--text-main);
             border: 1px solid var(--border-muted);
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             transition: all 0.2s;
         }
 
@@ -88,48 +88,43 @@
         .app-container {
             display: flex;
             flex: 1;
-            height: calc(100vh - 57px);
+            height: calc(100vh - 51px);
             position: relative;
         }
 
-        /* Left Page Thumbnails Navigator */
+        /* Left Page Navigator */
         .sidebar-pages {
-            width: 190px;
+            width: 170px;
             background-color: var(--bg-surface);
             border-right: 1px solid var(--border-muted);
-            padding: 16px;
+            padding: 12px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             overflow-y: auto;
         }
 
-        .sidebar-pages h3 {
-            font-size: 0.75rem;
+        .sidebar-pages h3, .sidebar-controls h3, .sidebar-layers h3 {
+            font-size: 0.7rem;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
             color: var(--text-muted);
-            margin: 0 0 6px 0;
+            margin: 4px 0 2px 0;
             border-bottom: 1px solid var(--border-muted);
-            padding-bottom: 4px;
-        }
-
-        .page-thumb-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
+            padding-bottom: 3px;
         }
 
         .page-thumb-card {
             background-color: #121518;
             border: 2px solid var(--border-muted);
-            border-radius: 8px;
-            padding: 8px;
+            border-radius: 6px;
+            padding: 6px;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             transition: border-color 0.2s;
         }
 
@@ -137,74 +132,54 @@
 
         .page-preview-box {
             width: 100%;
-            height: 120px;
+            height: 100px;
             background-color: #FFFFFF;
-            border-radius: 4px;
+            border-radius: 3px;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .page-preview-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .page-thumb-card span { font-size: 0.75rem; font-weight: 700; color: var(--text-main); }
+        .page-preview-box img { width: 100%; height: 100%; object-fit: contain; }
+        .page-thumb-card span { font-size: 0.7rem; font-weight: 700; color: var(--text-main); }
 
         /* Middle Inspector Controls */
         .sidebar-controls {
-            width: 290px;
+            width: 270px;
             background-color: var(--bg-surface);
             border-right: 1px solid var(--border-muted);
-            padding: 16px;
+            padding: 12px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 10px;
             overflow-y: auto;
         }
 
-        .sidebar-controls h3 {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-muted);
-            margin: 8px 0 2px 0;
-            border-bottom: 1px solid var(--border-muted);
-            padding-bottom: 4px;
-        }
-
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        label { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
+        .control-group { display: flex; flex-direction: column; gap: 3px; }
+        label { font-size: 0.73rem; color: var(--text-muted); font-weight: 600; }
 
         input[type="color"], select, input[type="range"] {
             width: 100%;
             background-color: #121518;
             border: 1px solid var(--border-muted);
             color: #FFF;
-            padding: 6px;
-            border-radius: 6px;
+            padding: 5px;
+            border-radius: 5px;
             box-sizing: border-box;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .tool-btn {
-            padding: 9px 12px;
+            padding: 7px 10px;
             background-color: #2F3642;
             color: var(--text-main);
             border: 1px solid var(--border-muted);
-            border-radius: 6px;
+            border-radius: 5px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: left;
             display: flex;
             justify-content: space-between;
@@ -212,22 +187,17 @@
         }
 
         .tool-btn:hover { border-color: var(--mint); color: var(--mint); }
-
-        .shape-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
+        .shape-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
 
         .palette-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 4px;
         }
 
         .color-swatch {
-            height: 26px;
-            border-radius: 4px;
+            height: 22px;
+            border-radius: 3px;
             cursor: pointer;
             border: 1px solid var(--border-muted);
         }
@@ -235,35 +205,33 @@
         .asset-bank-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 6px;
             background: #121518;
-            padding: 8px;
-            border-radius: 6px;
+            padding: 6px;
+            border-radius: 5px;
             border: 1px solid var(--border-muted);
-            max-height: 120px;
+            max-height: 100px;
             overflow-y: auto;
         }
 
         .asset-item {
             width: 100%;
-            height: 50px;
-            border-radius: 4px;
+            height: 45px;
+            border-radius: 3px;
             background: #252A32;
             object-fit: cover;
             cursor: pointer;
             border: 1px solid var(--border-muted);
         }
 
-        .asset-item:hover { border-color: var(--mint); }
-
         .notice-box {
             background: rgba(255, 159, 67, 0.1);
             border: 1px solid var(--orange);
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 0.75rem;
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 0.7rem;
             color: var(--orange);
-            line-height: 1.4;
+            line-height: 1.3;
         }
 
         /* Workspace Stage */
@@ -278,39 +246,51 @@
         }
 
         .canvas-viewport {
-            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             border-radius: 4px;
             overflow: hidden;
         }
 
         /* Right Layers Inspector */
         .sidebar-layers {
-            width: 210px;
+            width: 220px;
             background-color: var(--bg-surface);
             border-left: 1px solid var(--border-muted);
-            padding: 16px;
+            padding: 12px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             overflow-y: auto;
         }
 
         .layer-item {
-            padding: 8px 10px;
+            padding: 6px 8px;
             background-color: #121518;
             border: 1px solid var(--border-muted);
-            border-radius: 6px;
-            font-size: 0.82rem;
+            border-radius: 5px;
+            font-size: 0.78rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
+        .layer-controls { display: flex; gap: 4px; }
+        .layer-btn {
+            background: #2F3642;
+            border: 1px solid var(--border-muted);
+            color: #FFF;
+            padding: 2px 6px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+        .layer-btn:hover { border-color: var(--mint); color: var(--mint); }
     </style>
 </head>
 <body>
 
-    <!-- Top Header Navigation -->
+    <!-- Header Navigation -->
     <header>
         <a href="index.html" class="logo">
             <svg class="logo-icon" viewBox="0 0 100 100" fill="none">
@@ -320,45 +300,45 @@
             Just Angles — Layout Engine
         </a>
 
-        <div class="layout-badge">100% Anti-AI Lock • Zero Data Scraping</div>
+        <div class="layout-badge">100% Anti-AI Engine • Zero Data Scraping</div>
 
         <div class="header-actions">
-            <button class="btn-action" onclick="saveProjectVirtual()">Save Layout</button>
-            <button class="btn-action" onclick="loadProjectVirtual()">Load Saved</button>
-            <button class="btn-action btn-mint" onclick="exportPrintSVG()">Export Print SVG</button>
+            <button class="btn-action" onclick="saveProjectVirtual()">Save</button>
+            <button class="btn-action" onclick="loadProjectVirtual()">Load</button>
+            <button class="btn-action btn-mint" onclick="exportPrintSVG()">Export SVG</button>
         </div>
     </header>
 
     <div class="app-container">
-        <!-- Left Page Thumbnails Navigator -->
+        <!-- Page Thumbnails Sidebar -->
         <div class="sidebar-pages">
-            <h3>Pages Manager</h3>
-            <div id="pageThumbList" class="page-thumb-list">
+            <h3>Pages</h3>
+            <div id="pageThumbList">
                 <div class="page-thumb-card active" onclick="switchPage(1, this)">
                     <div class="page-preview-box" id="pagePrev1">
-                        <span style="color:#A0AAB5; font-size:0.7rem;">Page 1</span>
+                        <span style="color:#A0AAB5; font-size:0.65rem;">Page 1</span>
                     </div>
-                    <span>Page 1 (Cover)</span>
+                    <span>Page 1</span>
                 </div>
             </div>
-            <button class="tool-btn" style="text-align:center; justify-content:center; color:var(--mint); margin-top:8px;" onclick="addPage()">+ Add Page</button>
+            <button class="tool-btn" style="text-align:center; justify-content:center; color:var(--mint);" onclick="addPage()">+ Add Page</button>
         </div>
 
-        <!-- Inspector & Layout Controls -->
+        <!-- Controls Sidebar -->
         <div class="sidebar-controls">
             
-            <h3>Document & Canvas Background</h3>
+            <h3>Document & Background</h3>
             <div class="control-group">
-                <label>Format Preset</label>
+                <label>Preset Format</label>
                 <select id="docPresetSelect" onchange="applyDocPreset(this.value)">
                     <option value="trade">6" x 9" Trade Paperback</option>
                     <option value="letter">8.5" x 11" Standard</option>
-                    <option value="webtoon">Webtoon Vertical Scroll (Tapas Ready)</option>
+                    <option value="webtoon">Webtoon Scroll (Tapas Ready)</option>
                 </select>
             </div>
 
             <div class="control-group">
-                <label>Page Background Color</label>
+                <label>Canvas Background</label>
                 <input type="color" id="bgColorPicker" value="#FFFFFF" onchange="updatePageBgColor(this.value)">
             </div>
 
@@ -367,28 +347,28 @@
                 <input type="range" id="marginSlider" min="10" max="60" value="20" oninput="updateMargins(this.value)">
             </div>
 
-            <h3>Stroke & Line Editor</h3>
+            <h3>Active Stroke / Line Controls</h3>
             <div class="control-group">
                 <label>Stroke Color</label>
-                <input type="color" id="strokeColorPicker" value="#121518" onchange="updateStrokeColor(this.value)">
+                <input type="color" id="strokeColorPicker" value="#121518" onchange="applyActiveStrokeColor(this.value)">
             </div>
             <div class="control-group">
                 <label>Stroke Width (<span id="strokeWidthVal">2</span>px)</label>
-                <input type="range" id="strokeWidthSlider" min="0" max="30" value="2" oninput="updateStrokeWidth(this.value)">
+                <input type="range" id="strokeWidthSlider" min="0" max="30" value="2" oninput="applyActiveStrokeWidth(this.value)">
             </div>
 
-            <h3>Typography & Lettering</h3>
-            <button class="tool-btn" onclick="addHeadingText()">+ Add Book Title</button>
-            <button class="tool-btn" onclick="addBodyText()">+ Add Body Text / Dialogue</button>
+            <h3>Typography</h3>
+            <button class="tool-btn" onclick="addHeadingText()">+ Add Headline Text</button>
+            <button class="tool-btn" onclick="addBodyText()">+ Add Dialogue / Body</button>
 
             <div class="control-group">
                 <label>Font Family</label>
                 <select id="fontSelect" onchange="updateFont(this.value)">
-                    <option value="'Comic Neue', sans-serif">Comic Neue (Webtoon Dialogue)</option>
+                    <option value="'Comic Neue', sans-serif">Comic Neue (Dialogue)</option>
                     <option value="'Bangers', cursive">Bangers (Action Headline)</option>
                     <option value="'Lora', serif">Lora (Book Serif)</option>
                     <option value="'Playfair Display', serif">Playfair (Editorial)</option>
-                    <option value="'Cinzel', serif">Cinzel (Fantasy Headline)</option>
+                    <option value="'Cinzel', serif">Cinzel (Fantasy)</option>
                     <option value="'Montserrat', sans-serif">Montserrat (Modern)</option>
                     <option value="'Inter', sans-serif">Inter (Clean)</option>
                     <option value="'Special Elite', cursive">Special Elite (Typewriter)</option>
@@ -396,13 +376,13 @@
             </div>
 
             <div class="control-group">
-                <label>Text Color</label>
+                <label>Text Fill Color</label>
                 <input type="color" id="textColorPicker" value="#121518" onchange="updateTextColor(this.value)">
             </div>
 
-            <h3>Vector Shapes Vault</h3>
+            <h3>Vector Shapes</h3>
             <div class="shape-grid">
-                <button class="tool-btn" onclick="addLine()">+ Line Path</button>
+                <button class="tool-btn" onclick="addLine()">Line Path</button>
                 <button class="tool-btn" onclick="addRectangle()">Rectangle</button>
                 <button class="tool-btn" onclick="addRoundedRect()">Rounded Rect</button>
                 <button class="tool-btn" onclick="addCircle()">Circle</button>
@@ -410,54 +390,56 @@
                 <button class="tool-btn" onclick="addStar()">Star</button>
             </div>
 
-            <h3>Afrocentric Character Builder</h3>
-            <button class="tool-btn" onclick="addBaseAvatar()">+ Add Base Character</button>
-            <button class="tool-btn" onclick="addAfroHair()">+ Add Afro Hair Asset</button>
-            <label>Melanin Skin Tone Swatches</label>
+            <h3>Character Builder</h3>
+            <button class="tool-btn" onclick="addBaseAvatar()">+ Character Base</button>
+            <button class="tool-btn" onclick="addAfroHair()">+ Hair Asset</button>
+            <label>Skin Tone Palette</label>
             <div class="palette-grid">
+                <div class="color-swatch" style="background: #2D1A12;" onclick="setSkinTone('#2D1A12')"></div>
                 <div class="color-swatch" style="background: #3B2219;" onclick="setSkinTone('#3B2219')"></div>
                 <div class="color-swatch" style="background: #5C382A;" onclick="setSkinTone('#5C382A')"></div>
                 <div class="color-swatch" style="background: #8D5B4C;" onclick="setSkinTone('#8D5B4C')"></div>
                 <div class="color-swatch" style="background: #C68642;" onclick="setSkinTone('#C68642')"></div>
+                <div class="color-swatch" style="background: #E0AC69;" onclick="setSkinTone('#E0AC69')"></div>
             </div>
 
-            <h3>Persistent Asset Bank & Vault</h3>
-            <button class="tool-btn" onclick="triggerFileInput('bg')">🖼 Upload Fitted Background</button>
-            <button class="tool-btn" onclick="triggerFileInput('photo')">📷 Upload Photo / Vector Asset</button>
-            <input type="file" id="mediaUploader" style="display:none;" onchange="handleFileUpload(event)">
+            <h3>Media & Vault</h3>
+            <button class="tool-btn" onclick="triggerFileInput('bg')">🖼 Upload Background</button>
+            <button class="tool-btn" onclick="triggerFileInput('photo')">📷 Upload Photo Asset</button>
+            <button class="tool-btn" onclick="triggerFileInput('vector')">✦ Upload Vector Asset</button>
+            <input type="file" id="photoUploader" style="display:none;" onchange="handleFileUpload(event, 'photo')">
+            <input type="file" id="vectorUploader" style="display:none;" onchange="handleFileUpload(event, 'vector')">
+            <input type="file" id="bgUploader" style="display:none;" onchange="handleFileUpload(event, 'bg')">
             
-            <label>Saved Asset Bank</label>
+            <label>Asset Vault</label>
             <div id="assetBank" class="asset-bank-grid">
-                <span style="font-size:0.7rem; color:var(--text-muted); grid-column: 1 / -1;">Upload media to keep in bank...</span>
+                <span style="font-size:0.65rem; color:var(--text-muted); grid-column: 1 / -1;">Vault empty...</span>
             </div>
 
             <div class="notice-box">
-                <strong>PG Policy & Anti-AI Guarantee:</strong> Absolutely no nudity or sexual content. Zero assets are uploaded to public AI engines.
+                <strong>PG Policy:</strong> No nudity or sexually explicit content allowed. All assets remain private and anti-AI locked.
             </div>
 
             <h3>Actions</h3>
-            <button class="tool-btn" onclick="toggleGuides()">Toggle Safety Guides</button>
+            <button class="tool-btn" onclick="toggleGuides()">Toggle Margins</button>
             <button class="tool-btn" style="color:#FF5555; border-color:#552222;" onclick="deleteSelected()">Delete Selected</button>
         </div>
 
-        <!-- Central Canvas Stage -->
+        <!-- Canvas Stage -->
         <div class="workspace-stage">
             <div class="canvas-viewport">
                 <canvas id="layoutCanvas" width="500" height="700"></canvas>
             </div>
         </div>
 
-        <!-- Right Layers Inspector -->
+        <!-- Re-Orderable Layers Inspector -->
         <div class="sidebar-layers">
-            <h3 style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); margin:0 0 6px 0;">Layers</h3>
-            <div id="layersList">
-                <div class="layer-item"><span>Page Margin Box</span><span style="color:var(--orange);">Guide</span></div>
-            </div>
+            <h3>Layers Inspector</h3>
+            <div id="layersList"></div>
         </div>
     </div>
 
     <script>
-        // Initialize Fabric.js Canvas
         const canvas = new fabric.Canvas('layoutCanvas', {
             backgroundColor: '#FFFFFF',
             selection: true
@@ -468,7 +450,6 @@
         let marginSize = 20;
         let pageCount = 1;
         let activePage = 1;
-        let activeUploadType = 'photo';
 
         // Draw Margin Guides
         function drawGuides() {
@@ -477,12 +458,9 @@
 
             if (!showGuides) return;
 
-            const w = canvas.width;
-            const h = canvas.height;
-
             const marginBox = new fabric.Rect({
                 left: marginSize, top: marginSize,
-                width: w - (marginSize * 2), height: h - (marginSize * 2),
+                width: canvas.width - (marginSize * 2), height: canvas.height - (marginSize * 2),
                 fill: 'transparent', stroke: '#FF9F43', strokeWidth: 1,
                 strokeDashArray: [6, 6], selectable: false, evented: false, name: 'guide_line'
             });
@@ -492,42 +470,98 @@
 
         drawGuides();
 
-        // Canvas Change Event Trigger for Live Previews & Layers Update
+        // Object Selection Listener to Update Active Stroke Settings
+        canvas.on('selection:created', syncActiveObjectControls);
+        canvas.on('selection:updated', syncActiveObjectControls);
         canvas.on('object:added', updatePagePreviewAndLayers);
         canvas.on('object:modified', updatePagePreviewAndLayers);
         canvas.on('object:removed', updatePagePreviewAndLayers);
 
+        function syncActiveObjectControls(e) {
+            const active = e.selected[0];
+            if (active) {
+                if (active.stroke) {
+                    document.getElementById('strokeColorPicker').value = active.stroke;
+                }
+                if (active.strokeWidth !== undefined) {
+                    document.getElementById('strokeWidthSlider').value = active.strokeWidth;
+                    document.getElementById('strokeWidthVal').innerText = active.strokeWidth;
+                }
+            }
+        }
+
+        // Layers Inspector with Up/Down Controls
         function updatePagePreviewAndLayers() {
-            // Update Page Preview Thumbnail
             const previewBox = document.getElementById(`pagePrev${activePage}`);
             if (previewBox) {
                 const dataURL = canvas.toDataURL({ format: 'png', multiplier: 0.2 });
                 previewBox.innerHTML = `<img src="${dataURL}">`;
             }
 
-            // Update Layers Inspector List
             const layersList = document.getElementById('layersList');
             layersList.innerHTML = '';
             const objects = canvas.getObjects().filter(o => o.name !== 'guide_line');
 
             if (objects.length === 0) {
-                layersList.innerHTML = '<div class="layer-item"><span>Page Margin Box</span><span style="color:var(--orange);">Guide</span></div>';
+                layersList.innerHTML = '<div class="layer-item"><span>Page Margins</span><span style="color:var(--orange);">Guide</span></div>';
                 return;
             }
 
             objects.slice().reverse().forEach((obj, idx) => {
+                const realIdx = objects.length - 1 - idx;
                 const item = document.createElement('div');
                 item.className = 'layer-item';
                 let typeName = obj.type;
                 if (obj.type === 'i-text') typeName = 'Text';
-                else if (obj.type === 'rect') typeName = 'Rectangle';
+                else if (obj.type === 'rect') typeName = 'Rect';
                 else if (obj.type === 'circle') typeName = 'Circle';
-                else if (obj.type === 'group') typeName = 'Avatar';
-                else if (obj.type === 'image') typeName = 'Image';
+                else if (obj.type === 'line') typeName = 'Line';
+                else if (obj.type === 'group') typeName = 'Character';
 
-                item.innerHTML = `<span>${typeName} ${objects.length - idx}</span><span style="color:var(--mint);">Layer</span>`;
+                item.innerHTML = `
+                    <span>${typeName}</span>
+                    <div class="layer-controls">
+                        <button class="layer-btn" onclick="moveLayerUp(${realIdx})">▲</button>
+                        <button class="layer-btn" onclick="moveLayerDown(${realIdx})">▼</button>
+                    </div>`;
                 layersList.appendChild(item);
             });
+        }
+
+        function moveLayerUp(idx) {
+            const objects = canvas.getObjects().filter(o => o.name !== 'guide_line');
+            if (idx < objects.length - 1) {
+                canvas.bringForward(objects[idx]);
+                canvas.renderAll();
+                updatePagePreviewAndLayers();
+            }
+        }
+
+        function moveLayerDown(idx) {
+            const objects = canvas.getObjects().filter(o => o.name !== 'guide_line');
+            if (idx > 0) {
+                canvas.sendBackwards(objects[idx]);
+                canvas.renderAll();
+                updatePagePreviewAndLayers();
+            }
+        }
+
+        // Active Stroke Modifiers
+        function applyActiveStrokeColor(color) {
+            const active = canvas.getActiveObject();
+            if (active) {
+                active.set('stroke', color);
+                canvas.renderAll();
+            }
+        }
+
+        function applyActiveStrokeWidth(val) {
+            document.getElementById('strokeWidthVal').innerText = val;
+            const active = canvas.getActiveObject();
+            if (active) {
+                active.set('strokeWidth', parseInt(val, 10));
+                canvas.renderAll();
+            }
         }
 
         // Pages Navigation
@@ -539,7 +573,7 @@
             newThumb.setAttribute('onclick', `switchPage(${pageCount}, this)`);
             newThumb.innerHTML = `
                 <div class="page-preview-box" id="pagePrev${pageCount}">
-                    <span style="color:#A0AAB5; font-size:0.7rem;">Page ${pageCount}</span>
+                    <span style="color:#A0AAB5; font-size:0.65rem;">Page ${pageCount}</span>
                 </div>
                 <span>Page ${pageCount}</span>`;
             pageList.appendChild(newThumb);
@@ -550,11 +584,7 @@
             activePage = pageNum;
             const thumbs = document.querySelectorAll('.page-thumb-card');
             thumbs.forEach(t => t.classList.remove('active'));
-            if (elem) {
-                elem.classList.add('active');
-            } else if (thumbs[pageNum - 1]) {
-                thumbs[pageNum - 1].classList.add('active');
-            }
+            if (elem) elem.classList.add('active');
             
             canvas.clear();
             canvas.backgroundColor = '#FFFFFF';
@@ -568,46 +598,18 @@
             updatePagePreviewAndLayers();
         }
 
-        // Stroke & Line Editor Tools
-        function updateStrokeColor(color) {
-            const active = canvas.getActiveObject();
-            if (active) {
-                active.set('stroke', color);
-                canvas.renderAll();
-            }
-        }
-
-        function updateStrokeWidth(val) {
-            document.getElementById('strokeWidthVal').innerText = val;
-            const active = canvas.getActiveObject();
-            if (active) {
-                active.set('strokeWidth', parseInt(val, 10));
-                canvas.renderAll();
-            }
-        }
-
-        function addLine() {
-            const line = new fabric.Line([50, 100, 250, 100], {
-                left: 100, top: 200,
-                stroke: document.getElementById('strokeColorPicker').value,
-                strokeWidth: parseInt(document.getElementById('strokeWidthSlider').value, 10) || 2
-            });
-            canvas.add(line);
-            canvas.setActiveObject(line);
-        }
-
-        // Afrocentric Character Builder
+        // Character Builder
         function addBaseAvatar() {
-            const head = new fabric.Circle({ left: 180, top: 160, radius: 55, fill: '#8D5B4C', name: 'skin' });
-            const neck = new fabric.Rect({ left: 218, top: 250, width: 30, height: 45, fill: '#7A4B3D', name: 'skin' });
-            const avatarGroup = new fabric.Group([neck, head], { left: 180, top: 160 });
+            const head = new fabric.Circle({ left: 160, top: 140, radius: 45, fill: '#8D5B4C', name: 'skin' });
+            const neck = new fabric.Rect({ left: 193, top: 215, width: 24, height: 35, fill: '#7A4B3D', name: 'skin' });
+            const avatarGroup = new fabric.Group([neck, head], { left: 160, top: 140 });
             canvas.add(avatarGroup);
             canvas.setActiveObject(avatarGroup);
         }
 
         function addAfroHair() {
             const afro = new fabric.Circle({
-                left: 145, top: 110, radius: 85,
+                left: 130, top: 95, radius: 75,
                 fill: '#1A1A1A', stroke: '#000000', strokeWidth: 2
             });
             canvas.add(afro);
@@ -618,51 +620,57 @@
             const active = canvas.getActiveObject();
             if (active) {
                 if (active.type === 'group') {
-                    active.forEachObject(obj => {
-                        if (obj.name === 'skin') obj.set('fill', colorHex);
-                    });
-                } else {
-                    active.set('fill', colorHex);
-                }
+                    active.forEachObject(obj => { if (obj.name === 'skin') obj.set('fill', colorHex); });
+                } else { active.set('fill', colorHex); }
                 canvas.renderAll();
             }
         }
 
-        // Vector Shapes
+        // Shapes & Lines
+        function addLine() {
+            const line = new fabric.Line([50, 100, 250, 100], {
+                left: 100, top: 200,
+                stroke: document.getElementById('strokeColorPicker').value,
+                strokeWidth: parseInt(document.getElementById('strokeWidthSlider').value, 10) || 2
+            });
+            canvas.add(line); canvas.setActiveObject(line);
+        }
+
         function addRectangle() {
-            const rect = new fabric.Rect({ left: 150, top: 200, width: 140, height: 100, fill: '#00FF88', stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 2 });
+            const rect = new fabric.Rect({ left: 150, top: 200, width: 120, height: 90, fill: '#00FF88', stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 2 });
             canvas.add(rect); canvas.setActiveObject(rect);
         }
 
         function addRoundedRect() {
-            const rect = new fabric.Rect({ left: 150, top: 200, width: 140, height: 100, rx: 16, ry: 16, fill: '#FF9F43', stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 2 });
+            const rect = new fabric.Rect({ left: 150, top: 200, width: 120, height: 90, rx: 14, ry: 14, fill: '#FF9F43', stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 2 });
             canvas.add(rect); canvas.setActiveObject(rect);
         }
 
         function addCircle() {
-            const circle = new fabric.Circle({ left: 150, top: 200, radius: 55, fill: '#00FF88', stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 2 });
+            const circle = new fabric.Circle({ left: 150, top: 200, radius: 45, fill: '#00FF88', stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 2 });
             canvas.add(circle); canvas.setActiveObject(circle);
         }
 
         function addTriangle() {
-            const tri = new fabric.Triangle({ left: 150, top: 200, width: 120, height: 110, fill: '#FF9F43', stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 2 });
+            const tri = new fabric.Triangle({ left: 150, top: 200, width: 100, height: 90, fill: '#FF9F43', stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 2 });
             canvas.add(tri); canvas.setActiveObject(tri);
         }
 
         function addStar() {
             const path = new fabric.Path('M 100 0 L 125 75 L 200 75 L 140 125 L 160 200 L 100 150 L 40 200 L 60 125 L 0 75 L 75 75 Z', {
-                left: 150, top: 200, fill: '#00FF88', stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 2, scaleX: 0.6, scaleY: 0.6
+                left: 150, top: 200, fill: '#00FF88', stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 2, scaleX: 0.5, scaleY: 0.5
             });
             canvas.add(path); canvas.setActiveObject(path);
         }
 
-        // Persistent Asset Bank & Ratio Upload Engine
+        // Distinct File Upload Handlers (Photos vs Vectors vs Backgrounds)
         function triggerFileInput(type) {
-            activeUploadType = type;
-            document.getElementById('mediaUploader').click();
+            if (type === 'photo') document.getElementById('photoUploader').click();
+            else if (type === 'vector') document.getElementById('vectorUploader').click();
+            else if (type === 'bg') document.getElementById('bgUploader').click();
         }
 
-        function handleFileUpload(e) {
+        function handleFileUpload(e, mode) {
             const file = e.target.files[0];
             if (!file) return;
 
@@ -670,24 +678,28 @@
             reader.onload = function(f) {
                 const data = f.target.result;
 
-                // Save to Asset Bank Gallery
+                // Save to Vault Bank
                 const bank = document.getElementById('assetBank');
                 const imgThumb = document.createElement('img');
                 imgThumb.src = data;
                 imgThumb.className = 'asset-item';
-                imgThumb.onclick = function() {
-                    placeImageFromBank(data);
-                };
+                imgThumb.onclick = function() { placeMediaOnCanvas(data, mode); };
                 bank.appendChild(imgThumb);
 
-                placeImageFromBank(data);
+                placeMediaOnCanvas(data, mode);
             };
             reader.readAsDataURL(file);
         }
 
-        function placeImageFromBank(data) {
-            fabric.Image.fromURL(data, function(img) {
-                if (activeUploadType === 'bg') {
+        function placeMediaOnCanvas(data, mode) {
+            if (mode === 'vector' && data.includes('image/svg+xml')) {
+                fabric.loadSVGFromURL(data, function(objects, options) {
+                    const obj = fabric.util.groupSVGElements(objects, options);
+                    obj.set({ left: 100, top: 100, scaleX: 0.5, scaleY: 0.5 });
+                    canvas.add(obj); canvas.setActiveObject(obj);
+                });
+            } else if (mode === 'bg') {
+                fabric.Image.fromURL(data, function(img) {
                     const canvasAspect = canvas.width / canvas.height;
                     const imgAspect = img.width / img.height;
                     let scaleFactor = canvasAspect > imgAspect ? canvas.width / img.width : canvas.height / img.height;
@@ -698,48 +710,46 @@
                         scaleX: scaleFactor, scaleY: scaleFactor
                     });
                     canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
-                } else {
-                    img.set({ left: 100, top: 100, scaleX: 0.4, scaleY: 0.4 });
-                    canvas.add(img);
-                    canvas.setActiveObject(img);
-                }
-            });
+                });
+            } else {
+                fabric.Image.fromURL(data, function(img) {
+                    img.set({ left: 100, top: 100, scaleX: 0.35, scaleY: 0.35 });
+                    canvas.add(img); canvas.setActiveObject(img);
+                });
+            }
         }
 
-        // Document Presets & Typography
+        // Typography & Settings
         function applyDocPreset(preset) {
             currentDocPreset = preset;
             if (preset === 'trade') { canvas.setWidth(500); canvas.setHeight(700); }
             else if (preset === 'letter') { canvas.setWidth(600); canvas.setHeight(770); }
             else if (preset === 'webtoon') { canvas.setWidth(450); canvas.setHeight(900); }
-            drawGuides();
-            canvas.renderAll();
+            drawGuides(); canvas.renderAll();
         }
 
         function updateMargins(val) {
             document.getElementById('marginVal').innerText = val;
             marginSize = parseInt(val, 10);
-            drawGuides();
-            canvas.renderAll();
+            drawGuides(); canvas.renderAll();
         }
 
         function toggleGuides() {
             showGuides = !showGuides;
-            drawGuides();
-            canvas.renderAll();
+            drawGuides(); canvas.renderAll();
         }
 
         function addHeadingText() {
             const heading = new fabric.IText('WEBTOON TITLE', {
-                left: 70, top: 120, fontSize: 32,
+                left: 70, top: 120, fontSize: 28,
                 fill: '#121518', fontFamily: document.getElementById('fontSelect').value
             });
             canvas.add(heading); canvas.setActiveObject(heading);
         }
 
         function addBodyText() {
-            const body = new fabric.IText('Dialogue Bubble / Panel Text...', {
-                left: 70, top: 200, fontSize: 18,
+            const body = new fabric.IText('Dialogue Bubble Text...', {
+                left: 70, top: 200, fontSize: 16,
                 fill: '#252A32', fontFamily: document.getElementById('fontSelect').value
             });
             canvas.add(body); canvas.setActiveObject(body);
@@ -766,7 +776,7 @@
             if (active) canvas.remove(active);
         }
 
-        // Virtual Storage & Export
+        // Storage & Export
         function saveProjectVirtual() {
             localStorage.setItem('just_angles_layout_project', JSON.stringify(canvas.toJSON()));
             alert('Layout document saved virtually!');
@@ -776,8 +786,7 @@
             const saved = localStorage.getItem('just_angles_layout_project');
             if (saved) {
                 canvas.loadFromJSON(saved, function() {
-                    drawGuides();
-                    canvas.renderAll();
+                    drawGuides(); canvas.renderAll();
                     alert('Layout document reloaded!');
                 });
             } else { alert('No saved layout document found.'); }
@@ -788,13 +797,12 @@
             guides.forEach(g => canvas.remove(g));
 
             const svgData = canvas.toSVG();
-            drawGuides();
-            canvas.renderAll();
+            drawGuides(); canvas.renderAll();
 
             const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `just-angles-anti-ai-layout-p${activePage}.svg`;
+            link.download = `just-angles-layout-p${activePage}.svg`;
             link.click();
         }
     </script>
