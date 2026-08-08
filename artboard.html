@@ -2,25 +2,29 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Just Angles — Artboard Designer</title>
 
 <style>
-:root{
-  --bg:#111318;
-  --panel:#191c22;
-  --panel2:#20242c;
-  --card:#272c35;
-  --line:#383e49;
-  --text:#f4f5f7;
-  --muted:#9299a6;
 
-  --green:#20e889;
-  --orange:#ff9d43;
-  --purple:#9d6cff;
-  --purple2:#c38cff;
-  --blue:#5fa8ff;
-  --danger:#ff6262;
+:root{
+  --bg:#101116;
+  --panel:#17191f;
+  --panel2:#1e2128;
+  --panel3:#252932;
+  --border:#373c47;
+
+  --text:#f4f4f7;
+  --muted:#9298a5;
+
+  --purple:#9b6cff;
+  --purpleLight:#b996ff;
+
+  --green:#25e58b;
+  --blue:#63a9ff;
+  --orange:#ff9e4a;
+  --red:#ff6565;
 
   --canvas:#0d0f13;
 }
@@ -31,13 +35,13 @@
 
 html,
 body{
-  margin:0;
   width:100%;
   height:100%;
+  margin:0;
   overflow:hidden;
-  font-family:Inter,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
+  font-family:Inter,Arial,sans-serif;
 }
 
 button,
@@ -47,14 +51,18 @@ select{
 }
 
 button{
-  cursor:pointer;
   color:var(--text);
+  cursor:pointer;
 }
+
+/* =========================================================
+   APP
+========================================================= */
 
 .app{
   height:100vh;
   display:grid;
-  grid-template-rows:58px 1fr 48px;
+  grid-template-rows:58px 1fr 52px;
 }
 
 /* =========================================================
@@ -64,39 +72,39 @@ button{
 .topbar{
   display:flex;
   align-items:center;
-  gap:18px;
-  padding:0 18px;
-  background:#15181e;
-  border-bottom:1px solid var(--line);
+  gap:10px;
+  padding:0 15px;
+  background:#14161b;
+  border-bottom:1px solid var(--border);
 }
 
-.brand{
-  font-weight:900;
-  letter-spacing:1.4px;
+.logo{
   font-size:17px;
+  font-weight:900;
+  letter-spacing:1px;
+  margin-right:12px;
 }
 
-.brand span{
+.logo span{
   color:var(--green);
 }
 
 .mode{
   display:flex;
   gap:5px;
-  margin-left:15px;
 }
 
 .mode button{
-  border:1px solid var(--line);
-  background:var(--card);
-  padding:7px 12px;
+  padding:7px 11px;
+  border:1px solid var(--border);
   border-radius:6px;
-  font-size:11px;
+  background:var(--panel3);
+  font-size:10px;
 }
 
 .mode button.active{
   border-color:var(--purple);
-  background:rgba(157,108,255,.15);
+  background:rgba(155,108,255,.16);
 }
 
 .top-spacer{
@@ -104,16 +112,20 @@ button{
 }
 
 .top-button{
-  background:var(--card);
-  border:1px solid var(--line);
+  background:var(--panel3);
+  border:1px solid var(--border);
   border-radius:6px;
   padding:7px 12px;
-  font-size:11px;
+  font-size:10px;
+}
+
+.top-button:hover{
+  border-color:var(--purple);
 }
 
 .top-button.green{
-  border-color:var(--green);
   color:var(--green);
+  border-color:var(--green);
 }
 
 /* =========================================================
@@ -123,43 +135,44 @@ button{
 .main{
   min-height:0;
   display:grid;
-  grid-template-columns:275px 1fr 285px;
+  grid-template-columns:285px 1fr 300px;
 }
 
 /* =========================================================
-   LEFT PANEL
+   LEFT
 ========================================================= */
 
-.left{
+.left-panel{
   min-width:0;
-  background:var(--panel);
-  border-right:1px solid var(--line);
   display:flex;
   flex-direction:column;
+  background:var(--panel);
+  border-right:1px solid var(--border);
 }
 
 .left-tabs{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  border-bottom:1px solid var(--line);
+  border-bottom:1px solid var(--border);
 }
 
 .left-tabs button{
-  background:transparent;
   border:0;
-  border-bottom:2px solid transparent;
+  background:transparent;
   padding:13px 3px;
   color:var(--muted);
-  font-size:10px;
-  font-weight:700;
+  font-size:9px;
+  font-weight:800;
+  border-bottom:2px solid transparent;
 }
 
 .left-tabs button.active{
-  color:#fff;
+  color:white;
   border-bottom-color:var(--purple);
 }
 
 .left-content{
+  min-height:0;
   flex:1;
   overflow:auto;
 }
@@ -169,16 +182,16 @@ button{
 }
 
 .hidden{
-  display:none!important;
+  display:none !important;
 }
 
 .search{
   width:100%;
-  background:#111419;
-  border:1px solid var(--line);
-  color:#fff;
-  border-radius:6px;
   padding:8px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:#101216;
+  color:white;
   outline:none;
 }
 
@@ -187,104 +200,12 @@ button{
 }
 
 .section-title{
-  margin:14px 0 7px;
-  color:#d5d9df;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:.7px;
-  text-transform:uppercase;
-}
-
-.subtabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:5px;
-  margin:10px 0;
-}
-
-.subtabs button{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:5px;
-  padding:7px 4px;
+  margin:15px 0 8px;
+  color:#d7dae0;
   font-size:9px;
-  color:var(--muted);
-}
-
-.subtabs button.active{
-  border-color:var(--purple);
-  color:#fff;
-  background:rgba(157,108,255,.14);
-}
-
-.card-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:7px;
-}
-
-.card{
-  min-height:72px;
-  padding:8px;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:7px;
-  text-align:left;
-  font-size:10px;
-}
-
-.card:hover{
-  border-color:var(--purple);
-}
-
-.card .icon{
-  font-size:20px;
-  margin-bottom:6px;
-}
-
-.card small{
-  display:block;
-  margin-top:4px;
-  color:var(--muted);
-  font-size:8px;
-}
-
-.purple-card{
-  background:linear-gradient(
-    180deg,
-    rgba(157,108,255,.16),
-    rgba(157,108,255,.05)
-  );
-  border-color:rgba(157,108,255,.5);
-}
-
-.community-box{
-  margin-top:10px;
-  padding:10px;
-  border:1px solid rgba(157,108,255,.45);
-  background:rgba(157,108,255,.08);
-  border-radius:7px;
-  font-size:10px;
-  line-height:1.5;
-}
-
-.community-box strong{
-  color:var(--purple2);
-}
-
-.tool-button{
-  width:100%;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:6px;
-  padding:8px;
-  margin-top:7px;
-  text-align:left;
-  font-size:10px;
-}
-
-.tool-button:hover{
-  border-color:var(--purple);
+  font-weight:900;
+  letter-spacing:.8px;
+  text-transform:uppercase;
 }
 
 /* =========================================================
@@ -295,30 +216,221 @@ button{
   display:flex;
   align-items:center;
   gap:7px;
-  padding:7px;
+  min-height:34px;
+  padding:6px 7px;
   border-radius:5px;
   font-size:10px;
 }
 
 .layer:hover{
-  background:var(--card);
+  background:var(--panel3);
+}
+
+.layer.selected{
+  background:rgba(155,108,255,.15);
+  outline:1px solid rgba(155,108,255,.45);
 }
 
 .layer-icon{
-  width:17px;
+  width:20px;
   text-align:center;
+  color:var(--purpleLight);
 }
 
 .layer-name{
   flex:1;
 }
 
-.layer-eye{
+.layer-eye,
+.layer-lock{
   color:var(--muted);
+  cursor:pointer;
+}
+
+.add-layer{
+  width:100%;
+  margin-top:8px;
+  padding:8px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:var(--panel3);
+  text-align:left;
+  font-size:10px;
+}
+
+.add-layer:hover{
+  border-color:var(--purple);
 }
 
 /* =========================================================
-   CANVAS
+   ASSETS
+========================================================= */
+
+.asset-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:5px;
+  margin:9px 0;
+}
+
+.asset-tabs button{
+  padding:7px 2px;
+  border:1px solid var(--border);
+  border-radius:5px;
+  background:var(--panel3);
+  color:var(--muted);
+  font-size:8px;
+}
+
+.asset-tabs button.active{
+  color:white;
+  border-color:var(--purple);
+  background:rgba(155,108,255,.13);
+}
+
+.asset-category{
+  margin-top:12px;
+}
+
+.asset-category-title{
+  color:#d9dce3;
+  font-size:9px;
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.asset-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:7px;
+}
+
+.asset{
+  min-height:78px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  background:var(--panel3);
+  padding:9px;
+  text-align:left;
+}
+
+.asset:hover{
+  border-color:var(--purple);
+  transform:translateY(-1px);
+}
+
+.asset-preview{
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  margin-bottom:5px;
+}
+
+.asset-name{
+  font-size:9px;
+  font-weight:700;
+}
+
+.asset-meta{
+  color:var(--muted);
+  font-size:7px;
+  margin-top:3px;
+}
+
+/* =========================================================
+   TEMPLATES
+========================================================= */
+
+.template-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px;
+  margin:10px 0;
+}
+
+.template-tabs button{
+  border:1px solid var(--border);
+  background:var(--panel3);
+  border-radius:5px;
+  color:var(--muted);
+  padding:8px 3px;
+  font-size:8px;
+}
+
+.template-tabs button.active{
+  color:white;
+  border-color:var(--purple);
+  background:rgba(155,108,255,.15);
+}
+
+.template-box{
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:7px;
+  background:linear-gradient(
+    180deg,
+    rgba(155,108,255,.17),
+    rgba(155,108,255,.05)
+  );
+  border:1px solid rgba(155,108,255,.45);
+  font-size:9px;
+  line-height:1.5;
+}
+
+.template-box strong{
+  color:var(--purpleLight);
+}
+
+.template-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+}
+
+.template{
+  min-height:105px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  background:var(--panel3);
+  padding:7px;
+  text-align:left;
+}
+
+.template:hover{
+  border-color:var(--purple);
+}
+
+.template-thumb{
+  height:63px;
+  border-radius:4px;
+  margin-bottom:7px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#111;
+  font-size:20px;
+  background:linear-gradient(
+    135deg,
+    #eee,
+    #bbb
+  );
+}
+
+.template-title{
+  font-size:9px;
+  font-weight:800;
+}
+
+.template-meta{
+  color:var(--muted);
+  font-size:7px;
+  margin-top:3px;
+}
+
+/* =========================================================
+   WORKSPACE
 ========================================================= */
 
 .workspace{
@@ -327,35 +439,43 @@ button{
   min-height:0;
   overflow:hidden;
   background:
-    radial-gradient(circle at center,#181b22 0,#0d0f13 70%);
+    radial-gradient(
+      circle at center,
+      #1b1e25 0%,
+      #0c0e12 70%
+    );
 }
 
-.workspace-header{
+.workspace-top{
   position:absolute;
-  top:12px;
+  z-index:20;
   left:12px;
   right:12px;
-  z-index:20;
+  top:12px;
   display:flex;
   align-items:center;
   gap:6px;
   pointer-events:none;
 }
 
-.workspace-header > *{
+.workspace-top > *{
   pointer-events:auto;
 }
 
-.workspace-chip{
-  background:rgba(20,23,29,.9);
-  border:1px solid var(--line);
-  padding:6px 9px;
+.chip{
+  border:1px solid var(--border);
+  background:rgba(20,23,29,.92);
+  padding:7px 9px;
   border-radius:5px;
   font-size:9px;
 }
 
-.workspace-chip strong{
+.chip strong{
   color:var(--green);
+}
+
+.chip-button{
+  cursor:pointer;
 }
 
 .canvas{
@@ -375,212 +495,317 @@ button{
 
 .canvas-inner{
   position:absolute;
-  left:50%;
-  top:50%;
   width:2400px;
   height:1600px;
+  left:50%;
+  top:50%;
   transform:translate(-50%,-50%);
   transform-origin:center;
 }
 
-.grid{
+.canvas-grid{
   position:absolute;
   inset:0;
   background-image:
-    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    linear-gradient(
+      rgba(255,255,255,.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.035) 1px,
+      transparent 1px
+    );
   background-size:20px 20px;
 }
+
+/* =========================================================
+   ARTBOARD
+========================================================= */
 
 .artboard{
   position:absolute;
   background:#fff;
-  box-shadow:0 15px 50px rgba(0,0,0,.45);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.45);
   border:1px solid rgba(255,255,255,.2);
-  overflow:hidden;
 }
 
 .artboard.selected{
   outline:2px solid var(--purple);
-  outline-offset:3px;
+  outline-offset:4px;
 }
 
-.artboard-label{
+.artboard-name{
   position:absolute;
-  top:-24px;
   left:0;
-  color:#c8cdd5;
+  bottom:calc(100% + 9px);
+  color:#c7cbd3;
   font-size:9px;
   white-space:nowrap;
 }
 
-.object{
+.artboard-size{
   position:absolute;
-  border:1px solid transparent;
-  user-select:none;
+  right:0;
+  bottom:calc(100% + 9px);
+  color:#777e8a;
+  font-size:8px;
 }
 
-.object.selected{
+/* =========================================================
+   SVG DRAWING AREA
+========================================================= */
+
+.artboard svg{
+  width:100%;
+  height:100%;
+  display:block;
+  overflow:visible;
+}
+
+.vector-path{
+  fill:none;
+  stroke:#111;
+  stroke-width:3;
+  pointer-events:stroke;
+}
+
+.vector-path.selected{
+  stroke:var(--purple);
+  stroke-width:4;
+}
+
+.svg-object{
+  cursor:pointer;
+}
+
+.svg-object.selected{
   outline:1px solid var(--blue);
-}
-
-.object.text{
-  color:#111;
-  font-weight:700;
-  white-space:nowrap;
-}
-
-.object.shape{
-  background:#111;
-}
-
-.object.circle{
-  background:#111;
-  border-radius:50%;
-}
-
-.object.line{
-  height:2px;
-  background:#111;
-  transform-origin:left center;
 }
 
 /* =========================================================
    RIGHT PANEL
 ========================================================= */
 
-.right{
+.right-panel{
   min-width:0;
-  background:var(--panel);
-  border-left:1px solid var(--line);
   overflow:auto;
+  background:var(--panel);
+  border-left:1px solid var(--border);
 }
 
 .right-tabs{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  border-bottom:1px solid var(--line);
+  border-bottom:1px solid var(--border);
 }
 
 .right-tabs button{
-  background:transparent;
   border:0;
-  padding:13px 3px;
+  background:transparent;
   color:var(--muted);
+  padding:13px 3px;
   font-size:9px;
-  font-weight:700;
+  font-weight:800;
+  border-bottom:2px solid transparent;
 }
 
 .right-tabs button.active{
-  color:#fff;
-  border-bottom:2px solid var(--purple);
+  color:white;
+  border-bottom-color:var(--purple);
 }
 
-.right-panel{
+.right-content{
   padding:12px;
 }
 
 .property-section{
-  margin-bottom:16px;
+  margin-bottom:18px;
 }
 
 .property-title{
-  color:#d7c7ff;
-  font-size:10px;
-  font-weight:800;
+  color:#ddd;
+  font-size:9px;
+  font-weight:900;
   text-transform:uppercase;
-  margin-bottom:8px;
+  margin-bottom:9px;
+  letter-spacing:.7px;
 }
 
-.field-row{
+.field-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:7px;
+}
+
+.field{
   margin-bottom:7px;
 }
 
 .field label{
   display:block;
+  margin-bottom:4px;
   color:var(--muted);
   font-size:8px;
-  margin-bottom:4px;
 }
 
 .field input,
 .field select{
   width:100%;
-  background:#111419;
-  color:#fff;
-  border:1px solid var(--line);
-  border-radius:5px;
   padding:7px;
+  border:1px solid var(--border);
+  border-radius:5px;
+  background:#101216;
+  color:white;
 }
 
-.color-row{
+.field input:focus,
+.field select:focus{
+  outline:none;
+  border-color:var(--purple);
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.background-card{
+  padding:10px;
+  border:1px solid var(--border);
+  background:var(--panel3);
+  border-radius:7px;
+}
+
+.background-preview{
+  height:55px;
+  border-radius:5px;
+  border:1px solid var(--border);
+  margin-bottom:8px;
+}
+
+.background-controls{
   display:flex;
   gap:7px;
 }
 
-.color{
-  width:30px;
-  height:30px;
+.background-controls input[type="color"]{
+  width:42px;
+  height:34px;
+  padding:2px;
+  border:1px solid var(--border);
   border-radius:5px;
-  border:1px solid var(--line);
+  background:#111;
 }
 
-.quick-colors{
-  display:flex;
-  flex-wrap:wrap;
-  gap:5px;
+.background-controls input[type="text"]{
+  flex:1;
+  min-width:0;
+  background:#101216;
+  color:white;
+  border:1px solid var(--border);
+  border-radius:5px;
+  padding:7px;
 }
 
-.quick-color{
-  width:24px;
-  height:24px;
-  border-radius:50%;
-  border:2px solid #fff;
-  cursor:pointer;
+.transparency{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:8px;
 }
 
 /* =========================================================
-   BOTTOM TOOLBAR
+   FILL + STROKE
+========================================================= */
+
+.color-control{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:8px;
+  background:var(--panel3);
+  border:1px solid var(--border);
+  border-radius:6px;
+  margin-bottom:6px;
+}
+
+.color-control input[type="color"]{
+  width:31px;
+  height:31px;
+  border:0;
+  padding:0;
+  background:transparent;
+}
+
+.color-control span{
+  font-size:9px;
+}
+
+.color-control small{
+  color:var(--muted);
+  margin-left:auto;
+}
+
+/* =========================================================
+   ALIGN
+========================================================= */
+
+.align-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px;
+}
+
+.align-grid button{
+  padding:8px 2px;
+  border:1px solid var(--border);
+  background:var(--panel3);
+  border-radius:5px;
+  font-size:9px;
+}
+
+.align-grid button:hover{
+  border-color:var(--purple);
+}
+
+/* =========================================================
+   TOOLBAR
 ========================================================= */
 
 .toolbar{
-  background:#171a20;
-  border-top:1px solid var(--line);
   display:flex;
   align-items:center;
   gap:4px;
-  padding:5px 9px;
+  padding:6px 9px;
   overflow:auto;
+  background:#15171c;
+  border-top:1px solid var(--border);
 }
 
-.toolbar button{
-  height:34px;
-  min-width:42px;
+.tool{
+  min-width:43px;
+  height:37px;
   padding:0 9px;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:5px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:var(--panel3);
   font-size:9px;
   white-space:nowrap;
 }
 
-.toolbar button:hover{
+.tool:hover{
   border-color:var(--purple);
 }
 
-.toolbar button.active{
-  background:rgba(157,108,255,.18);
+.tool.active{
+  background:rgba(155,108,255,.2);
   border-color:var(--purple);
-  color:#fff;
 }
 
-.toolbar-separator{
+.tool-separator{
   width:1px;
-  height:25px;
-  background:var(--line);
+  height:27px;
+  background:var(--border);
   margin:0 4px;
 }
 
@@ -603,14 +828,14 @@ button{
 }
 
 .modal-box{
-  width:min(600px,90vw);
+  width:min(620px,92vw);
   max-height:90vh;
   overflow:auto;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:10px;
   padding:20px;
-  box-shadow:0 25px 100px rgba(0,0,0,.6);
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  box-shadow:0 30px 100px rgba(0,0,0,.65);
 }
 
 .modal-box h2{
@@ -619,96 +844,110 @@ button{
 
 .modal-box p{
   color:var(--muted);
-  font-size:11px;
+  font-size:10px;
   line-height:1.5;
 }
 
 .modal-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
+  gap:9px;
 }
 
 .modal-actions{
   display:flex;
   justify-content:flex-end;
   gap:7px;
-  margin-top:15px;
+  margin-top:14px;
 }
 
 .modal-actions button{
-  background:var(--card);
-  border:1px solid var(--line);
   padding:8px 13px;
+  border:1px solid var(--border);
   border-radius:6px;
+  background:var(--panel3);
 }
 
 .modal-actions .primary{
-  border-color:var(--green);
   color:var(--green);
-}
-
-.badge{
-  display:inline-block;
-  padding:3px 6px;
-  border-radius:99px;
-  font-size:8px;
-  background:rgba(157,108,255,.15);
-  color:var(--purple2);
-  border:1px solid rgba(157,108,255,.35);
-  margin-top:5px;
+  border-color:var(--green);
 }
 
 /* =========================================================
-   RESPONSIVE
+   MOBILE
 ========================================================= */
 
-@media(max-width:950px){
+@media(max-width:900px){
+
   .main{
-    grid-template-columns:220px 1fr 230px;
+    grid-template-columns:235px 1fr 250px;
   }
+
 }
 
-@media(max-width:750px){
+@media(max-width:700px){
+
   .main{
     grid-template-columns:1fr;
   }
 
-  .left,
-  .right{
+  .left-panel,
+  .right-panel{
     display:none;
   }
+
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
 <!-- =====================================================
-     HEADER
+     TOP BAR
 ===================================================== -->
 
 <header class="topbar">
 
-  <div class="brand">
+  <div class="logo">
     JUST <span>ANGLES</span>
   </div>
 
   <div class="mode">
-    <button class="active">Artboard Designer</button>
-    <button>Layout Designer</button>
+
+    <button class="active">
+      Artboard Designer
+    </button>
+
+    <button>
+      Layout Designer
+    </button>
+
   </div>
 
   <div class="top-spacer"></div>
 
-  <button class="top-button" id="undoBtn">↶ Undo</button>
-  <button class="top-button" id="redoBtn">↷ Redo</button>
-  <button class="top-button">Save</button>
-  <button class="top-button green" id="exportBtn">Export</button>
+  <button class="top-button" id="undo">
+    ↶ Undo
+  </button>
+
+  <button class="top-button" id="redo">
+    ↷ Redo
+  </button>
+
+  <button class="top-button">
+    Save
+  </button>
+
+  <button class="top-button green" id="export">
+    Export
+  </button>
 
 </header>
+
 
 <!-- =====================================================
      MAIN
@@ -716,35 +955,48 @@ button{
 
 <main class="main">
 
+
 <!-- =====================================================
-     LEFT
+     LEFT PANEL
 ===================================================== -->
 
-<aside class="left">
+<aside class="left-panel">
 
   <div class="left-tabs">
 
-    <button class="active" data-left="layers">
+    <button
+      class="active"
+      data-panel="layersPanel"
+    >
       LAYERS
     </button>
 
-    <button data-left="assets">
+    <button
+      data-panel="assetsPanel"
+    >
       ASSETS
     </button>
 
-    <button data-left="templates">
+    <button
+      data-panel="templatesPanel"
+    >
       TEMPLATES
     </button>
 
   </div>
 
+
   <div class="left-content">
 
-<!-- =========================
-     LAYERS
-========================= -->
 
-<section class="panel" id="left-layers">
+<!-- =====================================================
+     LAYERS
+===================================================== -->
+
+<section
+  class="panel"
+  id="layersPanel"
+>
 
   <input
     class="search"
@@ -752,53 +1004,66 @@ button{
   >
 
   <div class="section-title">
-    Artboard 1
+    ARTBOARDS
   </div>
 
-  <div id="layersList">
+  <div id="artboardLayers"></div>
 
-    <div class="layer">
-      <span class="layer-icon">▣</span>
-      <span class="layer-name">Background</span>
-      <span class="layer-eye">◉</span>
-    </div>
+  <button
+    class="add-layer"
+    id="addArtboard"
+  >
+    ＋ New Artboard
+  </button>
 
-    <div class="layer">
-      <span class="layer-icon">T</span>
-      <span class="layer-name">Title</span>
-      <span class="layer-eye">◉</span>
-    </div>
 
-    <div class="layer">
-      <span class="layer-icon">◇</span>
-      <span class="layer-name">Artwork</span>
-      <span class="layer-eye">◉</span>
+  <div class="section-title">
+    OBJECTS
+  </div>
+
+  <div id="objectLayers">
+
+    <div class="layer selected">
+      <div class="layer-icon">▣</div>
+      <div class="layer-name">
+        Background
+      </div>
+      <div class="layer-eye">
+        ◉
+      </div>
+      <div class="layer-lock">
+        ♢
+      </div>
     </div>
 
   </div>
 
-  <button class="tool-button">
+  <button class="add-layer">
     ＋ New Layer
   </button>
 
-  <button class="tool-button">
+  <button class="add-layer">
     ＋ New Group
   </button>
 
 </section>
 
-<!-- =========================
-     ASSETS
-========================= -->
 
-<section class="panel hidden" id="left-assets">
+<!-- =====================================================
+     ASSETS
+===================================================== -->
+
+<section
+  class="panel hidden"
+  id="assetsPanel"
+>
 
   <input
     class="search"
     placeholder="Search assets..."
   >
 
-  <div class="subtabs">
+  <div class="asset-tabs">
 
     <button class="active">
       MY VAULT
@@ -808,338 +1073,609 @@ button{
       COMMUNITY
     </button>
 
-  </div>
-
-  <div class="section-title">
-    My Vault
-  </div>
-
-  <div class="card-grid">
-
-    <button class="card">
-      <div class="icon">◇</div>
-      Shapes
-    </button>
-
-    <button class="card">
-      <div class="icon">✦</div>
-      Icons
-    </button>
-
-    <button class="card">
-      <div class="icon">▤</div>
-      Frames
-    </button>
-
-    <button class="card">
-      <div class="icon">≈</div>
-      Textures
-    </button>
-
-    <button class="card">
-      <div class="icon">🖌</div>
-      Brushes
-    </button>
-
-    <button class="card">
-      <div class="icon">🎨</div>
-      Colors
+    <button>
+      BUILDER
     </button>
 
   </div>
 
-  <div class="section-title">
-    Community Assets
+
+  <div class="asset-category">
+
+    <div class="asset-category-title">
+      MY VAULT
+    </div>
+
+    <div class="asset-grid">
+
+      <button class="asset">
+        <div class="asset-preview">◇</div>
+        <div class="asset-name">Shapes</div>
+        <div class="asset-meta">
+          Vector assets
+        </div>
+      </button>
+
+      <button class="asset">
+        <div class="asset-preview">✦</div>
+        <div class="asset-name">Icons</div>
+        <div class="asset-meta">
+          Saved icons
+        </div>
+      </button>
+
+      <button class="asset">
+        <div class="asset-preview">▤</div>
+        <div class="asset-name">Frames</div>
+        <div class="asset-meta">
+          Layout elements
+        </div>
+      </button>
+
+      <button class="asset">
+        <div class="asset-preview">✿</div>
+        <div class="asset-name">Decorative</div>
+        <div class="asset-meta">
+          Design elements
+        </div>
+      </button>
+
+      <button class="asset">
+        <div class="asset-preview">≈</div>
+        <div class="asset-name">Textures</div>
+        <div class="asset-meta">
+          Your textures
+        </div>
+      </button>
+
+      <button class="asset">
+        <div class="asset-preview">🖌</div>
+        <div class="asset-name">Brushes</div>
+        <div class="asset-meta">
+          Your brushes
+        </div>
+      </button>
+
+    </div>
+
   </div>
 
-  <div class="card-grid">
 
-    <button class="card purple-card">
-      <div class="icon">✦</div>
-      Community
-      <small>Creator assets</small>
+  <div class="asset-category">
+
+    <div class="asset-category-title">
+      COMMUNITY ASSETS
+    </div>
+
+    <div class="asset-grid">
+
+      <button class="asset">
+
+        <div class="asset-preview">
+          ✦
+        </div>
+
+        <div class="asset-name">
+          Community
+        </div>
+
+        <div class="asset-meta">
+          Human-created assets
+        </div>
+
+      </button>
+
+
+      <button class="asset">
+
+        <div class="asset-preview">
+          ♙
+        </div>
+
+        <div class="asset-name">
+          Character Builder
+        </div>
+
+        <div class="asset-meta">
+          Character pieces
+        </div>
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="asset-category">
+
+    <div class="asset-category-title">
+      YOUR ASSETS
+    </div>
+
+    <button
+      class="add-layer"
+      id="uploadAsset"
+    >
+      ＋ Add Your Own Asset
     </button>
 
-    <button class="card purple-card">
-      <div class="icon">♙</div>
-      Character Builder
-      <small>Character resources</small>
+    <button class="add-layer">
+      ＋ Create Asset From Selection
     </button>
 
   </div>
 
 </section>
 
-<!-- =========================
-     TEMPLATES
-========================= -->
 
-<section class="panel hidden" id="left-templates">
+<!-- =====================================================
+     TEMPLATES
+===================================================== -->
+
+<section
+  class="panel hidden"
+  id="templatesPanel"
+>
 
   <input
     class="search"
-    id="templateSearch"
     placeholder="Search templates..."
   >
 
-  <div class="subtabs">
+
+  <div class="template-tabs">
 
     <button
       class="active"
-      data-template-tab="canvas"
+      data-template="canvasTemplates"
     >
       ARTBOARD CANVAS
     </button>
 
     <button
-      data-template-tab="design"
+      data-template="designTemplates"
     >
       DESIGN TEMPLATES
     </button>
 
     <button
-      data-template-tab="mine"
+      data-template="myTemplates"
     >
       MY TEMPLATES
     </button>
 
     <button
-      data-template-tab="community"
+      data-template="communityTemplates"
     >
       COMMUNITY
     </button>
 
   </div>
 
-<!-- ARTBOARD CANVAS -->
 
-<div id="template-canvas">
+<!-- =====================================================
+     ARTBOARD CANVAS
+===================================================== -->
 
-  <div class="purple-card community-box">
-    <strong>Artboard Canvas</strong><br>
-    Create the working canvas first.
-    Artboard dimensions and design templates
-    are separate systems.
+<div id="canvasTemplates">
+
+  <div class="template-box">
+
+    <strong>ARTBOARD CANVAS</strong>
+
+    <br>
+
+    Choose the size and working space
+    first. These are not finished designs.
+
   </div>
 
   <button
-    class="tool-button"
-    id="customArtboardButton"
+    class="add-layer"
+    id="customArtboard"
   >
     ＋ Custom Dimensions
   </button>
+
 
   <div class="section-title">
     Artboard Presets
   </div>
 
-  <div class="card-grid">
+
+  <div class="template-grid">
 
     <button
-      class="card"
-      data-artboard="book"
+      class="template"
+      data-preset="book"
     >
-      <div class="icon">▣</div>
-      Book Cover
-      <small>1200 × 1800</small>
+
+      <div class="template-thumb">
+        📕
+      </div>
+
+      <div class="template-title">
+        Book Cover
+      </div>
+
+      <div class="template-meta">
+        1200 × 1800
+      </div>
+
     </button>
 
-    <button
-      class="card"
-      data-artboard="novel"
-    >
-      <div class="icon">▤</div>
-      Novel Page
-      <small>1200 × 1800</small>
-    </button>
 
     <button
-      class="card"
-      data-artboard="webtoon"
+      class="template"
+      data-preset="novel"
     >
-      <div class="icon">▥</div>
-      Webtoon
-      <small>1080 × 1920</small>
+
+      <div class="template-thumb">
+        📖
+      </div>
+
+      <div class="template-title">
+        Novel / Title Page
+      </div>
+
+      <div class="template-meta">
+        1200 × 1800
+      </div>
+
     </button>
 
-    <button
-      class="card"
-      data-artboard="character"
-    >
-      <div class="icon">♙</div>
-      Character
-      <small>1600 × 1200</small>
-    </button>
 
     <button
-      class="card"
-      data-artboard="bookmark"
+      class="template"
+      data-preset="webtoon"
     >
-      <div class="icon">▯</div>
-      Bookmark
-      <small>600 × 1800</small>
+
+      <div class="template-thumb">
+        ▥
+      </div>
+
+      <div class="template-title">
+        Webtoon
+      </div>
+
+      <div class="template-meta">
+        1080 × 1920
+      </div>
+
     </button>
 
+
     <button
-      class="card"
-      data-artboard="square"
+      class="template"
+      data-preset="character"
     >
-      <div class="icon">□</div>
-      Square
-      <small>1200 × 1200</small>
+
+      <div class="template-thumb">
+        ♙
+      </div>
+
+      <div class="template-title">
+        Character Art
+      </div>
+
+      <div class="template-meta">
+        1600 × 1200
+      </div>
+
+    </button>
+
+
+    <button
+      class="template"
+      data-preset="bookmark"
+    >
+
+      <div class="template-thumb">
+        ▯
+      </div>
+
+      <div class="template-title">
+        Bookmark
+      </div>
+
+      <div class="template-meta">
+        600 × 1800
+      </div>
+
+    </button>
+
+
+    <button
+      class="template"
+      data-preset="square"
+    >
+
+      <div class="template-thumb">
+        □
+      </div>
+
+      <div class="template-title">
+        Square
+      </div>
+
+      <div class="template-meta">
+        1200 × 1200
+      </div>
+
     </button>
 
   </div>
 
 </div>
 
-<!-- DESIGN TEMPLATES -->
+
+<!-- =====================================================
+     DESIGN TEMPLATES
+===================================================== -->
 
 <div
-  id="template-design"
+  id="designTemplates"
   class="hidden"
 >
 
-  <div class="purple-card community-box">
-    <strong>Design Templates</strong><br>
-    These are actual reusable designs,
-    not blank artboard sizes.
+  <div class="template-box">
+
+    <strong>DESIGN TEMPLATES</strong>
+
+    <br>
+
+    These contain actual human-created
+    layouts and design systems that can
+    be edited after inserting them.
+
   </div>
+
 
   <div class="section-title">
-    Book Covers
+    Book Cover Templates
   </div>
 
-  <div class="card-grid">
+  <div class="template-grid">
 
-    <button class="card template">
-      <div class="icon">📕</div>
-      Editorial Cover
-      <small>Editable design</small>
+    <button class="template">
+
+      <div class="template-thumb">
+        📕
+      </div>
+
+      <div class="template-title">
+        Editorial Cover
+      </div>
+
+      <div class="template-meta">
+        Modular
+      </div>
+
     </button>
 
-    <button class="card template">
-      <div class="icon">📘</div>
-      Novel Cover
-      <small>Editable design</small>
+
+    <button class="template">
+
+      <div class="template-thumb">
+        📘
+      </div>
+
+      <div class="template-title">
+        Novel Cover
+      </div>
+
+      <div class="template-meta">
+        Modular
+      </div>
+
     </button>
 
   </div>
+
 
   <div class="section-title">
     Novel / Title Pages
   </div>
 
-  <div class="card-grid">
+  <div class="template-grid">
 
-    <button class="card template">
-      <div class="icon">📖</div>
-      Chapter Opener
-      <small>Editable design</small>
+    <button class="template">
+
+      <div class="template-thumb">
+        T
+      </div>
+
+      <div class="template-title">
+        Chapter Opener
+      </div>
+
+      <div class="template-meta">
+        Editable
+      </div>
+
     </button>
 
-    <button class="card template">
-      <div class="icon">T</div>
-      Title Page
-      <small>Editable design</small>
+
+    <button class="template">
+
+      <div class="template-thumb">
+        T
+      </div>
+
+      <div class="template-title">
+        Title Page
+      </div>
+
+      <div class="template-meta">
+        Editable
+      </div>
+
     </button>
 
   </div>
+
 
   <div class="section-title">
-    Webtoon
+    Webtoon Templates
   </div>
 
-  <div class="card-grid">
+  <div class="template-grid">
 
-    <button class="card template">
-      <div class="icon">▥</div>
-      Episode Cover
-      <small>Editable design</small>
+    <button class="template">
+
+      <div class="template-thumb">
+        ▥
+      </div>
+
+      <div class="template-title">
+        Episode Layout
+      </div>
+
+      <div class="template-meta">
+        Editable
+      </div>
+
     </button>
 
-    <button class="card template">
-      <div class="icon">▤</div>
-      Panel Starter
-      <small>Editable design</small>
+
+    <button class="template">
+
+      <div class="template-thumb">
+        ▤
+      </div>
+
+      <div class="template-title">
+        Panel Layout
+      </div>
+
+      <div class="template-meta">
+        Editable
+      </div>
+
     </button>
 
   </div>
+
 
   <div class="section-title">
-    Character Art
+    Character Art Templates
   </div>
 
-  <div class="card-grid">
+  <div class="template-grid">
 
-    <button class="card template">
-      <div class="icon">♙</div>
-      Character Sheet
-      <small>Editable design</small>
+    <button class="template">
+
+      <div class="template-thumb">
+        ♙
+      </div>
+
+      <div class="template-title">
+        Character Sheet
+      </div>
+
+      <div class="template-meta">
+        Editable
+      </div>
+
     </button>
 
-    <button class="card template">
-      <div class="icon">◇</div>
-      Expression Sheet
-      <small>Editable design</small>
+
+    <button class="template">
+
+      <div class="template-thumb">
+        ◉
+      </div>
+
+      <div class="template-title">
+        Expression Sheet
+      </div>
+
+      <div class="template-meta">
+        Editable
+      </div>
+
     </button>
 
   </div>
+
 
   <div class="section-title">
-    Bookmarks
+    Bookmark Templates
   </div>
 
-  <div class="card-grid">
+  <div class="template-grid">
 
-    <button class="card template">
-      <div class="icon">▯</div>
-      Bookmark
-      <small>Editable design</small>
+    <button class="template">
+
+      <div class="template-thumb">
+        ▯
+      </div>
+
+      <div class="template-title">
+        Bookmark
+      </div>
+
+      <div class="template-meta">
+        Editable
+      </div>
+
     </button>
 
   </div>
 
 </div>
 
-<!-- MY TEMPLATES -->
+
+<!-- =====================================================
+     MY TEMPLATES
+===================================================== -->
 
 <div
-  id="template-mine"
+  id="myTemplates"
   class="hidden"
 >
 
-  <div class="purple-card community-box">
-    <strong>My Templates</strong><br>
-    Save your own modular designs
-    and reuse them later.
+  <div class="template-box">
+
+    <strong>MY TEMPLATES</strong>
+
+    <br>
+
+    Your own saved designs and reusable
+    modular systems.
+
   </div>
 
   <button
-    class="tool-button"
-    id="saveTemplateButton"
+    class="add-layer"
+    id="saveTemplate"
   >
-    ＋ Save Selected Design as Template
+    ＋ Save Current Design as Template
   </button>
 
-  <div id="myTemplatesList"></div>
+  <div id="myTemplateList"></div>
 
 </div>
 
-<!-- COMMUNITY -->
+
+<!-- =====================================================
+     COMMUNITY
+===================================================== -->
 
 <div
-  id="template-community"
+  id="communityTemplates"
   class="hidden"
 >
 
-  <div class="purple-card community-box">
+  <div class="template-box">
 
-    <strong>Community Templates</strong><br><br>
+    <strong>COMMUNITY TEMPLATES</strong>
 
-    Creators can submit their own
-    human-created designs to the
-    Just Angles community.
+    <br><br>
+
+    Designers can submit their own
+    human-created designs.
 
     <br><br>
 
@@ -1148,41 +1684,53 @@ button{
 
   </div>
 
+
   <div class="section-title">
-    Community Templates
+    Community Designs
   </div>
 
-  <div class="card-grid">
 
-    <button class="card purple-card">
-      <div class="icon">📕</div>
-      Creator Book Cover
-      <small>Community contribution</small>
+  <div class="template-grid">
+
+    <button class="template">
+
+      <div class="template-thumb">
+        📕
+      </div>
+
+      <div class="template-title">
+        Creator Book Cover
+      </div>
+
+      <div class="template-meta">
+        Community
+      </div>
+
     </button>
 
-    <button class="card purple-card">
-      <div class="icon">♙</div>
-      Character Art
-      <small>Community contribution</small>
-    </button>
 
-    <button class="card purple-card">
-      <div class="icon">▯</div>
-      Bookmark
-      <small>Community contribution</small>
-    </button>
+    <button class="template">
 
-    <button class="card purple-card">
-      <div class="icon">▥</div>
-      Webtoon
-      <small>Community contribution</small>
+      <div class="template-thumb">
+        ♙
+      </div>
+
+      <div class="template-title">
+        Character Design
+      </div>
+
+      <div class="template-meta">
+        Community
+      </div>
+
     </button>
 
   </div>
+
 
   <button
-    class="tool-button"
-    id="submitCommunityButton"
+    class="add-layer"
+    id="submitCommunity"
   >
     ＋ Submit My Design to Community
   </button>
@@ -1191,9 +1739,10 @@ button{
 
 </section>
 
-  </div>
+</div>
 
 </aside>
+
 
 <!-- =====================================================
      WORKSPACE
@@ -1201,32 +1750,49 @@ button{
 
 <section class="workspace">
 
-  <div class="workspace-header">
+  <div class="workspace-top">
 
-    <div class="workspace-chip">
+    <div class="chip">
       <strong>ARTBOARD DESIGNER</strong>
     </div>
 
     <button
-      class="workspace-chip"
-      id="addArtboardButton"
+      class="chip chip-button"
+      id="workspaceAddArtboard"
     >
       ＋ Artboard
     </button>
 
     <button
-      class="workspace-chip"
-      id="fitButton"
+      class="chip chip-button"
+      id="fitArtboard"
     >
-      Home / Fit
+      ⌂ Home / Fit
     </button>
 
-    <div class="workspace-chip">
-      Zoom:
-      <span id="zoomValue">100%</span>
+    <button
+      class="chip chip-button"
+      id="zoomOut"
+    >
+      −
+    </button>
+
+    <div
+      class="chip"
+      id="zoomDisplay"
+    >
+      100%
     </div>
 
+    <button
+      class="chip chip-button"
+      id="zoomIn"
+    >
+      ＋
+    </button>
+
   </div>
+
 
   <div
     class="canvas"
@@ -1238,39 +1804,7 @@ button{
       id="canvasInner"
     >
 
-      <div class="grid"></div>
-
-      <!-- ARTBOARD 1 -->
-
-      <div
-        class="artboard selected"
-        id="artboard1"
-        data-width="1200"
-        data-height="1800"
-        style="
-          width:480px;
-          height:720px;
-          left:700px;
-          top:400px;
-        "
-      >
-
-        <div class="artboard-label">
-          Artboard 1 — 1200 × 1800
-        </div>
-
-        <div
-          class="object text"
-          style="
-            left:100px;
-            top:100px;
-            font-size:30px;
-          "
-        >
-          YOUR TITLE
-        </div>
-
-      </div>
+      <div class="canvas-grid"></div>
 
     </div>
 
@@ -1278,11 +1812,12 @@ button{
 
 </section>
 
+
 <!-- =====================================================
-     RIGHT
+     RIGHT PANEL
 ===================================================== -->
 
-<aside class="right">
+<aside class="right-panel">
 
   <div class="right-tabs">
 
@@ -1291,7 +1826,7 @@ button{
     </button>
 
     <button>
-      PROPERTIES
+      APPEARANCE
     </button>
 
     <button>
@@ -1300,246 +1835,412 @@ button{
 
   </div>
 
-  <div class="right-panel">
 
-<!-- TRANSFORM -->
+  <div class="right-content">
 
-<div class="property-section">
 
-  <div class="property-title">
-    Transform
-  </div>
+<!-- =====================================================
+     ARTBOARD SIZE
+===================================================== -->
 
-  <div class="field-row">
-
-    <div class="field">
-      <label>X</label>
-      <input value="0">
-    </div>
-
-    <div class="field">
-      <label>Y</label>
-      <input value="0">
-    </div>
-
-  </div>
-
-  <div class="field-row">
-
-    <div class="field">
-      <label>Width</label>
-      <input value="1200">
-    </div>
-
-    <div class="field">
-      <label>Height</label>
-      <input value="1800">
-    </div>
-
-  </div>
-
-  <div class="field-row">
-
-    <div class="field">
-      <label>Rotation</label>
-      <input value="0°">
-    </div>
-
-    <div class="field">
-      <label>Opacity</label>
-      <input value="100%">
-    </div>
-
-  </div>
-
-</div>
-
-<!-- ARTBOARD -->
-
-<div class="property-section">
+<section class="property-section">
 
   <div class="property-title">
     Artboard
   </div>
 
-  <div class="field-row">
+
+  <div class="field-grid">
 
     <div class="field">
-      <label>Width</label>
+
+      <label>
+        Width
+      </label>
+
       <input
         id="artboardWidth"
+        type="number"
         value="1200"
       >
+
     </div>
 
+
     <div class="field">
-      <label>Height</label>
+
+      <label>
+        Height
+      </label>
+
       <input
         id="artboardHeight"
+        type="number"
         value="1800"
       >
+
     </div>
 
   </div>
+
 
   <div class="field">
 
     <label>
-      Background
+      Units
     </label>
+
+    <select id="artboardUnits">
+
+      <option>Pixels</option>
+      <option>Inches</option>
+      <option>Millimeters</option>
+      <option>Points</option>
+
+    </select>
+
+  </div>
+
+
+  <button
+    class="add-layer"
+    id="applySize"
+  >
+    Apply Artboard Dimensions
+  </button>
+
+</section>
+
+
+<!-- =====================================================
+     BACKGROUND COLOR
+===================================================== -->
+
+<section class="property-section">
+
+  <div class="property-title">
+    Background Color
+  </div>
+
+
+  <div class="background-card">
+
+    <div
+      class="background-preview"
+      id="backgroundPreview"
+    ></div>
+
+
+    <div class="background-controls">
+
+      <input
+        type="color"
+        id="backgroundColor"
+        value="#ffffff"
+      >
+
+      <input
+        type="text"
+        id="backgroundHex"
+        value="#ffffff"
+      >
+
+    </div>
+
+
+    <div class="transparency">
+
+      Background belongs to the
+      <strong>Artboard</strong>, not a
+      normal object layer.
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     FILL
+===================================================== -->
+
+<section class="property-section">
+
+  <div class="property-title">
+    Fill
+  </div>
+
+
+  <div class="color-control">
 
     <input
       type="color"
-      id="artboardBackground"
-      value="#ffffff"
+      id="fillColor"
+      value="#9b6cff"
+    >
+
+    <span>
+      Fill
+    </span>
+
+    <small id="fillHex">
+      #9B6CFF
+    </small>
+
+  </div>
+
+
+  <button
+    class="add-layer"
+    id="removeFill"
+  >
+    Remove Fill
+  </button>
+
+</section>
+
+
+<!-- =====================================================
+     STROKE
+===================================================== -->
+
+<section class="property-section">
+
+  <div class="property-title">
+    Stroke
+  </div>
+
+
+  <div class="color-control">
+
+    <input
+      type="color"
+      id="strokeColor"
+      value="#111111"
+    >
+
+    <span>
+      Stroke
+    </span>
+
+    <small id="strokeHex">
+      #111111
+    </small>
+
+  </div>
+
+
+  <div class="field">
+
+    <label>
+      Stroke Width
+    </label>
+
+    <input
+      id="strokeWidth"
+      type="number"
+      value="2"
+      min="0"
     >
 
   </div>
 
-  <button
-    class="tool-button"
-    id="applyArtboardButton"
-  >
-    Apply Artboard Size
-  </button>
+</section>
 
-</div>
 
-<!-- APPEARANCE -->
+<!-- =====================================================
+     TRANSFORM
+===================================================== -->
 
-<div class="property-section">
+<section class="property-section">
+
+  <div class="property-title">
+    Transform
+  </div>
+
+
+  <div class="field-grid">
+
+    <div class="field">
+
+      <label>
+        X
+      </label>
+
+      <input
+        value="0"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Y
+      </label>
+
+      <input
+        value="0"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        W
+      </label>
+
+      <input
+        value="100"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        H
+      </label>
+
+      <input
+        value="100"
+      >
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     APPEARANCE
+===================================================== -->
+
+<section class="property-section">
 
   <div class="property-title">
     Appearance
   </div>
 
-  <div class="field">
-
-    <label>
-      Fill
-    </label>
-
-    <div class="color-row">
-
-      <input
-        type="color"
-        class="color"
-        value="#ffffff"
-      >
-
-      <button class="tool-button">
-        No Fill
-      </button>
-
-    </div>
-
-  </div>
 
   <div class="field">
 
     <label>
-      Stroke
+      Opacity
     </label>
 
-    <div class="color-row">
-
-      <input
-        type="color"
-        class="color"
-        value="#111111"
-      >
-
-      <input
-        class="search"
-        value="1 px"
-      >
-
-    </div>
+    <input
+      id="opacity"
+      type="range"
+      min="0"
+      max="100"
+      value="100"
+    >
 
   </div>
 
-</div>
 
-<!-- QUICK COLORS -->
+  <div class="field">
 
-<div class="property-section">
+    <label>
+      Blend Mode
+    </label>
+
+    <select>
+
+      <option>Normal</option>
+      <option>Multiply</option>
+      <option>Screen</option>
+      <option>Overlay</option>
+      <option>Darken</option>
+      <option>Lighten</option>
+
+    </select>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     ALIGNMENT
+===================================================== -->
+
+<section class="property-section">
 
   <div class="property-title">
-    Quick Colors
+    Align
   </div>
 
-  <div class="quick-colors">
 
-    <div
-      class="quick-color"
-      style="background:#111111"
-    ></div>
+  <div class="align-grid">
 
-    <div
-      class="quick-color"
-      style="background:#ffffff"
-    ></div>
+    <button>
+      ←
+    </button>
 
-    <div
-      class="quick-color"
-      style="background:#ff6262"
-    ></div>
+    <button>
+      ↔
+    </button>
 
-    <div
-      class="quick-color"
-      style="background:#ff9d43"
-    ></div>
+    <button>
+      →
+    </button>
 
-    <div
-      class="quick-color"
-      style="background:#20e889"
-    ></div>
+    <button>
+      ↑
+    </button>
 
-    <div
-      class="quick-color"
-      style="background:#5fa8ff"
-    ></div>
+    <button>
+      ↕
+    </button>
 
-    <div
-      class="quick-color"
-      style="background:#9d6cff"
-    ></div>
-
-    <div
-      class="quick-color"
-      style="background:#f5c2e7"
-    ></div>
+    <button>
+      ↓
+    </button>
 
   </div>
 
-</div>
+</section>
 
-<!-- COMMUNITY -->
 
-<div class="property-section">
+<!-- =====================================================
+     COMMUNITY
+===================================================== -->
+
+<section class="property-section">
 
   <div class="property-title">
-    Community & Contribution
+    Community
   </div>
 
-  <div class="community-box">
+  <div class="template-box">
 
-    <strong>Create → Contribute → Earn</strong>
+    <strong>
+      CREATE → CONTRIBUTE → EARN
+    </strong>
 
     <br><br>
 
-    Submit your own human-created
-    templates and assets to the
-    Just Angles community.
+    Create your own templates and assets.
 
     <br><br>
 
-    Approved contributions earn
-    community points.
+    Submit them to the community.
+
+    <br><br>
+
+    Approved contributions earn points.
 
   </div>
 
-</div>
+</section>
 
 </div>
 
@@ -1547,74 +2248,121 @@ button{
 
 </main>
 
+
 <!-- =====================================================
-     TOOLBAR
+     BOTTOM TOOLBAR
 ===================================================== -->
 
 <footer class="toolbar">
 
   <button
-    class="active"
+    class="tool active"
     data-tool="select"
   >
     ↖ Select
   </button>
 
-  <button data-tool="direct">
+  <button
+    class="tool"
+    data-tool="direct"
+  >
     ◇ Direct Select
   </button>
 
-  <div class="toolbar-separator"></div>
 
-  <button data-tool="pen">
+  <div class="tool-separator"></div>
+
+
+  <button
+    class="tool"
+    data-tool="pen"
+  >
     ⌁ Pen
   </button>
 
-  <button data-tool="pencil">
+  <button
+    class="tool"
+    data-tool="pencil"
+  >
     ✎ Pencil
   </button>
 
-  <button data-tool="brush">
+  <button
+    class="tool"
+    data-tool="brush"
+  >
     🖌 Brush
   </button>
 
-  <button data-tool="add-anchor">
+
+  <button
+    class="tool"
+    data-tool="addAnchor"
+  >
     ＋ Anchor
   </button>
 
-  <button data-tool="delete-anchor">
+  <button
+    class="tool"
+    data-tool="removeAnchor"
+  >
     − Anchor
   </button>
 
-  <button data-tool="curve">
+  <button
+    class="tool"
+    data-tool="curve"
+  >
     ⌒ Curve
   </button>
 
-  <div class="toolbar-separator"></div>
 
-  <button data-tool="shape">
-    □ Shape
+  <div class="tool-separator"></div>
+
+
+  <button
+    class="tool"
+    data-tool="rectangle"
+  >
+    □ Rectangle
   </button>
 
-  <button data-tool="circle">
+  <button
+    class="tool"
+    data-tool="circle"
+  >
     ○ Circle
   </button>
 
-  <button data-tool="line">
+  <button
+    class="tool"
+    data-tool="line"
+  >
     ／ Line
   </button>
 
-  <button data-tool="text">
+  <button
+    class="tool"
+    data-tool="text"
+  >
     T Text
   </button>
 
-  <div class="toolbar-separator"></div>
 
-  <button data-tool="hand">
+  <div class="tool-separator"></div>
+
+
+  <button
+    class="tool"
+    data-tool="hand"
+  >
     ✋ Hand
   </button>
 
-  <button data-tool="zoom">
+  <button
+    class="tool"
+    data-tool="zoom"
+  >
     🔍 Zoom
   </button>
 
@@ -1622,25 +2370,27 @@ button{
 
 </div>
 
+
 <!-- =====================================================
      CUSTOM ARTBOARD MODAL
 ===================================================== -->
 
 <div
   class="modal"
-  id="customArtboardModal"
+  id="artboardModal"
 >
 
   <div class="modal-box">
 
     <h2>
-      Create Custom Artboard
+      Custom Artboard
     </h2>
 
     <p>
       Create a new independent artboard.
-      This is the canvas size — not a design template.
+      You can resize every artboard later.
     </p>
+
 
     <div class="modal-grid">
 
@@ -1656,6 +2406,7 @@ button{
         >
 
       </div>
+
 
       <div class="field">
 
@@ -1674,6 +2425,7 @@ button{
 
       </div>
 
+
       <div class="field">
 
         <label>
@@ -1684,10 +2436,10 @@ button{
           id="customWidth"
           type="number"
           value="1200"
-          min="1"
         >
 
       </div>
+
 
       <div class="field">
 
@@ -1699,38 +2451,10 @@ button{
           id="customHeight"
           type="number"
           value="1800"
-          min="1"
         >
 
       </div>
 
-      <div class="field">
-
-        <label>
-          Orientation
-        </label>
-
-        <select id="customOrientation">
-
-          <option value="custom">
-            Custom
-          </option>
-
-          <option value="portrait">
-            Portrait
-          </option>
-
-          <option value="landscape">
-            Landscape
-          </option>
-
-          <option value="square">
-            Square
-          </option>
-
-        </select>
-
-      </div>
 
       <div class="field">
 
@@ -1739,8 +2463,8 @@ button{
         </label>
 
         <input
-          type="color"
           id="customBackground"
+          type="color"
           value="#ffffff"
         >
 
@@ -1748,15 +2472,16 @@ button{
 
     </div>
 
+
     <div class="modal-actions">
 
-      <button id="cancelCustom">
+      <button id="closeModal">
         Cancel
       </button>
 
       <button
         class="primary"
-        id="createCustom"
+        id="createArtboard"
       >
         Create Artboard
       </button>
@@ -1767,102 +2492,11 @@ button{
 
 </div>
 
-<!-- =====================================================
-     COMMUNITY SUBMISSION MODAL
-===================================================== -->
-
-<div
-  class="modal"
-  id="communityModal"
->
-
-  <div class="modal-box">
-
-    <h2>
-      Submit to Community
-    </h2>
-
-    <p>
-      Share your human-created design with
-      the Just Angles community.
-    </p>
-
-    <div class="field">
-
-      <label>
-        Template Name
-      </label>
-
-      <input
-        class="search"
-        placeholder="Name your design..."
-      >
-
-    </div>
-
-    <br>
-
-    <div class="field">
-
-      <label>
-        Category
-      </label>
-
-      <select class="search">
-
-        <option>Book Cover</option>
-        <option>Novel / Title Page</option>
-        <option>Webtoon</option>
-        <option>Character Art</option>
-        <option>Bookmark</option>
-        <option>Print</option>
-        <option>Other</option>
-
-      </select>
-
-    </div>
-
-    <br>
-
-    <div class="community-box">
-
-      <strong>Creator Contribution</strong>
-
-      <br><br>
-
-      Approved community contributions
-      earn points.
-
-      <br><br>
-
-      Your creator attribution remains
-      attached to your submission.
-
-    </div>
-
-    <div class="modal-actions">
-
-      <button id="cancelCommunity">
-        Cancel
-      </button>
-
-      <button
-        class="primary"
-        id="submitCommunity"
-      >
-        Submit for Review
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
 
 <script>
 
 /* =========================================================
-   STATE
+   JUST ANGLES ARTBOARD ENGINE
 ========================================================= */
 
 const state = {
@@ -1871,25 +2505,24 @@ const state = {
 
   zoom:1,
 
-  artboards:[
-    {
-      id:"artboard1",
-      name:"Artboard 1",
-      width:1200,
-      height:1800,
-      background:"#ffffff"
-    }
-  ],
+  artboards:[],
 
-  selectedArtboard:"artboard1",
+  activeArtboard:null,
 
-  myTemplates:[],
+  activeObject:null,
 
   history:[],
 
-  historyIndex:-1
+  historyIndex:-1,
+
+  drawing:false,
+
+  currentPath:null,
+
+  pathPoints:[]
 
 };
+
 
 /* =========================================================
    HELPERS
@@ -1899,318 +2532,890 @@ function $(id){
   return document.getElementById(id);
 }
 
-function saveHistory(){
 
-  state.history=
+function uid(prefix){
+
+  return prefix + "-" +
+    Date.now() +
+    "-" +
+    Math.random()
+      .toString(36)
+      .slice(2,7);
+
+}
+
+
+function currentArtboard(){
+
+  return state.artboards.find(
+    board =>
+      board.id === state.activeArtboard
+  );
+
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function snapshot(){
+
+  const clean =
+    state.artboards.map(board => ({
+      ...board,
+      objects:board.objects.map(
+        object => ({...object})
+      )
+    }));
+
+  state.history =
     state.history.slice(
       0,
-      state.historyIndex+1
+      state.historyIndex + 1
     );
 
   state.history.push(
-    JSON.stringify(state.artboards)
+    JSON.stringify(clean)
   );
 
   state.historyIndex++;
 
 }
 
-function currentArtboard(){
 
-  return state.artboards.find(
-    a=>a.id===state.selectedArtboard
-  );
+function restoreHistory(index){
+
+  if(index < 0) return;
+
+  if(index >= state.history.length)
+    return;
+
+  state.artboards =
+    JSON.parse(
+      state.history[index]
+    );
+
+  const board =
+    currentArtboard();
+
+  if(board){
+
+    render();
+
+  }
 
 }
 
-/* =========================================================
-   LEFT NAV
-========================================================= */
-
-document
-.querySelectorAll("[data-left]")
-.forEach(button=>{
-
-  button.addEventListener("click",()=>{
-
-    document
-    .querySelectorAll("[data-left]")
-    .forEach(b=>b.classList.remove("active"));
-
-    button.classList.add("active");
-
-    document
-    .querySelectorAll(".left-content > .panel")
-    .forEach(panel=>{
-      panel.classList.add("hidden");
-    });
-
-    $("left-"+button.dataset.left)
-      .classList.remove("hidden");
-
-  });
-
-});
 
 /* =========================================================
-   TEMPLATE NAV
+   CREATE INITIAL ARTBOARD
 ========================================================= */
 
-document
-.querySelectorAll("[data-template-tab]")
-.forEach(button=>{
+function createInitialArtboard(){
 
-  button.addEventListener("click",()=>{
+  const board = {
 
-    document
-    .querySelectorAll("[data-template-tab]")
-    .forEach(b=>b.classList.remove("active"));
+    id:uid("artboard"),
 
-    button.classList.add("active");
+    name:"Artboard 1",
 
-    [
-      "canvas",
-      "design",
-      "mine",
-      "community"
-    ].forEach(name=>{
+    width:1200,
 
-      const panel=$("template-"+name);
+    height:1800,
 
-      if(panel){
+    background:"#ffffff",
 
-        panel.classList.toggle(
-          "hidden",
-          name!==button.dataset.templateTab
+    objects:[]
+
+  };
+
+  state.artboards.push(board);
+
+  state.activeArtboard =
+    board.id;
+
+  snapshot();
+
+  render();
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+  renderArtboards();
+
+  renderLayers();
+
+  updateRightPanel();
+
+}
+
+
+function renderArtboards(){
+
+  const inner =
+    $("canvasInner");
+
+  inner
+    .querySelectorAll(".artboard")
+    .forEach(el => el.remove());
+
+
+  state.artboards.forEach(
+    (board,index)=>{
+
+      const element =
+        document.createElement("div");
+
+      element.className =
+        "artboard";
+
+      if(
+        board.id ===
+        state.activeArtboard
+      ){
+
+        element.classList.add(
+          "selected"
         );
 
       }
 
-    });
 
-  });
+      /*
+       * Display scale is intentionally
+       * smaller than document dimensions
+       * so large artboards fit the workspace.
+       */
 
-});
+      const displayScale =
+        0.4;
 
-/* =========================================================
-   ARTBOARD CREATION
-========================================================= */
+      element.style.width =
+        board.width *
+        displayScale +
+        "px";
 
-$("customArtboardButton")
-.addEventListener("click",()=>{
+      element.style.height =
+        board.height *
+        displayScale +
+        "px";
 
-  $("customArtboardModal")
-    .classList.add("show");
 
-});
+      element.style.left =
+        400 +
+        index * 560 +
+        "px";
 
-$("addArtboardButton")
-.addEventListener("click",()=>{
+      element.style.top =
+        300 +
+        (index % 2) * 100 +
+        "px";
 
-  $("customArtboardModal")
-    .classList.add("show");
 
-});
+      element.style.background =
+        board.background;
 
-$("cancelCustom")
-.addEventListener("click",()=>{
 
-  $("customArtboardModal")
-    .classList.remove("show");
+      element.dataset.id =
+        board.id;
 
-});
 
-$("customOrientation")
-.addEventListener("change",()=>{
+      const name =
+        document.createElement("div");
 
-  const orientation=
-    $("customOrientation").value;
+      name.className =
+        "artboard-name";
 
-  let w=
-    Number($("customWidth").value);
+      name.textContent =
+        board.name;
 
-  let h=
-    Number($("customHeight").value);
+      element.appendChild(name);
 
-  if(orientation==="square"){
 
-    const size=Math.max(w,h);
+      const size =
+        document.createElement("div");
 
-    $("customWidth").value=size;
-    $("customHeight").value=size;
+      size.className =
+        "artboard-size";
 
-  }
+      size.textContent =
+        board.width +
+        " × " +
+        board.height;
 
-  if(orientation==="portrait" && w>h){
+      element.appendChild(size);
 
-    $("customWidth").value=h;
-    $("customHeight").value=w;
 
-  }
+      /*
+       * SVG is the actual drawing surface.
+       */
 
-  if(orientation==="landscape" && h>w){
+      const svg =
+        document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "svg"
+        );
 
-    $("customWidth").value=h;
-    $("customHeight").value=w;
+      svg.setAttribute(
+        "viewBox",
+        `0 0 ${board.width} ${board.height}`
+      );
 
-  }
 
-});
+      svg.addEventListener(
+        "mousedown",
+        e => {
 
-$("createCustom")
-.addEventListener("click",()=>{
+          if(
+            e.target === svg &&
+            (
+              state.tool === "pen" ||
+              state.tool === "pencil" ||
+              state.tool === "brush"
+            )
+          ){
 
-  const name=
-    $("customName").value.trim()
-    ||"Custom Artboard";
+            beginDrawing(
+              e,
+              board,
+              svg
+            );
 
-  const width=
-    Number($("customWidth").value)
-    ||1200;
+          }
 
-  const height=
-    Number($("customHeight").value)
-    ||1800;
+        }
+      );
 
-  const background=
-    $("customBackground").value
-    ||"#ffffff";
 
-  const id=
-    "artboard-"+Date.now();
+      board.objects.forEach(
+        object => {
 
-  state.artboards.push({
+          const node =
+            createSVGObject(
+              object
+            );
 
-    id,
-    name,
-    width,
-    height,
-    background
+          if(node){
 
-  });
+            svg.appendChild(node);
 
-  state.selectedArtboard=id;
+          }
 
-  saveHistory();
+        }
+      );
 
-  $("customArtboardModal")
-    .classList.remove("show");
 
-  alert(
-    `${name} created at ${width} × ${height}.`
+      element.appendChild(svg);
+
+
+      element.addEventListener(
+        "mousedown",
+        e => {
+
+          if(
+            e.target === element ||
+            e.target === name ||
+            e.target === size
+          ){
+
+            selectArtboard(
+              board.id
+            );
+
+          }
+
+        }
+      );
+
+
+      inner.appendChild(element);
+
+    }
   );
 
-});
+}
 
-/* =========================================================
-   ARTBOARD PRESETS
-========================================================= */
 
-document
-.querySelectorAll("[data-artboard]")
-.forEach(button=>{
+function createSVGObject(object){
 
-  button.addEventListener("click",()=>{
+  let node;
 
-    const presets={
 
-      book:[
-        "Book Cover",
-        1200,
-        1800
-      ],
+  if(object.type === "rect"){
 
-      novel:[
-        "Novel Page",
-        1200,
-        1800
-      ],
+    node =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "rect"
+      );
 
-      webtoon:[
-        "Webtoon",
-        1080,
-        1920
-      ],
-
-      character:[
-        "Character Art",
-        1600,
-        1200
-      ],
-
-      bookmark:[
-        "Bookmark",
-        600,
-        1800
-      ],
-
-      square:[
-        "Square",
-        1200,
-        1200
-      ]
-
-    };
-
-    const data=
-      presets[button.dataset.artboard];
-
-    const id=
-      "artboard-"+Date.now();
-
-    state.artboards.push({
-
-      id,
-      name:data[0],
-      width:data[1],
-      height:data[2],
-      background:"#ffffff"
-
-    });
-
-    state.selectedArtboard=id;
-
-    saveHistory();
-
-    alert(
-      `${data[0]} artboard created: ${data[1]} × ${data[2]}`
+    node.setAttribute(
+      "x",
+      object.x
     );
 
-  });
+    node.setAttribute(
+      "y",
+      object.y
+    );
 
-});
+    node.setAttribute(
+      "width",
+      object.width
+    );
 
-/* =========================================================
-   ARTBOARD RESIZE
-========================================================= */
+    node.setAttribute(
+      "height",
+      object.height
+    );
 
-$("applyArtboardButton")
-.addEventListener("click",()=>{
+    node.setAttribute(
+      "fill",
+      object.fill
+    );
 
-  const artboard=
-    currentArtboard();
+    node.setAttribute(
+      "stroke",
+      object.stroke
+    );
 
-  if(!artboard)return;
+    node.setAttribute(
+      "stroke-width",
+      object.strokeWidth
+    );
 
-  artboard.width=
-    Number($("artboardWidth").value)
-    ||artboard.width;
+  }
 
-  artboard.height=
-    Number($("artboardHeight").value)
-    ||artboard.height;
 
-  artboard.background=
-    $("artboardBackground").value
-    ||artboard.background;
+  if(object.type === "circle"){
 
-  saveHistory();
+    node =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "circle"
+      );
 
-  alert(
-    `Artboard resized to ${artboard.width} × ${artboard.height}.`
+    node.setAttribute(
+      "cx",
+      object.x
+    );
+
+    node.setAttribute(
+      "cy",
+      object.y
+    );
+
+    node.setAttribute(
+      "r",
+      object.radius
+    );
+
+    node.setAttribute(
+      "fill",
+      object.fill
+    );
+
+    node.setAttribute(
+      "stroke",
+      object.stroke
+    );
+
+    node.setAttribute(
+      "stroke-width",
+      object.strokeWidth
+    );
+
+  }
+
+
+  if(object.type === "line"){
+
+    node =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "line"
+      );
+
+    node.setAttribute(
+      "x1",
+      object.x1
+    );
+
+    node.setAttribute(
+      "y1",
+      object.y1
+    );
+
+    node.setAttribute(
+      "x2",
+      object.x2
+    );
+
+    node.setAttribute(
+      "y2",
+      object.y2
+    );
+
+    node.setAttribute(
+      "stroke",
+      object.stroke
+    );
+
+    node.setAttribute(
+      "stroke-width",
+      object.strokeWidth
+    );
+
+  }
+
+
+  if(object.type === "text"){
+
+    node =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+      );
+
+    node.setAttribute(
+      "x",
+      object.x
+    );
+
+    node.setAttribute(
+      "y",
+      object.y
+    );
+
+    node.setAttribute(
+      "fill",
+      object.fill
+    );
+
+    node.setAttribute(
+      "font-size",
+      object.fontSize
+    );
+
+    node.setAttribute(
+      "font-family",
+      "Arial"
+    );
+
+    node.setAttribute(
+      "font-weight",
+      object.fontWeight
+    );
+
+    node.textContent =
+      object.text;
+
+  }
+
+
+  if(object.type === "path"){
+
+    node =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+      );
+
+    node.setAttribute(
+      "d",
+      object.d
+    );
+
+    node.setAttribute(
+      "fill",
+      "none"
+    );
+
+    node.setAttribute(
+      "stroke",
+      object.stroke
+    );
+
+    node.setAttribute(
+      "stroke-width",
+      object.strokeWidth
+    );
+
+    node.setAttribute(
+      "stroke-linecap",
+      "round"
+    );
+
+    node.setAttribute(
+      "stroke-linejoin",
+      "round"
+    );
+
+  }
+
+
+  if(!node)
+    return null;
+
+
+  node.classList.add(
+    "svg-object"
   );
 
-});
+
+  node.dataset.objectId =
+    object.id;
+
+
+  node.addEventListener(
+    "mousedown",
+    e => {
+
+      e.stopPropagation();
+
+      selectObject(
+        object.id
+      );
+
+    }
+  );
+
+
+  return node;
+
+}
+
+
+/* =========================================================
+   ARTBOARD SELECTION
+========================================================= */
+
+function selectArtboard(id){
+
+  state.activeArtboard =
+    id;
+
+  state.activeObject =
+    null;
+
+  render();
+
+}
+
+
+function selectObject(id){
+
+  state.activeObject =
+    id;
+
+  renderLayers();
+
+}
+
+
+/* =========================================================
+   LAYERS
+========================================================= */
+
+function renderLayers(){
+
+  const list =
+    $("artboardLayers");
+
+  list.innerHTML = "";
+
+
+  state.artboards.forEach(
+    board => {
+
+      const row =
+        document.createElement("div");
+
+      row.className =
+        "layer";
+
+      if(
+        board.id ===
+        state.activeArtboard
+      ){
+
+        row.classList.add(
+          "selected"
+        );
+
+      }
+
+
+      row.innerHTML = `
+
+        <div class="layer-icon">
+          ▣
+        </div>
+
+        <div class="layer-name">
+          ${board.name}
+        </div>
+
+        <div class="layer-eye">
+          ◉
+        </div>
+
+      `;
+
+
+      row.onclick = () =>
+        selectArtboard(
+          board.id
+        );
+
+
+      list.appendChild(row);
+
+    }
+  );
+
+
+  const objects =
+    $("objectLayers");
+
+  objects.innerHTML = "";
+
+
+  const board =
+    currentArtboard();
+
+  if(!board)
+    return;
+
+
+  board.objects
+    .slice()
+    .reverse()
+    .forEach(
+      object => {
+
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "layer";
+
+
+        if(
+          object.id ===
+          state.activeObject
+        ){
+
+          row.classList.add(
+            "selected"
+          );
+
+        }
+
+
+        let icon = "◇";
+
+        if(object.type==="text")
+          icon="T";
+
+        if(object.type==="rect")
+          icon="□";
+
+        if(object.type==="circle")
+          icon="○";
+
+        if(object.type==="line")
+          icon="／";
+
+        if(object.type==="path")
+          icon="⌁";
+
+
+        row.innerHTML = `
+
+          <div class="layer-icon">
+            ${icon}
+          </div>
+
+          <div class="layer-name">
+            ${object.name}
+          </div>
+
+          <div class="layer-eye">
+            ◉
+          </div>
+
+          <div class="layer-lock">
+            ♢
+          </div>
+
+        `;
+
+
+        row.onclick = () =>
+          selectObject(
+            object.id
+          );
+
+
+        objects.appendChild(row);
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   RIGHT PANEL
+========================================================= */
+
+function updateRightPanel(){
+
+  const board =
+    currentArtboard();
+
+  if(!board)
+    return;
+
+
+  $("artboardWidth").value =
+    board.width;
+
+  $("artboardHeight").value =
+    board.height;
+
+  $("backgroundColor").value =
+    board.background;
+
+  $("backgroundHex").value =
+    board.background;
+
+  $("backgroundPreview").style.background =
+    board.background;
+
+}
+
+
+/* =========================================================
+   BACKGROUND COLOR
+========================================================= */
+
+$("backgroundColor")
+.addEventListener(
+  "input",
+  e => {
+
+    const board =
+      currentArtboard();
+
+    if(!board)
+      return;
+
+    board.background =
+      e.target.value;
+
+    $("backgroundHex").value =
+      e.target.value;
+
+    $("backgroundPreview")
+      .style.background =
+      e.target.value;
+
+    renderArtboards();
+
+  }
+);
+
+
+$("backgroundHex")
+.addEventListener(
+  "change",
+  e => {
+
+    const value =
+      e.target.value;
+
+    if(
+      !/^#[0-9A-F]{6}$/i.test(value)
+    ){
+
+      alert(
+        "Enter a valid hex color such as #FFFFFF."
+      );
+
+      return;
+
+    }
+
+
+    const board =
+      currentArtboard();
+
+    board.background =
+      value;
+
+    $("backgroundColor").value =
+      value;
+
+    $("backgroundPreview")
+      .style.background =
+      value;
+
+    renderArtboards();
+
+  }
+);
+
+
+/* =========================================================
+   ARTBOARD DIMENSIONS
+========================================================= */
+
+$("applySize")
+.addEventListener(
+  "click",
+  () => {
+
+    const board =
+      currentArtboard();
+
+    if(!board)
+      return;
+
+
+    board.width =
+      Math.max(
+        1,
+        Number(
+          $("artboardWidth").value
+        )
+      );
+
+
+    board.height =
+      Math.max(
+        1,
+        Number(
+          $("artboardHeight").value
+        )
+      );
+
+
+    snapshot();
+
+    render();
+
+  }
+);
+
 
 /* =========================================================
    TOOL SYSTEM
@@ -2218,330 +3423,1374 @@ $("applyArtboardButton")
 
 document
 .querySelectorAll("[data-tool]")
-.forEach(button=>{
+.forEach(
+  button => {
 
-  button.addEventListener("click",()=>{
+    button.addEventListener(
+      "click",
+      () => {
 
-    state.tool=
-      button.dataset.tool;
+        setTool(
+          button.dataset.tool
+        );
 
-    document
-    .querySelectorAll("[data-tool]")
-    .forEach(b=>{
-      b.classList.toggle(
-        "active",
-        b.dataset.tool===state.tool
-      );
-    });
-
-    $("canvas")
-      .classList.toggle(
-        "hand",
-        state.tool==="hand"
-      );
-
-    console.log(
-      "Active tool:",
-      state.tool
+      }
     );
 
-  });
-
-});
-
-/* =========================================================
-   HOME / FIT
-========================================================= */
-
-$("fitButton")
-.addEventListener("click",fitSelectedArtboard);
-
-function fitSelectedArtboard(){
-
-  const artboard=
-    currentArtboard();
-
-  if(!artboard)return;
-
-  state.zoom=1;
-
-  $("zoomValue").textContent="100%";
-
-  alert(
-    `Focused on ${artboard.name}.`
-  );
-
-}
-
-/* =========================================================
-   KEYBOARD SHORTCUTS
-========================================================= */
-
-document.addEventListener("keydown",event=>{
-
-  if(
-    event.target.tagName==="INPUT" ||
-    event.target.tagName==="TEXTAREA"
-  ){
-    return;
   }
+);
 
-  const key=
-    event.key.toLowerCase();
-
-  if(key==="v"){
-    setTool("select");
-  }
-
-  if(key==="a"){
-    setTool("direct");
-  }
-
-  if(key==="p"){
-    setTool("pen");
-  }
-
-  if(key==="n"){
-    setTool("pencil");
-  }
-
-  if(key==="b"){
-    setTool("brush");
-  }
-
-  if(key==="h"){
-    setTool("hand");
-  }
-
-  if(key==="z"){
-    setTool("zoom");
-  }
-
-  if(key==="t"){
-    setTool("text");
-  }
-
-  if(event.key==="Escape"){
-
-    document
-    .querySelectorAll(".modal")
-    .forEach(modal=>{
-      modal.classList.remove("show");
-    });
-
-  }
-
-  if(event.key==="Home"){
-
-    event.preventDefault();
-
-    fitSelectedArtboard();
-
-  }
-
-});
 
 function setTool(tool){
 
-  state.tool=tool;
+  state.tool =
+    tool;
+
 
   document
   .querySelectorAll("[data-tool]")
-  .forEach(button=>{
+  .forEach(
+    button => {
 
-    button.classList.toggle(
-      "active",
-      button.dataset.tool===tool
+      button.classList.toggle(
+        "active",
+        button.dataset.tool === tool
+      );
+
+    }
+  );
+
+
+  $("canvas")
+    .classList.toggle(
+      "hand",
+      tool === "hand"
     );
 
-  });
+}
+
+
+/* =========================================================
+   DRAWING COORDINATES
+========================================================= */
+
+function svgPoint(
+  event,
+  svg
+){
+
+  const rect =
+    svg.getBoundingClientRect();
+
+  const board =
+    currentArtboard();
+
+  return {
+
+    x:
+      (
+        event.clientX -
+        rect.left
+      ) *
+      board.width /
+      rect.width,
+
+    y:
+      (
+        event.clientY -
+        rect.top
+      ) *
+      board.height /
+      rect.height
+
+  };
 
 }
+
+
+/* =========================================================
+   PENCIL / BRUSH
+========================================================= */
+
+function beginDrawing(
+  event,
+  board,
+  svg
+){
+
+  state.drawing =
+    true;
+
+  const point =
+    svgPoint(
+      event,
+      svg
+    );
+
+
+  state.pathPoints = [
+    point
+  ];
+
+
+  const path =
+    document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "path"
+    );
+
+
+  path.setAttribute(
+    "fill",
+    "none"
+  );
+
+
+  path.setAttribute(
+    "stroke",
+    state.tool === "brush"
+      ? "#9b6cff"
+      : "#111111"
+  );
+
+
+  path.setAttribute(
+    "stroke-width",
+    state.tool === "brush"
+      ? "12"
+      : "3"
+  );
+
+
+  path.setAttribute(
+    "stroke-linecap",
+    "round"
+  );
+
+
+  path.setAttribute(
+    "stroke-linejoin",
+    "round"
+  );
+
+
+  path.classList.add(
+    "vector-path"
+  );
+
+
+  state.currentPath =
+    path;
+
+
+  svg.appendChild(
+    path
+  );
+
+
+  svg.addEventListener(
+    "mousemove",
+    continueDrawing
+  );
+
+
+  window.addEventListener(
+    "mouseup",
+    finishDrawing,
+    {
+      once:true
+    }
+  );
+
+
+  function continueDrawing(e){
+
+    if(!state.drawing)
+      return;
+
+
+    const point =
+      svgPoint(
+        e,
+        svg
+      );
+
+
+    state.pathPoints.push(
+      point
+    );
+
+
+    const d =
+      state.pathPoints
+        .map(
+          (p,index) =>
+            index === 0
+              ? `M ${p.x} ${p.y}`
+              : `L ${p.x} ${p.y}`
+        )
+        .join(" ");
+
+
+    state.currentPath
+      .setAttribute(
+        "d",
+        d
+      );
+
+  }
+
+
+  function finishDrawing(){
+
+    state.drawing =
+      false;
+
+    svg.removeEventListener(
+      "mousemove",
+      continueDrawing
+    );
+
+
+    if(
+      state.pathPoints.length > 1
+    ){
+
+      const d =
+        state.pathPoints
+          .map(
+            (p,index) =>
+              index === 0
+                ? `M ${p.x} ${p.y}`
+                : `L ${p.x} ${p.y}`
+          )
+          .join(" ");
+
+
+      board.objects.push({
+
+        id:uid("path"),
+
+        name:
+          state.tool === "brush"
+            ? "Brush Stroke"
+            : "Pencil Path",
+
+        type:"path",
+
+        d,
+
+        stroke:
+          state.tool === "brush"
+            ? "#9b6cff"
+            : "#111111",
+
+        strokeWidth:
+          state.tool === "brush"
+            ? 12
+            : 3
+
+      });
+
+
+      snapshot();
+
+      render();
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   PEN TOOL
+========================================================= */
+
+$("canvas")
+.addEventListener(
+  "click",
+  event => {
+
+    if(
+      state.tool !== "pen"
+    )
+      return;
+
+
+    const board =
+      currentArtboard();
+
+    if(!board)
+      return;
+
+
+    const artboardElement =
+      event.target.closest(
+        ".artboard"
+      );
+
+
+    if(!artboardElement)
+      return;
+
+
+    const svg =
+      artboardElement.querySelector(
+        "svg"
+      );
+
+
+    const point =
+      svgPoint(
+        event,
+        svg
+      );
+
+
+    state.pathPoints.push(
+      point
+    );
+
+
+    if(
+      !state.currentPath
+    ){
+
+      state.currentPath =
+        document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "path"
+        );
+
+
+      state.currentPath.setAttribute(
+        "fill",
+        "none"
+      );
+
+
+      state.currentPath.setAttribute(
+        "stroke",
+        "#111111"
+      );
+
+
+      state.currentPath.setAttribute(
+        "stroke-width",
+        "3"
+      );
+
+
+      state.currentPath.setAttribute(
+        "stroke-linecap",
+        "round"
+      );
+
+
+      svg.appendChild(
+        state.currentPath
+      );
+
+    }
+
+
+    const d =
+      state.pathPoints
+        .map(
+          (p,index) =>
+            index === 0
+              ? `M ${p.x} ${p.y}`
+              : `L ${p.x} ${p.y}`
+        )
+        .join(" ");
+
+
+    state.currentPath
+      .setAttribute(
+        "d",
+        d
+      );
+
+  }
+);
+
+
+/* Double-click finishes Pen path */
+
+$("canvas")
+.addEventListener(
+  "dblclick",
+  event => {
+
+    if(
+      state.tool !== "pen"
+    )
+      return;
+
+
+    const board =
+      currentArtboard();
+
+    if(
+      !board ||
+      state.pathPoints.length < 2
+    )
+      return;
+
+
+    const d =
+      state.pathPoints
+        .map(
+          (p,index) =>
+            index === 0
+              ? `M ${p.x} ${p.y}`
+              : `L ${p.x} ${p.y}`
+        )
+        .join(" ");
+
+
+    board.objects.push({
+
+      id:uid("pen"),
+
+      name:"Pen Path",
+
+      type:"path",
+
+      d,
+
+      stroke:"#111111",
+
+      strokeWidth:3
+
+    });
+
+
+    state.pathPoints=[];
+    state.currentPath=null;
+
+    snapshot();
+
+    render();
+
+  }
+);
+
+
+/* =========================================================
+   SHAPE CREATION
+========================================================= */
+
+$("canvas")
+.addEventListener(
+  "dblclick",
+  event => {
+
+    if(
+      ![
+        "rectangle",
+        "circle",
+        "line",
+        "text"
+      ].includes(
+        state.tool
+      )
+    )
+      return;
+
+
+    const board =
+      currentArtboard();
+
+    if(!board)
+      return;
+
+
+    const artboardElement =
+      event.target.closest(
+        ".artboard"
+      );
+
+
+    if(!artboardElement)
+      return;
+
+
+    const svg =
+      artboardElement.querySelector(
+        "svg"
+      );
+
+
+    const point =
+      svgPoint(
+        event,
+        svg
+      );
+
+
+    if(
+      state.tool ===
+      "rectangle"
+    ){
+
+      board.objects.push({
+
+        id:uid("rect"),
+
+        name:"Rectangle",
+
+        type:"rect",
+
+        x:point.x-100,
+
+        y:point.y-75,
+
+        width:200,
+
+        height:150,
+
+        fill:"#9b6cff",
+
+        stroke:"#111111",
+
+        strokeWidth:2
+
+      });
+
+    }
+
+
+    if(
+      state.tool ===
+      "circle"
+    ){
+
+      board.objects.push({
+
+        id:uid("circle"),
+
+        name:"Circle",
+
+        type:"circle",
+
+        x:point.x,
+
+        y:point.y,
+
+        radius:80,
+
+        fill:"#25e58b",
+
+        stroke:"#111111",
+
+        strokeWidth:2
+
+      });
+
+    }
+
+
+    if(
+      state.tool ===
+      "line"
+    ){
+
+      board.objects.push({
+
+        id:uid("line"),
+
+        name:"Line",
+
+        type:"line",
+
+        x1:point.x-100,
+
+        y1:point.y,
+
+        x2:point.x+100,
+
+        y2:point.y,
+
+        stroke:"#111111",
+
+        strokeWidth:3
+
+      });
+
+    }
+
+
+    if(
+      state.tool ===
+      "text"
+    ){
+
+      const text =
+        prompt(
+          "Enter text:"
+        );
+
+
+      if(!text)
+        return;
+
+
+      board.objects.push({
+
+        id:uid("text"),
+
+        name:"Text",
+
+        type:"text",
+
+        x:point.x,
+
+        y:point.y,
+
+        text,
+
+        fontSize:48,
+
+        fontWeight:700,
+
+        fill:"#111111"
+
+      });
+
+    }
+
+
+    snapshot();
+
+    render();
+
+  }
+);
+
+
+/* =========================================================
+   FIT / HOME
+========================================================= */
+
+$("fitArtboard")
+.addEventListener(
+  "click",
+  () => {
+
+    const board =
+      currentArtboard();
+
+    if(!board)
+      return;
+
+
+    state.zoom =
+      Math.min(
+        1,
+        650 / board.width
+      );
+
+
+    $("zoomDisplay")
+      .textContent =
+      Math.round(
+        state.zoom * 100
+      ) + "%";
+
+
+    $("canvasInner")
+      .style.transform =
+      `translate(-50%,-50%) scale(${state.zoom})`;
+
+  }
+);
+
+
+/* =========================================================
+   ZOOM
+========================================================= */
+
+$("zoomIn")
+.addEventListener(
+  "click",
+  () => {
+
+    state.zoom =
+      Math.min(
+        3,
+        state.zoom + .1
+      );
+
+    updateZoom();
+
+  }
+);
+
+
+$("zoomOut")
+.addEventListener(
+  "click",
+  () => {
+
+    state.zoom =
+      Math.max(
+        .1,
+        state.zoom - .1
+      );
+
+    updateZoom();
+
+  }
+);
+
+
+function updateZoom(){
+
+  $("zoomDisplay")
+    .textContent =
+    Math.round(
+      state.zoom * 100
+    ) + "%";
+
+
+  $("canvasInner")
+    .style.transform =
+    `translate(-50%,-50%) scale(${state.zoom})`;
+
+}
+
+
+/* =========================================================
+   ADD ARTBOARD
+========================================================= */
+
+function openArtboardModal(){
+
+  $("artboardModal")
+    .classList.add("show");
+
+}
+
+
+$("addArtboard")
+.addEventListener(
+  "click",
+  openArtboardModal
+);
+
+
+$("workspaceAddArtboard")
+.addEventListener(
+  "click",
+  openArtboardModal
+);
+
+
+$("customArtboard")
+.addEventListener(
+  "click",
+  openArtboardModal
+);
+
+
+$("closeModal")
+.addEventListener(
+  "click",
+  () => {
+
+    $("artboardModal")
+      .classList.remove("show");
+
+  }
+);
+
+
+/* =========================================================
+   CREATE CUSTOM ARTBOARD
+========================================================= */
+
+$("createArtboard")
+.addEventListener(
+  "click",
+  () => {
+
+    const board = {
+
+      id:uid("artboard"),
+
+      name:
+        $("customName").value
+        ||"Custom Artboard",
+
+      width:
+        Number(
+          $("customWidth").value
+        )
+        ||1200,
+
+      height:
+        Number(
+          $("customHeight").value
+        )
+        ||1800,
+
+      background:
+        $("customBackground").value
+        ||"#ffffff",
+
+      objects:[]
+
+    };
+
+
+    state.artboards.push(
+      board
+    );
+
+
+    state.activeArtboard =
+      board.id;
+
+
+    $("artboardModal")
+      .classList.remove("show");
+
+
+    snapshot();
+
+    render();
+
+  }
+);
+
+
+/* =========================================================
+   PRESETS
+========================================================= */
+
+const presets = {
+
+  book:{
+    name:"Book Cover",
+    width:1200,
+    height:1800
+  },
+
+  novel:{
+    name:"Novel / Title Page",
+    width:1200,
+    height:1800
+  },
+
+  webtoon:{
+    name:"Webtoon",
+    width:1080,
+    height:1920
+  },
+
+  character:{
+    name:"Character Art",
+    width:1600,
+    height:1200
+  },
+
+  bookmark:{
+    name:"Bookmark",
+    width:600,
+    height:1800
+  },
+
+  square:{
+    name:"Square",
+    width:1200,
+    height:1200
+  }
+
+};
+
+
+document
+.querySelectorAll("[data-preset]")
+.forEach(
+  button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const preset =
+          presets[
+            button.dataset.preset
+          ];
+
+
+        const board = {
+
+          id:uid("artboard"),
+
+          name:preset.name,
+
+          width:preset.width,
+
+          height:preset.height,
+
+          background:"#ffffff",
+
+          objects:[]
+
+        };
+
+
+        state.artboards.push(
+          board
+        );
+
+
+        state.activeArtboard =
+          board.id;
+
+
+        snapshot();
+
+        render();
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   LEFT PANEL NAVIGATION
+========================================================= */
+
+document
+.querySelectorAll("[data-panel]")
+.forEach(
+  button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        document
+        .querySelectorAll(
+          "[data-panel]"
+        )
+        .forEach(
+          b =>
+            b.classList.remove(
+              "active"
+            )
+        );
+
+
+        button.classList.add(
+          "active"
+        );
+
+
+        document
+        .querySelectorAll(
+          ".left-content > .panel"
+        )
+        .forEach(
+          panel =>
+            panel.classList.add(
+              "hidden"
+            )
+        );
+
+
+        $(button.dataset.panel)
+          .classList.remove(
+            "hidden"
+          );
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   TEMPLATE TABS
+========================================================= */
+
+document
+.querySelectorAll("[data-template]")
+.forEach(
+  button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        document
+        .querySelectorAll(
+          "[data-template]"
+        )
+        .forEach(
+          b =>
+            b.classList.remove(
+              "active"
+            )
+        );
+
+
+        button.classList.add(
+          "active"
+        );
+
+
+        [
+          "canvasTemplates",
+          "designTemplates",
+          "myTemplates",
+          "communityTemplates"
+        ]
+        .forEach(
+          id =>
+            $(id)
+              .classList.add(
+                "hidden"
+              )
+        );
+
+
+        $(
+          button.dataset.template
+        )
+        .classList.remove(
+          "hidden"
+        );
+
+      }
+    );
+
+  }
+);
+
 
 /* =========================================================
    SAVE TEMPLATE
 ========================================================= */
 
-$("saveTemplateButton")
-.addEventListener("click",()=>{
+$("saveTemplate")
+.addEventListener(
+  "click",
+  () => {
 
-  const artboard=
-    currentArtboard();
+    const board =
+      currentArtboard();
 
-  if(!artboard)return;
+    if(!board)
+      return;
 
-  const name=
-    prompt(
-      "Name your template:",
-      artboard.name+" Template"
-    );
 
-  if(!name)return;
+    const name =
+      prompt(
+        "Name this template:",
+        board.name +
+        " Template"
+      );
 
-  state.myTemplates.push({
 
-    name,
-    width:artboard.width,
-    height:artboard.height
+    if(!name)
+      return;
 
-  });
 
-  renderMyTemplates();
+    const list =
+      $("myTemplateList");
 
-});
 
-function renderMyTemplates(){
+    const card =
+      document.createElement(
+        "button"
+      );
 
-  const list=
-    $("myTemplatesList");
 
-  list.innerHTML="";
+    card.className =
+      "template";
 
-  state.myTemplates.forEach(template=>{
 
-    const card=
-      document.createElement("button");
+    card.style.width =
+      "100%";
 
-    card.className=
-      "card purple-card";
 
-    card.style.width="100%";
-    card.style.marginTop="7px";
+    card.style.marginTop =
+      "7px";
 
-    card.innerHTML=`
 
-      <div class="icon">✦</div>
+    card.innerHTML = `
 
-      ${template.name}
+      <div class="template-thumb">
+        ✦
+      </div>
 
-      <small>
-        ${template.width} × ${template.height}
-      </small>
+      <div class="template-title">
+        ${name}
+      </div>
+
+      <div class="template-meta">
+        ${board.width} × ${board.height}
+      </div>
 
     `;
 
-    list.appendChild(card);
 
-  });
+    list.appendChild(
+      card
+    );
 
-}
+  }
+);
+
 
 /* =========================================================
    COMMUNITY SUBMISSION
 ========================================================= */
 
-$("submitCommunityButton")
-.addEventListener("click",()=>{
-
-  $("communityModal")
-    .classList.add("show");
-
-});
-
-$("cancelCommunity")
-.addEventListener("click",()=>{
-
-  $("communityModal")
-    .classList.remove("show");
-
-});
-
 $("submitCommunity")
-.addEventListener("click",()=>{
+.addEventListener(
+  "click",
+  () => {
 
-  $("communityModal")
-    .classList.remove("show");
+    const board =
+      currentArtboard();
 
-  alert(
-    "Your design has been submitted for community review. Approved contributions earn points."
-  );
+    if(!board)
+      return;
 
-});
 
-/* =========================================================
-   QUICK COLORS
-========================================================= */
-
-document
-.querySelectorAll(".quick-color")
-.forEach(color=>{
-
-  color.addEventListener("click",()=>{
-
-    console.log(
-      "Selected color:",
-      getComputedStyle(color).backgroundColor
+    alert(
+      "Your design is ready to be submitted to the Just Angles community for review. Approved human-created contributions earn community points."
     );
-
-  });
-
-});
-
-/* =========================================================
-   UNDO / REDO
-========================================================= */
-
-$("undoBtn")
-.addEventListener("click",()=>{
-
-  if(state.historyIndex<=0){
-
-    alert("Nothing to undo.");
-
-    return;
 
   }
+);
 
-  state.historyIndex--;
 
-  state.artboards=
-    JSON.parse(
-      state.history[state.historyIndex]
-    );
+/* =========================================================
+   KEYBOARD SHORTCUTS
+========================================================= */
 
-});
+document.addEventListener(
+  "keydown",
+  event => {
 
-$("redoBtn")
-.addEventListener("click",()=>{
+    if(
+      event.target.tagName ===
+      "INPUT"
+    )
+      return;
 
-  if(
-    state.historyIndex>=
-    state.history.length-1
-  ){
 
-    alert("Nothing to redo.");
+    const key =
+      event.key.toLowerCase();
 
-    return;
+
+    const shortcuts = {
+
+      v:"select",
+
+      a:"direct",
+
+      p:"pen",
+
+      n:"pencil",
+
+      b:"brush",
+
+      h:"hand",
+
+      z:"zoom"
+
+    };
+
+
+    if(
+      shortcuts[key]
+    ){
+
+      setTool(
+        shortcuts[key]
+      );
+
+    }
+
+
+    if(
+      event.key ===
+      "Home"
+    ){
+
+      $("fitArtboard")
+        .click();
+
+    }
+
+
+    if(
+      event.key ===
+      "Escape"
+    ){
+
+      $("artboardModal")
+        .classList.remove(
+          "show"
+        );
+
+    }
 
   }
+);
 
-  state.historyIndex++;
 
-  state.artboards=
-    JSON.parse(
-      state.history[state.historyIndex]
+/* =========================================================
+   UNDO
+========================================================= */
+
+$("undo")
+.addEventListener(
+  "click",
+  () => {
+
+    if(
+      state.historyIndex <= 0
+    ){
+
+      return;
+
+    }
+
+
+    state.historyIndex--;
+
+    restoreHistory(
+      state.historyIndex
     );
 
-});
+  }
+);
+
+
+/* =========================================================
+   REDO
+========================================================= */
+
+$("redo")
+.addEventListener(
+  "click",
+  () => {
+
+    if(
+      state.historyIndex >=
+      state.history.length - 1
+    ){
+
+      return;
+
+    }
+
+
+    state.historyIndex++;
+
+    restoreHistory(
+      state.historyIndex
+    );
+
+  }
+);
+
 
 /* =========================================================
    EXPORT
 ========================================================= */
 
-$("exportBtn")
-.addEventListener("click",()=>{
+$("export")
+.addEventListener(
+  "click",
+  () => {
 
-  alert(
-    "Export system ready for SVG, PNG, PDF and other formats."
-  );
+    const board =
+      currentArtboard();
 
-});
+    if(!board)
+      return;
+
+
+    const svg =
+      document.querySelector(
+        ".artboard.selected svg"
+      );
+
+
+    if(!svg)
+      return;
+
+
+    const serializer =
+      new XMLSerializer();
+
+
+    const source =
+      serializer.serializeToString(
+        svg
+      );
+
+
+    const blob =
+      new Blob(
+        [source],
+        {
+          type:"image/svg+xml"
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(
+        blob
+      );
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.href =
+      url;
+
+
+    link.download =
+      board.name +
+      ".svg";
+
+
+    link.click();
+
+
+    URL.revokeObjectURL(
+      url
+    );
+
+  }
+);
+
 
 /* =========================================================
-   INITIAL STATE
+   INITIALIZE
 ========================================================= */
 
-saveHistory();
+createInitialArtboard();
 
 </script>
 
