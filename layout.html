@@ -12,8 +12,8 @@
             --mint: #00FF88;
             --orange: #FF9F43;
             --bg-canvas: #1E1E1E;     /* Figma Dark Workspace */
-            --bg-panel: #2C2C2C;      /* Panels & Dock Surface */
-            --bg-hover: #383838;
+            --bg-panel: #2C2C2C;      /* Sidebar Panel Surface */
+            --bg-card: #383838;       /* Control Cards */
             --border-dark: #383838;
             --text-main: #FFFFFF;
             --text-muted: #B3B3B3;
@@ -34,7 +34,7 @@
             flex-direction: column;
         }
 
-        /* Top Header Navigation */
+        /* Top Navigation Bar */
         header {
             width: 100%;
             height: 44px;
@@ -59,24 +59,35 @@
 
         .logo-icon { width: 22px; height: 22px; }
 
+        .badge-points {
+            background: rgba(255, 159, 67, 0.15);
+            border: 1px solid var(--orange);
+            color: var(--orange);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
         .header-actions { display: flex; gap: 8px; }
 
         .btn-header {
             padding: 5px 12px;
-            background-color: var(--bg-hover);
+            background-color: var(--bg-card);
             color: var(--text-main);
             border: 1px solid var(--border-dark);
             border-radius: 5px;
             cursor: pointer;
             font-weight: 600;
             font-size: 0.75rem;
+            transition: all 0.15s;
         }
 
         .btn-header:hover { border-color: var(--mint); color: var(--mint); }
         .btn-blue { background-color: var(--accent-blue); border: none; color: #FFF; font-weight: 700; }
-        .btn-blue:hover { background-color: #0077CC; color: #FFF; }
+        .btn-blue:hover { background-color: #0077CC; }
 
-        /* Figma Workspace Layout */
+        /* Application Workspace Grid */
         .workspace-grid {
             display: flex;
             flex: 1;
@@ -84,9 +95,9 @@
             position: relative;
         }
 
-        /* Left Panel (Layers & Assets) */
+        /* Left Sidebar (Layers, Frames & Assets) */
         .panel-left {
-            width: 240px;
+            width: 260px;
             background-color: var(--bg-panel);
             border-right: 1px solid var(--border-dark);
             display: flex;
@@ -121,7 +132,7 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .panel-title {
@@ -130,7 +141,50 @@
             letter-spacing: 0.5px;
             color: var(--text-muted);
             font-weight: 700;
-            margin-bottom: 4px;
+        }
+
+        .control-group { display: flex; flex-direction: column; gap: 4px; }
+        label { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
+
+        input[type="text"], input[type="number"], select, input[type="color"], input[type="range"] {
+            width: 100%;
+            background-color: var(--bg-canvas);
+            border: 1px solid var(--border-dark);
+            color: #FFF;
+            padding: 5px 8px;
+            border-radius: 4px;
+            font-size: 0.78rem;
+        }
+
+        .tool-btn {
+            padding: 8px 10px;
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border-dark);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.15s;
+        }
+
+        .tool-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 4px;
+        }
+
+        .color-swatch {
+            height: 22px;
+            border-radius: 3px;
+            cursor: pointer;
+            border: 1px solid var(--border-dark);
         }
 
         .layer-item {
@@ -144,37 +198,30 @@
             align-items: center;
         }
 
-        .tool-btn {
-            padding: 7px 10px;
-            background-color: var(--bg-hover);
-            color: var(--text-main);
-            border: 1px solid var(--border-dark);
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.78rem;
-            text-align: left;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .tool-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
-
-        .palette-grid {
+        .asset-vault-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 4px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            background: var(--bg-canvas);
+            padding: 6px;
+            border-radius: 5px;
+            border: 1px solid var(--border-dark);
+            max-height: 120px;
+            overflow-y: auto;
         }
 
-        .color-swatch {
-            height: 20px;
+        .asset-item {
+            width: 100%;
+            height: 45px;
             border-radius: 3px;
+            object-fit: cover;
             cursor: pointer;
             border: 1px solid var(--border-dark);
         }
 
-        /* Center Infinite Canvas Stage */
+        .asset-item:hover { border-color: var(--mint); }
+
+        /* Canvas Stage */
         .stage-viewport {
             flex: 1;
             background-color: var(--bg-canvas);
@@ -185,7 +232,7 @@
             overflow: auto;
         }
 
-        /* Right Panel (Inspector) */
+        /* Right Inspector Panel */
         .panel-right {
             width: 230px;
             background-color: var(--bg-panel);
@@ -198,20 +245,7 @@
             overflow-y: auto;
         }
 
-        .control-group { display: flex; flex-direction: column; gap: 3px; }
-        label { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
-
-        input[type="color"], select, input[type="range"] {
-            width: 100%;
-            background-color: var(--bg-canvas);
-            border: 1px solid var(--border-dark);
-            color: #FFF;
-            padding: 5px 8px;
-            border-radius: 4px;
-            font-size: 0.78rem;
-        }
-
-        /* Floating Bottom Figma Dock Bar */
+        /* Floating Bottom Dock Toolbar */
         .floating-dock {
             position: absolute;
             bottom: 20px;
@@ -234,7 +268,7 @@
             padding: 6px 12px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -242,7 +276,7 @@
             transition: all 0.15s;
         }
 
-        .dock-btn:hover { background-color: var(--bg-hover); color: var(--text-main); }
+        .dock-btn:hover { background-color: var(--bg-card); color: var(--text-main); }
         .dock-btn.active { background-color: var(--accent-blue); color: #FFF; }
     </style>
 </head>
@@ -258,34 +292,52 @@
             Just Angles — Vector Artboards
         </a>
 
+        <div class="badge-points">✦ Points Engine: 120 pts (Community Creator)</div>
+
         <div class="header-actions">
-            <button class="btn-header" onclick="saveProjectVirtual()">Save</button>
-            <button class="btn-header" onclick="loadProjectVirtual()">Load</button>
-            <button class="btn-header btn-blue" onclick="exportTransparentSVG()">Export SVG</button>
+            <button class="btn-header" onclick="saveProjectVirtual()">Save Workspace</button>
+            <button class="btn-header" onclick="loadProjectVirtual()">Load Workspace</button>
+            <button class="btn-header btn-blue" onclick="exportTransparentSVG()">Export Transparent SVG</button>
         </div>
     </header>
 
     <div class="workspace-grid">
-        <!-- Left Layers & Assets Panel -->
+        <!-- Left Sidebar Panel -->
         <div class="panel-left">
             <div class="panel-tabs">
                 <button id="tabLayersBtn" class="tab-btn active" onclick="switchLeftTab('layers')">Layers</button>
-                <button id="tabAssetsBtn" class="tab-btn" onclick="switchLeftTab('assets')">Assets & Character</button>
+                <button id="tabFramesBtn" class="tab-btn" onclick="switchLeftTab('frames')">Artboard Frames</button>
+                <button id="tabAssetsBtn" class="tab-btn" onclick="switchLeftTab('assets')">Vault & Assets</button>
             </div>
 
-            <!-- Layers Tab Content -->
+            <!-- Layers Tab -->
             <div id="layersTabContent" class="panel-content">
                 <div class="panel-title">Canvas Layers</div>
                 <div id="layersList"></div>
             </div>
 
-            <!-- Assets Tab Content -->
+            <!-- Frames Tab -->
+            <div id="framesTabContent" class="panel-content" style="display:none;">
+                <div class="panel-title">Add Artboard Frame</div>
+                <div class="control-group">
+                    <label>Preset Dimensions</label>
+                    <select id="framePresetSelect">
+                        <option value="400x550">Portrait Frame (400 x 550)</option>
+                        <option value="600x400">Landscape Frame (600 x 400)</option>
+                        <option value="500x500">Square Card (500 x 500)</option>
+                        <option value="450x800">Webtoon Panel (450 x 800)</option>
+                    </select>
+                </div>
+                <button class="tool-btn" onclick="addCustomFrame()">+ Add Side-by-Side Frame</button>
+            </div>
+
+            <!-- Assets & Character Builder Tab -->
             <div id="assetsTabContent" class="panel-content" style="display:none;">
                 <div class="panel-title">Character Builder</div>
-                <button class="tool-btn" onclick="addBaseAvatar()">+ Add Base Avatar</button>
-                <button class="tool-btn" onclick="addAfroHair()">+ Add Afro Hair</button>
+                <button class="tool-btn" onclick="addBaseAvatar()">+ Character Base</button>
+                <button class="tool-btn" onclick="addAfroHair()">+ Hair Asset</button>
                 
-                <div class="panel-title" style="margin-top:8px;">Skin Tone Palette</div>
+                <div class="panel-title" style="margin-top:6px;">Skin Tone Palette</div>
                 <div class="palette-grid">
                     <div class="color-swatch" style="background: #2D1A12;" onclick="setSkinTone('#2D1A12')"></div>
                     <div class="color-swatch" style="background: #3B2219;" onclick="setSkinTone('#3B2219')"></div>
@@ -295,20 +347,26 @@
                     <div class="color-swatch" style="background: #E0AC69;" onclick="setSkinTone('#E0AC69')"></div>
                 </div>
 
-                <div class="panel-title" style="margin-top:12px;">Asset Vault</div>
-                <button class="tool-btn" onclick="document.getElementById('assetUploader').click()">📷 Upload Vector/Image</button>
-                <input type="file" id="assetUploader" style="display:none;" onchange="handleFileUpload(event)">
+                <div class="panel-title" style="margin-top:10px;">Personal Media Vault</div>
+                <button class="tool-btn" onclick="document.getElementById('vaultUploader').click()">📷 Upload Image / Vector</button>
+                <input type="file" id="vaultUploader" style="display:none;" onchange="handleFileUpload(event)">
+
+                <label style="margin-top:6px;">Uploaded Vault Bank</label>
+                <div id="assetVaultBank" class="asset-vault-grid">
+                    <span style="font-size:0.65rem; color:var(--text-muted); grid-column: 1 / -1;">Vault empty...</span>
+                </div>
             </div>
         </div>
 
         <!-- Center Workspace Canvas Stage -->
         <div class="stage-viewport">
-            <canvas id="artboardCanvas" width="950" height="750"></canvas>
+            <canvas id="artboardCanvas" width="1800" height="900"></canvas>
 
             <!-- Floating Figma Bottom Dock -->
             <div class="floating-dock">
                 <button id="dockSelect" class="dock-btn active" onclick="setSelectMode()">✦ Move</button>
-                <button class="dock-btn" onclick="addArtboardFrame()"># Frame</button>
+                <button id="dockPencil" class="dock-btn" onclick="setFreehandPencilMode()">✏ Vector Pencil</button>
+                <button class="dock-btn" onclick="addCustomFrame()"># Frame</button>
                 <button class="dock-btn" onclick="addRectangle()">□ Rect</button>
                 <button class="dock-btn" onclick="addCircle()">○ Circle</button>
                 <button class="dock-btn" onclick="addPenPath()">✒ Pen</button>
@@ -318,7 +376,7 @@
 
         <!-- Right Design Inspector Panel -->
         <div class="panel-right">
-            <div class="panel-title">Design Properties</div>
+            <div class="panel-title">Design Inspector</div>
             
             <div class="control-group">
                 <label>Fill Color</label>
@@ -332,7 +390,7 @@
 
             <div class="control-group">
                 <label>Stroke Width (<span id="strokeWidthVal">2</span>px)</label>
-                <input type="range" id="strokeWidthSlider" min="0" max="20" value="2" oninput="applyActiveStrokeWidth(this.value)">
+                <input type="range" id="strokeWidthSlider" min="0" max="25" value="2" oninput="applyActiveStrokeWidth(this.value)">
             </div>
 
             <div class="panel-title" style="margin-top:10px;">Actions</div>
@@ -341,24 +399,34 @@
     </div>
 
     <script>
-        // Initialize Fabric.js Infinite Canvas
+        // Initialize Large Canvas Surface
         const canvas = new fabric.Canvas('artboardCanvas', {
             backgroundColor: '#1E1E1E',
             selection: true
         });
 
-        let artboardCount = 1;
+        // Setup Freehand Pencil Brush
+        canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+        canvas.freeDrawingBrush.color = '#00FF88';
+        canvas.freeDrawingBrush.width = 3;
 
-        // Initialize White Frame 1 (Figma Style)
+        let frameIndex = 0;
+
+        // Initialize First Frame
         function initDefaultFrame() {
+            createFrame(100, 80, 400, 550, 'Frame 1');
+        }
+
+        function createFrame(leftPos, topPos, widthVal, heightVal, frameTitle) {
+            frameIndex++;
             const frame = new fabric.Rect({
-                left: 260, top: 80, width: 420, height: 550,
+                left: leftPos, top: topPos, width: widthVal, height: heightVal,
                 fill: '#FFFFFF', rx: 4, ry: 4,
-                selectable: true, evented: true, name: 'Frame 1'
+                selectable: true, evented: true, name: frameTitle
             });
 
-            const label = new fabric.Text('Frame 1', {
-                left: 260, top: 58, fontSize: 13, fill: '#B3B3B3',
+            const label = new fabric.Text(frameTitle, {
+                left: leftPos, top: topPos - 22, fontSize: 13, fill: '#B3B3B3',
                 fontFamily: 'Inter, sans-serif', selectable: false
             });
 
@@ -379,55 +447,61 @@
             const objects = canvas.getObjects();
 
             if (objects.length === 0) {
-                layersList.innerHTML = '<span style="font-size:0.7rem; color:var(--text-muted);">No elements on canvas</span>';
+                layersList.innerHTML = '<span style="font-size:0.7rem; color:var(--text-muted);">Canvas empty</span>';
                 return;
             }
 
-            objects.slice().reverse().forEach((obj, idx) => {
+            objects.slice().reverse().forEach((obj) => {
                 const item = document.createElement('div');
                 item.className = 'layer-item';
                 let name = obj.name || obj.type;
+                if (obj.type === 'i-text') name = 'Text';
+                else if (obj.type === 'path') name = 'Pencil Path';
+                
                 item.innerHTML = `<span>${name}</span><span style="color:var(--accent-blue);">Layer</span>`;
                 layersList.appendChild(item);
             });
         }
 
-        // Left Panel Tabs
+        // Left Panel Tabs Navigator
         function switchLeftTab(tab) {
             document.getElementById('tabLayersBtn').classList.toggle('active', tab === 'layers');
+            document.getElementById('tabFramesBtn').classList.toggle('active', tab === 'frames');
             document.getElementById('tabAssetsBtn').classList.toggle('active', tab === 'assets');
+            
             document.getElementById('layersTabContent').style.display = tab === 'layers' ? 'flex' : 'none';
+            document.getElementById('framesTabContent').style.display = tab === 'frames' ? 'flex' : 'none';
             document.getElementById('assetsTabContent').style.display = tab === 'assets' ? 'flex' : 'none';
         }
 
-        // Add White Artboard Frame
-        function addArtboardFrame() {
+        // Side-by-Side Artboard Creator
+        function addCustomFrame() {
             setSelectMode();
-            artboardCount++;
-            const offset = artboardCount * 30 + 100;
-            const frame = new fabric.Rect({
-                left: offset, top: 80, width: 400, height: 520,
-                fill: '#FFFFFF', rx: 4, ry: 4,
-                selectable: true, evented: true, name: `Frame ${artboardCount}`
-            });
-
-            const label = new fabric.Text(`Frame ${artboardCount}`, {
-                left: offset, top: 58, fontSize: 13, fill: '#B3B3B3',
-                fontFamily: 'Inter, sans-serif', selectable: false
-            });
-
-            canvas.add(frame, label);
-            canvas.sendToBack(frame);
+            const preset = document.getElementById('framePresetSelect').value.split('x');
+            const w = parseInt(preset[0], 10);
+            const h = parseInt(preset[1], 10);
+            
+            // Calculate horizontal offset so frames never overlap
+            const nextX = (frameIndex * 500) + 100;
+            createFrame(nextX, 80, w, h, `Frame ${frameIndex + 1}`);
         }
 
-        // Mode Actions
+        // Mode Action Toggles
         function setSelectMode() {
             canvas.isDrawingMode = false;
             document.getElementById('dockSelect').classList.add('active');
+            document.getElementById('dockPencil').classList.remove('active');
         }
 
-        // Inspector Modifications
+        function setFreehandPencilMode() {
+            canvas.isDrawingMode = true;
+            document.getElementById('dockPencil').classList.add('active');
+            document.getElementById('dockSelect').classList.remove('active');
+        }
+
+        // Inspector Controls
         function applyActiveFill(color) {
+            canvas.freeDrawingBrush.color = color;
             const active = canvas.getActiveObject();
             if (active) { active.set('fill', color); canvas.renderAll(); }
         }
@@ -439,15 +513,16 @@
 
         function applyActiveStrokeWidth(val) {
             document.getElementById('strokeWidthVal').innerText = val;
+            canvas.freeDrawingBrush.width = parseInt(val, 10);
             const active = canvas.getActiveObject();
             if (active) { active.set('strokeWidth', parseInt(val, 10)); canvas.renderAll(); }
         }
 
-        // Shape & Vector Tools
+        // Vector Shapes & Text
         function addRectangle() {
             setSelectMode();
             const rect = new fabric.Rect({
-                left: 320, top: 160, width: 120, height: 120,
+                left: 180, top: 180, width: 130, height: 130,
                 fill: document.getElementById('fillColorPicker').value,
                 stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 2
             });
@@ -457,7 +532,7 @@
         function addCircle() {
             setSelectMode();
             const circle = new fabric.Circle({
-                left: 320, top: 160, radius: 60,
+                left: 180, top: 180, radius: 60,
                 fill: document.getElementById('fillColorPicker').value,
                 stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 2
             });
@@ -467,7 +542,7 @@
         function addPenPath() {
             setSelectMode();
             const path = new fabric.Path('M 100 100 Q 200 50 300 200 T 500 300', {
-                left: 320, top: 160, fill: 'transparent',
+                left: 180, top: 180, fill: 'transparent',
                 stroke: document.getElementById('strokeColorPicker').value, strokeWidth: 3
             });
             canvas.add(path); canvas.setActiveObject(path);
@@ -475,8 +550,8 @@
 
         function addText() {
             setSelectMode();
-            const text = new fabric.IText('Vector Text', {
-                left: 320, top: 160, fontSize: 32, fill: '#1E1E1E', fontFamily: 'Inter, sans-serif'
+            const text = new fabric.IText('Editable Vector Text', {
+                left: 180, top: 180, fontSize: 28, fill: '#1E1E1E', fontFamily: 'Inter, sans-serif'
             });
             canvas.add(text); canvas.setActiveObject(text);
         }
@@ -484,16 +559,16 @@
         // Character Builder
         function addBaseAvatar() {
             setSelectMode();
-            const head = new fabric.Circle({ left: 350, top: 180, radius: 50, fill: '#8D5B4C', name: 'skin' });
-            const neck = new fabric.Rect({ left: 386, top: 260, width: 28, height: 40, fill: '#7A4B3D', name: 'skin' });
-            const avatarGroup = new fabric.Group([neck, head], { left: 350, top: 180 });
+            const head = new fabric.Circle({ left: 200, top: 180, radius: 50, fill: '#8D5B4C', name: 'skin' });
+            const neck = new fabric.Rect({ left: 236, top: 260, width: 28, height: 40, fill: '#7A4B3D', name: 'skin' });
+            const avatarGroup = new fabric.Group([neck, head], { left: 200, top: 180 });
             canvas.add(avatarGroup); canvas.setActiveObject(avatarGroup);
         }
 
         function addAfroHair() {
             setSelectMode();
             const afro = new fabric.Circle({
-                left: 320, top: 135, radius: 80, fill: '#1A1A1A', stroke: '#000000', strokeWidth: 2
+                left: 170, top: 135, radius: 80, fill: '#1A1A1A', stroke: '#000000', strokeWidth: 2
             });
             canvas.add(afro); canvas.setActiveObject(afro);
         }
@@ -508,6 +583,7 @@
             }
         }
 
+        // Asset Vault & Upload Engine
         function handleFileUpload(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -515,12 +591,25 @@
             const reader = new FileReader();
             reader.onload = function(f) {
                 const data = f.target.result;
-                fabric.Image.fromURL(data, function(img) {
-                    img.set({ left: 300, top: 200, scaleX: 0.4, scaleY: 0.4 });
-                    canvas.add(img); canvas.setActiveObject(img);
-                });
+
+                // Save to Vault Gallery
+                const bank = document.getElementById('assetVaultBank');
+                const imgThumb = document.createElement('img');
+                imgThumb.src = data;
+                imgThumb.className = 'asset-item';
+                imgThumb.onclick = function() { placeMediaFromVault(data); };
+                bank.appendChild(imgThumb);
+
+                placeMediaFromVault(data);
             };
             reader.readAsDataURL(file);
+        }
+
+        function placeMediaFromVault(data) {
+            fabric.Image.fromURL(data, function(img) {
+                img.set({ left: 180, top: 180, scaleX: 0.4, scaleY: 0.4 });
+                canvas.add(img); canvas.setActiveObject(img);
+            });
         }
 
         function deleteSelected() {
@@ -528,10 +617,10 @@
             if (active) canvas.remove(active);
         }
 
-        // Storage & Export
+        // Storage & SVG Export
         function saveProjectVirtual() {
             localStorage.setItem('just_angles_artboard_project', JSON.stringify(canvas.toJSON()));
-            alert('Artboard workspace saved!');
+            alert('Artboard workspace saved virtual state!');
         }
 
         function loadProjectVirtual() {
@@ -551,7 +640,7 @@
             const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'just-angles-vector-artboard.svg';
+            link.download = 'just-angles-artboards.svg';
             link.click();
         }
     </script>
