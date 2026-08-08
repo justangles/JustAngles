@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Just Angles | 100% Human Design Assets</title>
+    <title>Just Angles | 100% Human Vector Templates</title>
     <style>
         body {
             font-family: system-ui, -apple-system, sans-serif;
@@ -12,28 +12,117 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             min-height: 100vh;
             margin: 0;
-            text-align: center;
-            padding: 20px;
+            padding: 40px 20px;
+            box-sizing: border-box;
         }
-        h1 { font-size: 3rem; margin-bottom: 10px; }
-        p { font-size: 1.25rem; color: #a0a0a0; max-width: 600px; }
+        .header { text-align: center; max-width: 600px; margin-bottom: 40px; }
+        h1 { font-size: 3rem; margin: 10px 0; }
+        p { font-size: 1.2rem; color: #a0a0a0; }
         .tag {
-            background-color: #222;
+            background-color: #1a1a1a;
             border: 1px solid #333;
-            padding: 6px 14px;
+            padding: 6px 16px;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #00ff88;
-            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+        .card {
+            background-color: #161616;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #00ff88;
+        }
+        .preview-box {
+            background: #0d0d0d;
+            border-radius: 8px;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            border: 1px dashed #333;
+        }
+        .card h3 { font-size: 1.1rem; margin: 5px 0; }
+        .card span { font-size: 0.85rem; color: #888; }
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 16px;
+            background-color: #00ff88;
+            color: #000;
+            font-weight: bold;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
-    <div class="tag">100% Human Vectors • Zero AI Flags</div>
-    <h1>Just Angles</h1>
-    <p>The anti-AI graphic design template platform. Clean vector assets for creators, indie authors, and designers.</p>
+    <div class="header">
+        <div class="tag">100% Human Vectors • Zero AI Flags</div>
+        <h1>Just Angles</h1>
+        <p>The anti-AI template and vector ecosystem. Crafted by human designers for indie authors, creators, and engravers.</p>
+    </div>
+
+    <div class="gallery">
+        <div class="card">
+            <div class="preview-box">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+            </div>
+            <h3>Book Cover Typography Kit</h3>
+            <span>Vector SVG • Layered</span><br>
+            <a href="#" class="btn">View Template</a>
+        </div>
+
+        <div class="card">
+            <div class="preview-box">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+            </div>
+            <h3>Social Graphic Layouts</h3>
+            <span>100% Clean Metadata</span><br>
+            <a href="#" class="btn">View Template</a>
+        </div>
+
+        <div class="card">
+            <div class="preview-box">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
+                    <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
+                    <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
+                    <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
+                    <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
+                    <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
+                </svg>
+            </div>
+            <h3>Laser Vector Cut Lines</h3>
+            <span>Clean Anchor Paths</span><br>
+            <a href="#" class="btn">View Template</a>
+        </div>
+    </div>
 </body>
 </html>
