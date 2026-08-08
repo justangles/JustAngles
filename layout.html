@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Just Angles | Vector Artboard Editor</title>
-    <!-- Fabric.js Vector Canvas Engine -->
+    <!-- Fabric.js Vector Engine -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --mint: #00FF88;
             --orange: #FF9F43;
-            --bg-canvas: #1E1E1E;     /* Figma Dark Workspace */
-            --bg-panel: #2C2C2C;      /* Sidebar Panel Surface */
-            --bg-card: #383838;       /* Control Cards */
+            --bg-canvas: #1E1E1E;
+            --bg-panel: #2C2C2C;
+            --bg-card: #383838;
             --border-dark: #383838;
             --text-main: #FFFFFF;
             --text-muted: #B3B3B3;
@@ -34,7 +34,7 @@
             flex-direction: column;
         }
 
-        /* Top Navigation Bar */
+        /* Header Navigation */
         header {
             width: 100%;
             height: 44px;
@@ -59,15 +59,27 @@
 
         .logo-icon { width: 22px; height: 22px; }
 
-        .badge-points {
-            background: rgba(255, 159, 67, 0.15);
-            border: 1px solid var(--orange);
-            color: var(--orange);
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.72rem;
-            font-weight: 600;
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-canvas);
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border-dark);
         }
+
+        .zoom-btn {
+            background: none;
+            border: none;
+            color: #FFF;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 2px 6px;
+            font-size: 0.85rem;
+        }
+
+        .zoom-btn:hover { color: var(--mint); }
 
         .header-actions { display: flex; gap: 8px; }
 
@@ -80,14 +92,12 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 0.75rem;
-            transition: all 0.15s;
         }
 
         .btn-header:hover { border-color: var(--mint); color: var(--mint); }
         .btn-blue { background-color: var(--accent-blue); border: none; color: #FFF; font-weight: 700; }
-        .btn-blue:hover { background-color: #0077CC; }
 
-        /* Application Workspace Grid */
+        /* App Workspace Layout */
         .workspace-grid {
             display: flex;
             flex: 1;
@@ -95,9 +105,9 @@
             position: relative;
         }
 
-        /* Left Sidebar (Layers, Frames & Assets) */
+        /* Left Panel */
         .panel-left {
-            width: 260px;
+            width: 250px;
             background-color: var(--bg-panel);
             border-right: 1px solid var(--border-dark);
             display: flex;
@@ -105,10 +115,7 @@
             z-index: 20;
         }
 
-        .panel-tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border-dark);
-        }
+        .panel-tabs { display: flex; border-bottom: 1px solid var(--border-dark); }
 
         .tab-btn {
             flex: 1;
@@ -143,19 +150,6 @@
             font-weight: 700;
         }
 
-        .control-group { display: flex; flex-direction: column; gap: 4px; }
-        label { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
-
-        input[type="text"], input[type="number"], select, input[type="color"], input[type="range"] {
-            width: 100%;
-            background-color: var(--bg-canvas);
-            border: 1px solid var(--border-dark);
-            color: #FFF;
-            padding: 5px 8px;
-            border-radius: 4px;
-            font-size: 0.78rem;
-        }
-
         .tool-btn {
             padding: 8px 10px;
             background-color: var(--bg-card);
@@ -169,7 +163,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.15s;
         }
 
         .tool-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
@@ -198,6 +191,16 @@
             align-items: center;
         }
 
+        .layer-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dark);
+            color: #FFF;
+            padding: 2px 5px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.68rem;
+        }
+
         .asset-vault-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -219,8 +222,6 @@
             border: 1px solid var(--border-dark);
         }
 
-        .asset-item:hover { border-color: var(--mint); }
-
         /* Canvas Stage */
         .stage-viewport {
             flex: 1;
@@ -234,7 +235,7 @@
 
         /* Right Inspector Panel */
         .panel-right {
-            width: 230px;
+            width: 220px;
             background-color: var(--bg-panel);
             border-left: 1px solid var(--border-dark);
             padding: 12px;
@@ -245,7 +246,19 @@
             overflow-y: auto;
         }
 
-        /* Floating Bottom Dock Toolbar */
+        .control-group { display: flex; flex-direction: column; gap: 4px; }
+        label { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
+
+        input[type="color"], input[type="range"] {
+            width: 100%;
+            background-color: var(--bg-canvas);
+            border: 1px solid var(--border-dark);
+            color: #FFF;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        /* Bottom Floating Dock */
         .floating-dock {
             position: absolute;
             bottom: 20px;
@@ -273,7 +286,6 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            transition: all 0.15s;
         }
 
         .dock-btn:hover { background-color: var(--bg-card); color: var(--text-main); }
@@ -292,49 +304,40 @@
             Just Angles — Vector Artboards
         </a>
 
-        <div class="badge-points">✦ Points Engine: 120 pts (Community Creator)</div>
+        <!-- Canvas Zoom Controls -->
+        <div class="zoom-controls">
+            <button class="zoom-btn" onclick="zoomCanvas(0.9)">-</button>
+            <span id="zoomLevelText" style="font-size:0.75rem; font-weight:600;">100%</span>
+            <button class="zoom-btn" onclick="zoomCanvas(1.1)">+</button>
+            <button class="zoom-btn" style="color:var(--text-muted); font-size:0.7rem;" onclick="resetZoom()">Reset</button>
+        </div>
 
         <div class="header-actions">
-            <button class="btn-header" onclick="saveProjectVirtual()">Save Workspace</button>
-            <button class="btn-header" onclick="loadProjectVirtual()">Load Workspace</button>
-            <button class="btn-header btn-blue" onclick="exportTransparentSVG()">Export Transparent SVG</button>
+            <button class="btn-header" onclick="saveProjectVirtual()">Save</button>
+            <button class="btn-header" onclick="loadProjectVirtual()">Load</button>
+            <button class="btn-header btn-blue" onclick="exportTransparentSVG()">Export SVG</button>
         </div>
     </header>
 
     <div class="workspace-grid">
-        <!-- Left Sidebar Panel -->
+        <!-- Left Panel -->
         <div class="panel-left">
             <div class="panel-tabs">
                 <button id="tabLayersBtn" class="tab-btn active" onclick="switchLeftTab('layers')">Layers</button>
-                <button id="tabFramesBtn" class="tab-btn" onclick="switchLeftTab('frames')">Artboard Frames</button>
-                <button id="tabAssetsBtn" class="tab-btn" onclick="switchLeftTab('assets')">Vault & Assets</button>
+                <button id="tabCharacterBtn" class="tab-btn" onclick="switchLeftTab('character')">Character Design</button>
+                <button id="tabVaultBtn" class="tab-btn" onclick="switchLeftTab('vault')">Media Vault</button>
             </div>
 
-            <!-- Layers Tab -->
+            <!-- Layers Inspector -->
             <div id="layersTabContent" class="panel-content">
-                <div class="panel-title">Canvas Layers</div>
+                <div class="panel-title">Layers Inspector</div>
                 <div id="layersList"></div>
             </div>
 
-            <!-- Frames Tab -->
-            <div id="framesTabContent" class="panel-content" style="display:none;">
-                <div class="panel-title">Add Artboard Frame</div>
-                <div class="control-group">
-                    <label>Preset Dimensions</label>
-                    <select id="framePresetSelect">
-                        <option value="400x550">Portrait Frame (400 x 550)</option>
-                        <option value="600x400">Landscape Frame (600 x 400)</option>
-                        <option value="500x500">Square Card (500 x 500)</option>
-                        <option value="450x800">Webtoon Panel (450 x 800)</option>
-                    </select>
-                </div>
-                <button class="tool-btn" onclick="addCustomFrame()">+ Add Side-by-Side Frame</button>
-            </div>
-
-            <!-- Assets & Character Builder Tab -->
-            <div id="assetsTabContent" class="panel-content" style="display:none;">
-                <div class="panel-title">Character Builder</div>
-                <button class="tool-btn" onclick="addBaseAvatar()">+ Character Base</button>
+            <!-- Character Design Tab -->
+            <div id="characterTabContent" class="panel-content" style="display:none;">
+                <div class="panel-title">Character Design</div>
+                <button class="tool-btn" onclick="addBaseAvatar()">+ Base Avatar</button>
                 <button class="tool-btn" onclick="addAfroHair()">+ Hair Asset</button>
                 
                 <div class="panel-title" style="margin-top:6px;">Skin Tone Palette</div>
@@ -346,27 +349,29 @@
                     <div class="color-swatch" style="background: #C68642;" onclick="setSkinTone('#C68642')"></div>
                     <div class="color-swatch" style="background: #E0AC69;" onclick="setSkinTone('#E0AC69')"></div>
                 </div>
+            </div>
 
-                <div class="panel-title" style="margin-top:10px;">Personal Media Vault</div>
-                <button class="tool-btn" onclick="document.getElementById('vaultUploader').click()">📷 Upload Image / Vector</button>
+            <!-- Media Vault Tab -->
+            <div id="vaultTabContent" class="panel-content" style="display:none;">
+                <div class="panel-title">Personal Assets</div>
+                <button class="tool-btn" onclick="document.getElementById('vaultUploader').click()">📷 Upload SVG / Image</button>
                 <input type="file" id="vaultUploader" style="display:none;" onchange="handleFileUpload(event)">
 
-                <label style="margin-top:6px;">Uploaded Vault Bank</label>
-                <div id="assetVaultBank" class="asset-vault-grid">
+                <div id="assetVaultBank" class="asset-vault-grid" style="margin-top:8px;">
                     <span style="font-size:0.65rem; color:var(--text-muted); grid-column: 1 / -1;">Vault empty...</span>
                 </div>
             </div>
         </div>
 
-        <!-- Center Workspace Canvas Stage -->
+        <!-- Canvas Stage -->
         <div class="stage-viewport">
             <canvas id="artboardCanvas" width="1800" height="900"></canvas>
 
-            <!-- Floating Figma Bottom Dock -->
+            <!-- Bottom Floating Dock Bar -->
             <div class="floating-dock">
                 <button id="dockSelect" class="dock-btn active" onclick="setSelectMode()">✦ Move</button>
+                <button id="dockFrame" class="dock-btn" onclick="enableFrameDrawMode()"># Draw Frame</button>
                 <button id="dockPencil" class="dock-btn" onclick="setFreehandPencilMode()">✏ Vector Pencil</button>
-                <button class="dock-btn" onclick="addCustomFrame()"># Frame</button>
                 <button class="dock-btn" onclick="addRectangle()">□ Rect</button>
                 <button class="dock-btn" onclick="addCircle()">○ Circle</button>
                 <button class="dock-btn" onclick="addPenPath()">✒ Pen</button>
@@ -374,7 +379,7 @@
             </div>
         </div>
 
-        <!-- Right Design Inspector Panel -->
+        <!-- Right Design Inspector -->
         <div class="panel-right">
             <div class="panel-title">Design Inspector</div>
             
@@ -399,33 +404,35 @@
     </div>
 
     <script>
-        // Initialize Large Canvas Surface
         const canvas = new fabric.Canvas('artboardCanvas', {
             backgroundColor: '#1E1E1E',
             selection: true
         });
 
-        // Setup Freehand Pencil Brush
+        // Setup Pencil Brush
         canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
         canvas.freeDrawingBrush.color = '#00FF88';
         canvas.freeDrawingBrush.width = 3;
 
-        let frameIndex = 0;
+        let frameIndex = 1;
+        let isDrawingFrame = false;
+        let frameStartPoint = null;
+        let tempFrameRect = null;
+        let currentZoom = 1.0;
 
-        // Initialize First Frame
+        // Initialize Default Side-by-Side Artboard Frame
         function initDefaultFrame() {
-            createFrame(100, 80, 400, 550, 'Frame 1');
+            createFrameObj(100, 80, 420, 550, 'Frame 1');
         }
 
-        function createFrame(leftPos, topPos, widthVal, heightVal, frameTitle) {
-            frameIndex++;
+        function createFrameObj(leftPos, topPos, w, h, title) {
             const frame = new fabric.Rect({
-                left: leftPos, top: topPos, width: widthVal, height: heightVal,
+                left: leftPos, top: topPos, width: w, height: h,
                 fill: '#FFFFFF', rx: 4, ry: 4,
-                selectable: true, evented: true, name: frameTitle
+                selectable: true, evented: true, name: title
             });
 
-            const label = new fabric.Text(frameTitle, {
+            const label = new fabric.Text(title, {
                 left: leftPos, top: topPos - 22, fontSize: 13, fill: '#B3B3B3',
                 fontFamily: 'Inter, sans-serif', selectable: false
             });
@@ -436,7 +443,72 @@
 
         initDefaultFrame();
 
-        // Canvas Change Event Triggers
+        // Canvas Zoom Controls
+        function zoomCanvas(factor) {
+            currentZoom = currentZoom * factor;
+            canvas.setZoom(currentZoom);
+            document.getElementById('zoomLevelText').innerText = `${Math.round(currentZoom * 100)}%`;
+        }
+
+        function resetZoom() {
+            currentZoom = 1.0;
+            canvas.setZoom(1.0);
+            document.getElementById('zoomLevelText').innerText = '100%';
+        }
+
+        // Draw Custom Frame Click & Drag Interactive Engine
+        function enableFrameDrawMode() {
+            setSelectMode();
+            isDrawingFrame = true;
+            canvas.defaultCursor = 'crosshair';
+            document.getElementById('dockFrame').classList.add('active');
+            document.getElementById('dockSelect').classList.remove('active');
+        }
+
+        canvas.on('mouse:down', function(o) {
+            if (!isDrawingFrame) return;
+            const pointer = canvas.getPointer(o.e);
+            frameStartPoint = { x: pointer.x, y: pointer.y };
+            tempFrameRect = new fabric.Rect({
+                left: pointer.x, top: pointer.y, width: 0, height: 0,
+                fill: '#FFFFFF', stroke: '#0C8CE9', strokeWidth: 1, rx: 4, ry: 4
+            });
+            canvas.add(tempFrameRect);
+        });
+
+        canvas.on('mouse:move', function(o) {
+            if (!isDrawingFrame || !tempFrameRect) return;
+            const pointer = canvas.getPointer(o.e);
+            if (frameStartPoint.x > pointer.x) tempFrameRect.set({ left: Math.abs(pointer.x) });
+            if (frameStartPoint.y > pointer.y) tempFrameRect.set({ top: Math.abs(pointer.y) });
+            tempFrameRect.set({ width: Math.abs(frameStartPoint.x - pointer.x) });
+            tempFrameRect.set({ height: Math.abs(frameStartPoint.y - pointer.y) });
+            canvas.renderAll();
+        });
+
+        canvas.on('mouse:up', function(o) {
+            if (!isDrawingFrame || !tempFrameRect) return;
+            isDrawingFrame = false;
+            canvas.defaultCursor = 'default';
+            document.getElementById('dockFrame').classList.remove('active');
+            document.getElementById('dockSelect').classList.add('active');
+
+            frameIndex++;
+            const title = `Frame ${frameIndex}`;
+            tempFrameRect.set({ stroke: 'transparent', strokeWidth: 0, name: title });
+            
+            const label = new fabric.Text(title, {
+                left: tempFrameRect.left, top: tempFrameRect.top - 22, fontSize: 13, fill: '#B3B3B3',
+                fontFamily: 'Inter, sans-serif', selectable: false
+            });
+
+            canvas.add(label);
+            canvas.sendToBack(tempFrameRect);
+            tempFrameRect = null;
+            canvas.renderAll();
+        });
+
+        // Canvas Change Event Triggers for Layers
         canvas.on('object:added', updateLayersList);
         canvas.on('object:modified', updateLayersList);
         canvas.on('object:removed', updateLayersList);
@@ -451,42 +523,54 @@
                 return;
             }
 
-            objects.slice().reverse().forEach((obj) => {
+            objects.slice().reverse().forEach((obj, idx) => {
+                const realIdx = objects.length - 1 - idx;
                 const item = document.createElement('div');
                 item.className = 'layer-item';
                 let name = obj.name || obj.type;
                 if (obj.type === 'i-text') name = 'Text';
-                else if (obj.type === 'path') name = 'Pencil Path';
+                else if (obj.type === 'path') name = 'Vector Path';
                 
-                item.innerHTML = `<span>${name}</span><span style="color:var(--accent-blue);">Layer</span>`;
+                item.innerHTML = `
+                    <span>${name}</span>
+                    <div style="display:flex; gap:3px;">
+                        <button class="layer-btn" onclick="moveLayerUp(${realIdx})">▲</button>
+                        <button class="layer-btn" onclick="moveLayerDown(${realIdx})">▼</button>
+                    </div>`;
                 layersList.appendChild(item);
             });
         }
 
-        // Left Panel Tabs Navigator
+        function moveLayerUp(idx) {
+            const objects = canvas.getObjects();
+            if (idx < objects.length - 1) {
+                canvas.bringForward(objects[idx]);
+                canvas.renderAll();
+                updateLayersList();
+            }
+        }
+
+        function moveLayerDown(idx) {
+            const objects = canvas.getObjects();
+            if (idx > 0) {
+                canvas.sendBackwards(objects[idx]);
+                canvas.renderAll();
+                updateLayersList();
+            }
+        }
+
+        // Left Panel Tabs
         function switchLeftTab(tab) {
             document.getElementById('tabLayersBtn').classList.toggle('active', tab === 'layers');
-            document.getElementById('tabFramesBtn').classList.toggle('active', tab === 'frames');
-            document.getElementById('tabAssetsBtn').classList.toggle('active', tab === 'assets');
+            document.getElementById('tabCharacterBtn').classList.toggle('active', tab === 'character');
+            document.getElementById('tabVaultBtn').classList.toggle('active', tab === 'vault');
             
             document.getElementById('layersTabContent').style.display = tab === 'layers' ? 'flex' : 'none';
-            document.getElementById('framesTabContent').style.display = tab === 'frames' ? 'flex' : 'none';
-            document.getElementById('assetsTabContent').style.display = tab === 'assets' ? 'flex' : 'none';
+            document.getElementById('characterTabContent').style.display = tab === 'character' ? 'flex' : 'none';
+            document.getElementById('vaultTabContent').style.display = tab === 'vault' ? 'flex' : 'none';
         }
 
-        // Side-by-Side Artboard Creator
-        function addCustomFrame() {
-            setSelectMode();
-            const preset = document.getElementById('framePresetSelect').value.split('x');
-            const w = parseInt(preset[0], 10);
-            const h = parseInt(preset[1], 10);
-            
-            // Calculate horizontal offset so frames never overlap
-            const nextX = (frameIndex * 500) + 100;
-            createFrame(nextX, 80, w, h, `Frame ${frameIndex + 1}`);
-        }
-
-        // Mode Action Toggles
+        // Mode Actions
         function setSelectMode() {
             canvas.isDrawingMode = false;
             document.getElementById('dockSelect').classList.add('active');
@@ -583,7 +667,7 @@
             }
         }
 
-        // Asset Vault & Upload Engine
+        // Media Upload Handler
         function handleFileUpload(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -592,7 +676,6 @@
             reader.onload = function(f) {
                 const data = f.target.result;
 
-                // Save to Vault Gallery
                 const bank = document.getElementById('assetVaultBank');
                 const imgThumb = document.createElement('img');
                 imgThumb.src = data;
@@ -617,10 +700,10 @@
             if (active) canvas.remove(active);
         }
 
-        // Storage & SVG Export
+        // Storage & Export
         function saveProjectVirtual() {
             localStorage.setItem('just_angles_artboard_project', JSON.stringify(canvas.toJSON()));
-            alert('Artboard workspace saved virtual state!');
+            alert('Artboard workspace saved!');
         }
 
         function loadProjectVirtual() {
@@ -640,7 +723,7 @@
             const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'just-angles-artboards.svg';
+            link.download = 'just-angles-vector-artboards.svg';
             link.click();
         }
     </script>
