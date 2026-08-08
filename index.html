@@ -8,10 +8,10 @@
         :root {
             --mint: #00FF88;
             --orange: #FF9F43;
-            --bg-main: #1C2026;       /* Mid-Tone Charcoal */
-            --bg-surface: #252A32;    /* Panel & Card Surface */
-            --bg-canvas: #121518;     /* Inner Canvas Preview */
-            --border-muted: #343B46;  /* Sleek Slate Border */
+            --bg-main: #1C2026;       /* Mid-Tone Charcoal Backdrop */
+            --bg-surface: #252A32;    /* Card & Panel Surface */
+            --bg-canvas: #121518;     /* Inner Canvas Backdrop */
+            --border-muted: #343B46;  /* Sleek Borders */
             --text-main: #FFFFFF;
             --text-muted: #9DA8B6;
         }
@@ -56,7 +56,7 @@
 
         .nav-links {
             display: flex;
-            gap: 28px;
+            gap: 16px;
             align-items: center;
         }
 
@@ -72,18 +72,35 @@
             color: var(--mint);
         }
 
-        .btn-pro {
+        .btn-nav-artboard {
             background-color: var(--mint);
             color: #0B0E11;
-            padding: 10px 22px;
+            padding: 10px 18px;
             border-radius: 8px;
             font-weight: 700;
             text-decoration: none;
             transition: transform 0.15s, background-color 0.15s;
         }
 
-        .btn-pro:hover {
+        .btn-nav-artboard:hover {
             background-color: #00E67A;
+            transform: translateY(-1px);
+        }
+
+        .btn-nav-layout {
+            background-color: #2F3642;
+            color: var(--text-main);
+            border: 1px solid var(--border-muted);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.15s, border-color 0.15s;
+        }
+
+        .btn-nav-layout:hover {
+            border-color: var(--orange);
+            color: var(--orange);
             transform: translateY(-1px);
         }
 
@@ -91,7 +108,7 @@
         .hero {
             text-align: center;
             max-width: 850px;
-            margin: 70px 20px 40px 20px;
+            margin: 60px 20px 40px 20px;
         }
 
         .badge {
@@ -125,7 +142,14 @@
             margin-bottom: 36px;
         }
 
-        /* Feature Cards */
+        .hero-cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Core Feature Cards */
         .capabilities {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -257,77 +281,79 @@
             Just Angles
         </div>
         <div class="nav-links">
-            <a href="#features">Capabilities</a>
-            <a href="#templates">Templates</a>
-            <a href="editor.html" class="btn-pro">Launch Anti-AI Editor</a>
+            <a href="artboard.html" class="btn-nav-artboard">Artboard Editor</a>
+            <a href="layout.html" class="btn-nav-layout">Layout Editor</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <div class="hero">
-        <div class="badge">100% Anti-AI Engine • <span>Clean Vector Provenance</span></div>
+        <div class="badge">100% Anti-AI Platform • <span>Community Driven</span></div>
         <h1>Design freely without algorithm flags.</h1>
-        <p>The anti-AI graphic template and design platform. Built for authors, illustrators, engravers, and visual storytellers.</p>
-        <a href="editor.html" class="btn-pro" style="font-size: 1.15rem; padding: 16px 32px;">Open Anti-AI Editor</a>
+        <p>The anti-AI graphic template and design platform. Built for authors, illustrators, engravers, and webcomic creators.</p>
+        <div class="hero-cta-group">
+            <a href="artboard.html" class="btn-nav-artboard" style="font-size: 1.1rem; padding: 14px 28px;">Open Artboard Editor</a>
+            <a href="layout.html" class="btn-nav-layout" style="font-size: 1.1rem; padding: 14px 28px;">Open Layout Editor</a>
+        </div>
     </div>
 
     <!-- Core Capabilities -->
     <div class="capabilities" id="features">
         <div class="cap-card">
             <h3><span style="color:var(--mint);">✦</span> Vector Art Engine</h3>
-            <p>Clean anchor point controls, freehand pencil & pen vector drawing, and zero auto-trace noise. Pure scalable vector pathways.</p>
+            <p>Bezier curve pen nodes, freehand pencil drawing, and clean anchor paths. Pure scalable vector output.</p>
         </div>
         <div class="cap-card">
             <h3><span style="color:var(--orange);">✦</span> Layout Design</h3>
-            <p>Multi-page spreads, precise typography hierarchy, trim & bleed margins, and professional book cover formatting.</p>
+            <p>Book cover spreads, Google Fonts hierarchy, trim bleed margins, and uniform page formatting.</p>
         </div>
         <div class="cap-card">
             <h3><span style="color:var(--mint);">✦</span> Multi-Canvas Artboards</h3>
-            <p>Create multiple artboard canvases within a single project tab to design book series, mockups, and social assets side-by-side.</p>
+            <p>Create multiple artboard frames on an infinite workspace to design mockups and assets side-by-side.</p>
         </div>
         <div class="cap-card">
-            <h3><span style="color:var(--orange);">✦</span> Webtoon Scene Builder</h3>
-            <p>Drag-and-drop human-designed character avatars into customizable backgrounds to build diverse webcomic panels.</p>
+            <h3><span style="color:var(--orange);">✦</span> Afrocentric Scene Builder</h3>
+            <p>Modular vector assets with melanin skin tones, afro hair styles, and community creator contributions.</p>
         </div>
     </div>
 
-    <!-- Featured Templates Grid -->
+    <!-- Featured Workspaces -->
     <div class="grid-header" id="templates">
-        <h2>Templates & Workspaces</h2>
-        <span style="color: var(--orange); font-size: 0.95rem; font-weight: 600;">100% Human Lineage</span>
+        <h2>Choose Your Workspace</h2>
+        <span style="color: var(--orange); font-size: 0.95rem; font-weight: 600;">100% Human Vector Lineage</span>
     </div>
 
     <div class="gallery">
         <div class="card">
             <div class="preview-box">
-                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#00FF88" stroke-width="2">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#FF9F43" stroke-width="2">
                     <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                     <polyline points="2 17 12 22 22 17"></polyline>
                     <polyline points="2 12 12 17 22 12"></polyline>
                 </svg>
             </div>
-            <h3>Book Cover & Print Layout</h3>
+            <h3>Book Cover & Print Layouts</h3>
             <div class="card-meta">
-                <span>Multi-Page • Bleed Ready</span>
-                <span style="color: var(--orange);">Clean Meta</span>
+                <span>InDesign Spreads • Bleed Ready</span>
+                <span style="color: var(--orange);">Margins Set</span>
             </div>
-            <a href="editor.html" class="btn-card">Launch Workspace</a>
+            <a href="layout.html" class="btn-card">Launch Layout Editor</a>
         </div>
 
         <div class="card">
             <div class="preview-box">
-                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#FF9F43" stroke-width="2">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#00FF88" stroke-width="2">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                     <circle cx="8.5" cy="8.5" r="1.5"></circle>
                     <polyline points="21 15 16 10 5 21"></polyline>
                 </svg>
             </div>
-            <h3>Webtoon Avatar & Scene Builder</h3>
+            <h3>Webtoon Avatar & Multi-Artboards</h3>
             <div class="card-meta">
-                <span>Multi-Artboard Comic Panel</span>
-                <span style="color: var(--mint);">Diverse Assets</span>
+                <span>Figma Style • Pen Tool</span>
+                <span style="color: var(--mint);">Afrocentric Assets</span>
             </div>
-            <a href="editor.html" class="btn-card">Launch Workspace</a>
+            <a href="artboard.html" class="btn-card">Launch Artboard Editor</a>
         </div>
 
         <div class="card">
@@ -340,10 +366,10 @@
             </div>
             <h3>Laser Vector Cut Lines</h3>
             <div class="card-meta">
-                <span>Clean Anchor Paths</span>
-                <span style="color: var(--orange);">Engraving Ready</span>
+                <span>Transparent SVG Export</span>
+                <span style="color: var(--orange);">Ray5 Ready</span>
             </div>
-            <a href="editor.html" class="btn-card">Launch Workspace</a>
+            <a href="artboard.html" class="btn-card">Launch Artboard Editor</a>
         </div>
     </div>
 
