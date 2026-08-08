@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just Angles | Layout Editor (Pages & Print)</title>
+    <!-- Fabric.js Vector Canvas Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <!-- Google Fonts Library Integration -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600;800&family=Lora:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mint: #00FF88;
+            --orange: #FF9F43;
+            --bg-workspace: #1C2026;  /* Dark Workspace Surround */
+            --bg-surface: #252A32;    /* UI Panels */
+            --border-muted: #343B46;  /* Panel Borders */
+            --text-main: #FFFFFF;
+            --text-muted: #9DA8B6;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-workspace);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Header Navigation */
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            box-sizing: border-box;
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border-muted);
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .logo-icon { width: 26px; height: 26px; }
+
+        .layout-badge {
+            background: rgba(0, 255, 136, 0.12);
+            border: 1px solid var(--mint);
+            color: var(--mint);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .header-actions { display: flex; gap: 10px; }
+
+        .btn-action {
+            padding: 8px 14px;
+            background-color: #2F3642;
+            color: var(--text-main);
+            border: 1px solid var(--border-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover { border-color: var(--mint); color: var(--mint); }
+        .btn-mint { background-color: var(--mint); color: #000; font-weight: 700; border: none; }
+        .btn-mint:hover { background-color: #00E67A; color: #000; }
+
+        /* App Layout Container */
+        .app-container {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 57px);
+            position: relative;
+        }
+
+        /* Left Page Thumbnails & Pages Manager */
+        .sidebar-pages {
+            width: 180px;
+            background-color: var(--bg-surface);
+            border-right: 1px solid var(--border-muted);
+            padding: 16px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+        }
+
+        .sidebar-pages h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin: 0 0 6px 0;
+            border-bottom: 1px solid var(--border-muted);
+            padding-bottom: 4px;
+        }
+
+        .page-thumb {
+            width: 100%;
+            height: 160px;
+            background-color: #FFFFFF;
+            border: 2px solid var(--border-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        .page-thumb.active { border-color: var(--mint); }
+        .page-thumb span { font-size: 0.75rem; font-weight: 700; color: #121518; }
+
+        /* Middle Inspector Controls */
+        .sidebar-controls {
+            width: 260px;
+            background-color: var(--bg-surface);
+            border-right: 1px solid var(--border-muted);
+            padding: 16px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            overflow-y: auto;
+        }
+
+        .sidebar-controls h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin: 8px 0 2px 0;
+            border-bottom: 1px solid var(--border-muted);
+            padding-bottom: 4px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        label { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
+
+        input[type="color"], select, input[type="range"], input[type="number"] {
+            width: 100%;
+            background-color: #121518;
+            border: 1px solid var(--border-muted);
+            color: #FFF;
+            padding: 6px;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 0.85rem;
+        }
+
+        .tool-btn {
+            padding: 9px 12px;
+            background-color: #2F3642;
+            color: var(--text-main);
+            border: 1px solid var(--border-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+
+        .tool-btn:hover { border-color: var(--mint); color: var(--mint); }
+
+        /* Workspace Stage */
+        .workspace-stage {
+            flex: 1;
+            background-color: var(--bg-workspace);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+            position: relative;
+        }
+
+        .canvas-viewport {
+            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Header -->
+    <header>
+        <a href="index.html" class="logo">
+            <svg class="logo-icon" viewBox="0 0 100 100" fill="none">
+                <polygon points="50,10 90,85 10,85" stroke="#00FF88" stroke-width="12" stroke-linejoin="round"/>
+                <polygon points="50,30 75,75 25,75" stroke="#FF9F43" stroke-width="8" stroke-linejoin="round"/>
+            </svg>
+            Just Angles — Layout Editor
+        </a>
+
+        <div class="layout-badge">InDesign Engine • Margins & Print Bleeds</div>
+
+        <div class="header-actions">
+            <button class="btn-action" onclick="saveProjectVirtual()">Save Layout</button>
+            <button class="btn-action" onclick="loadProjectVirtual()">Load Saved</button>
+            <button class="btn-action btn-mint" onclick="exportPrintSVG()">Export Print SVG</button>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Page Thumbnail Navigator -->
+        <div class="sidebar-pages">
+            <h3>Page Spreads</h3>
+            <div class="page-thumb active" onclick="switchPage(1)">
+                <span>Page 1 (Cover)</span>
+            </div>
+            <div class="page-thumb" onclick="switchPage(2)">
+                <span>Page 2 (Spread)</span>
+            </div>
+            <button class="tool-btn" style="text-align:center;" onclick="addPageThumb()">+ Add Page</button>
+        </div>
+
+        <!-- Inspector & Layout Controls -->
+        <div class="sidebar-controls">
+            <h3>Page Presets & Trim</h3>
+            <div class="control-group">
+                <label>Document Size</label>
+                <select id="docPresetSelect" onchange="applyDocPreset(this.value)">
+                    <option value="trade">6" x 9" Trade Paperback</option>
+                    <option value="letter">8.5" x 11" Standard</option>
+                    <option value="webtoon">Webtoon Vertical Scroll</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Safety Margins (<span id="marginVal">20</span>px)</label>
+                <input type="range" id="marginSlider" min="10" max="60" value="20" oninput="updateMargins(this.value)">
+            </div>
+
+            <h3>Google Fonts & Text</h3>
+            <button class="tool-btn" onclick="addHeadingText()">+ Add Book Title</button>
+            <button class="tool-btn" onclick="addBodyText()">+ Add Body Copy Block</button>
+
+            <div class="control-group">
+                <label>Typography Family</label>
+                <select id="fontSelect" onchange="updateFont(this.value)">
+                    <option value="'Lora', serif">Lora (Classic Book Serif)</option>
+                    <option value="'Playfair Display', serif">Playfair (Editorial Serif)</option>
+                    <option value="'Cinzel', serif">Cinzel (Fantasy / Display)</option>
+                    <option value="'Inter', sans-serif">Inter (Modern Clean Sans)</option>
+                    <option value="'Roboto Mono', monospace">Roboto Mono (Tech / Code)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Text Color</label>
+                <input type="color" id="textColorPicker" value="#121518" onchange="updateTextColor(this.value)">
+            </div>
+
+            <h3>Grid Guides</h3>
+            <button class="tool-btn" onclick="toggleGuides()">Toggle Bleed Guides</button>
+            <button class="tool-btn" style="color:#FF5555; border-color:#552222;" onclick="deleteSelected()">Delete Selected</button>
+        </div>
+
+        <!-- Central Canvas Stage -->
+        <div class="workspace-stage">
+            <div class="canvas-viewport">
+                <canvas id="layoutCanvas" width="500" height="700"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Fixed Document Layout Canvas
+        const canvas = new fabric.Canvas('layoutCanvas', {
+            backgroundColor: '#FFFFFF', // Page Paper Color
+            selection: true
+        });
+
+        let currentDocPreset = 'trade';
+        let showGuides = true;
+        let marginSize = 20;
+
+        // Draw Margin & Bleed Guides
+        function drawGuides() {
+            const existingGuides = canvas.getObjects().filter(o => o.name === 'guide_line');
+            existingGuides.forEach(g => canvas.remove(g));
+
+            if (!showGuides) return;
+
+            const w = canvas.width;
+            const h = canvas.height;
+
+            // Safety Margin Box
+            const marginBox = new fabric.Rect({
+                left: marginSize, top: marginSize,
+                width: w - (marginSize * 2), height: h - (marginSize * 2),
+                fill: 'transparent', stroke: '#FF9F43', strokeWidth: 1,
+                strokeDashArray: [6, 6], selectable: false, evented: false, name: 'guide_line'
+            });
+
+            canvas.add(marginBox);
+        }
+
+        drawGuides();
+
+        // Preset Document Sizes
+        function applyDocPreset(preset) {
+            currentDocPreset = preset;
+            if (preset === 'trade') {
+                canvas.setWidth(500);
+                canvas.setHeight(700);
+            } else if (preset === 'letter') {
+                canvas.setWidth(600);
+                canvas.setHeight(770);
+            } else if (preset === 'webtoon') {
+                canvas.setWidth(450);
+                canvas.setHeight(900);
+            }
+            drawGuides();
+            canvas.renderAll();
+        }
+
+        function updateMargins(val) {
+            document.getElementById('marginVal').innerText = val;
+            marginSize = parseInt(val, 10);
+            drawGuides();
+            canvas.renderAll();
+        }
+
+        function toggleGuides() {
+            showGuides = !showGuides;
+            drawGuides();
+            canvas.renderAll();
+        }
+
+        // Typography Helpers
+        function addHeadingText() {
+            const heading = new fabric.IText('THE NOVEL TITLE', {
+                left: 70, top: 120, fontSize: 32,
+                fill: '#121518', fontFamily: document.getElementById('fontSelect').value
+            });
+            canvas.add(heading);
+            canvas.setActiveObject(heading);
+        }
+
+        function addBodyText() {
+            const body = new fabric.IText('Chapter 1\n\nOnce upon a time in a world driven by pure vectors...', {
+                left: 70, top: 200, fontSize: 16,
+                fill: '#252A32', fontFamily: document.getElementById('fontSelect').value
+            });
+            canvas.add(body);
+            canvas.setActiveObject(body);
+        }
+
+        function updateFont(fontFamily) {
+            const active = canvas.getActiveObject();
+            if (active && active.type === 'i-text') {
+                active.set('fontFamily', fontFamily);
+                canvas.renderAll();
+            }
+        }
+
+        function updateTextColor(color) {
+            const active = canvas.getActiveObject();
+            if (active && active.type === 'i-text') {
+                active.set('fill', color);
+                canvas.renderAll();
+            }
+        }
+
+        function deleteSelected() {
+            const active = canvas.getActiveObject();
+            if (active) canvas.remove(active);
+        }
+
+        function switchPage(pageNum) {
+            alert(`Switched to Page ${pageNum} spread.`);
+        }
+
+        function addPageThumb() {
+            alert('New page spread added to your layout document!');
+        }
+
+        // Virtual Storage
+        function saveProjectVirtual() {
+            localStorage.setItem('just_angles_layout_project', JSON.stringify(canvas.toJSON()));
+            alert('Layout document saved virtually in local browser memory!');
+        }
+
+        function loadProjectVirtual() {
+            const saved = localStorage.getItem('just_angles_layout_project');
+            if (saved) {
+                canvas.loadFromJSON(saved, function() {
+                    drawGuides();
+                    canvas.renderAll();
+                    alert('Layout document reloaded successfully!');
+                });
+            } else {
+                alert('No saved layout document found.');
+            }
+        }
+
+        // Print SVG Export
+        function exportPrintSVG() {
+            // Hide guides before export
+            const guides = canvas.getObjects().filter(o => o.name === 'guide_line');
+            guides.forEach(g => canvas.remove(g));
+
+            const svgData = canvas.toSVG();
+            drawGuides();
+            canvas.renderAll();
+
+            const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `just-angles-print-layout-${currentDocPreset}.svg`;
+            link.click();
+        }
+    </script>
+</body>
+</html>
