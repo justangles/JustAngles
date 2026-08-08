@@ -1,82 +1,809 @@
-<header class="figma-header">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Just Angles — Design Workspace</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+
+<style>
+:root {
+    --bg: #181818;
+    --panel: #202020;
+    --panel2: #242424;
+    --card: #2b2b2b;
+    --card-hover: #333;
+    --border: #3a3a3a;
+    --border-light: #484848;
+    --text: #f4f4f4;
+    --muted: #999;
+    --blue: #0c8ce9;
+    --blue-hover: #168ee6;
+    --mint: #00ff88;
+    --orange: #ff9f43;
+    --danger: #ff5555;
+    --canvas: #151515;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    color: inherit;
+}
+
+/* =========================================================
+   APP HEADER
+========================================================= */
+
+.app-header {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    background: #1e1e1e;
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+}
+
+.header-left,
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 145px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.brand svg {
+    width: 25px;
+    height: 25px;
+}
+
+.menu {
+    display: flex;
+    gap: 2px;
+}
+
+.menu button,
+.header-icon-btn {
+    border: 0;
+    background: transparent;
+    color: #bbb;
+    border-radius: 5px;
+    padding: 6px 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.menu button:hover,
+.header-icon-btn:hover {
+    background: var(--card);
+    color: white;
+}
+
+.header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.header-tool {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.header-tool:hover {
+    background: var(--card);
+    color: white;
+}
+
+.header-tool.active {
+    background: var(--blue);
+    color: white;
+}
+
+.project-name {
+    color: #ccc;
+    font-size: 12px;
+    padding: 5px 8px;
+    border-radius: 4px;
+}
+
+.project-name:hover {
+    background: var(--card);
+}
+
+.zoom-box {
+    display: flex;
+    align-items: center;
+    background: #151515;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.zoom-box button {
+    width: 27px;
+    height: 28px;
+    background: transparent;
+    border: 0;
+    color: #bbb;
+    cursor: pointer;
+}
+
+.zoom-box button:hover {
+    background: var(--card);
+    color: white;
+}
+
+#zoomText {
+    min-width: 48px;
+    text-align: center;
+    font-size: 11px;
+}
+
+.primary-btn {
+    border: 0;
+    background: var(--blue);
+    color: white;
+    padding: 7px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.primary-btn:hover {
+    background: var(--blue-hover);
+}
+
+/* =========================================================
+   MAIN WORKSPACE
+========================================================= */
+
+.workspace {
+    height: calc(100vh - 48px);
+    display: grid;
+    grid-template-columns: 235px minmax(0, 1fr) 245px;
+}
+
+/* =========================================================
+   LEFT SIDEBAR
+========================================================= */
+
+.left-sidebar {
+    display: flex;
+    flex-direction: column;
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    min-width: 0;
+}
+
+.sidebar-tabs {
+    height: 38px;
+    display: flex;
+    border-bottom: 1px solid var(--border);
+}
+
+.sidebar-tab {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.sidebar-tab.active {
+    color: white;
+    border-bottom: 2px solid var(--blue);
+}
+
+.sidebar-content {
+    flex: 1;
+    overflow: auto;
+}
+
+.page-header {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.section-label {
+    color: #8e8e8e;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    font-weight: 700;
+}
+
+.small-btn {
+    border: 0;
+    background: transparent;
+    color: #aaa;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+}
+
+.small-btn:hover {
+    background: var(--card);
+    color: white;
+}
+
+.page-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 10px;
+    cursor: pointer;
+    color: #bbb;
+    font-size: 12px;
+}
+
+.page-item:hover {
+    background: var(--card);
+}
+
+.page-item.active {
+    background: #303030;
+    color: white;
+}
+
+.layers-header {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.layers-container {
+    overflow: auto;
+    max-height: calc(100vh - 250px);
+    min-height: 150px;
+}
+
+.layer-row {
+    min-height: 31px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 6px 0 8px;
+    cursor: pointer;
+    border-left: 2px solid transparent;
+}
+
+.layer-row:hover {
+    background: #2b2b2b;
+}
+
+.layer-row.selected {
+    background: #284967;
+    border-left-color: var(--blue);
+}
+
+.layer-icon {
+    width: 20px;
+    text-align: center;
+    color: #999;
+    font-size: 11px;
+}
+
+.layer-name {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 11px;
+}
+
+.layer-action {
+    width: 21px;
+    height: 21px;
+    border: 0;
+    background: transparent;
+    color: #777;
+    cursor: pointer;
+    border-radius: 4px;
+    opacity: 0;
+}
+
+.layer-row:hover .layer-action,
+.layer-row.selected .layer-action {
+    opacity: 1;
+}
+
+.layer-action:hover {
+    background: #444;
+    color: white;
+}
+
+/* =========================================================
+   LEFT TOOL PANELS
+========================================================= */
+
+.panel-padding {
+    padding: 12px;
+}
+
+.tool-button {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 5px;
+    color: #ddd;
+    padding: 8px;
+    text-align: left;
+    margin-bottom: 6px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.tool-button:hover {
+    border-color: var(--blue);
+    color: white;
+}
+
+.palette {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+    margin-top: 7px;
+}
+
+.swatch {
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    cursor: pointer;
+}
+
+.swatch:hover {
+    border-color: white;
+    transform: scale(1.05);
+}
+
+.asset-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.asset-thumb {
+    height: 52px;
+    width: 100%;
+    object-fit: contain;
+    background: #151515;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* =========================================================
+   CANVAS AREA
+========================================================= */
+
+.canvas-area {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--canvas);
+
+    background-image:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.07) 1px,
+            transparent 1px
+        );
+    background-size: 20px 20px;
+}
+
+.canvas-container {
+    position: absolute !important;
+}
+
+#artboardCanvas {
+    display: block;
+}
+
+/* =========================================================
+   BOTTOM TOOLBAR
+========================================================= */
+
+.bottom-toolbar {
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 5px;
+    background: rgba(30,30,30,.96);
+    border: 1px solid #414141;
+    border-radius: 10px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.55);
+    backdrop-filter: blur(12px);
+    z-index: 50;
+}
+
+.tool {
+    width: 36px;
+    height: 34px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.tool:hover {
+    background: #333;
+    color: white;
+}
+
+.tool.active {
+    background: var(--blue);
+    color: white;
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 23px;
+    background: #444;
+    margin: 0 3px;
+}
+
+/* =========================================================
+   RIGHT INSPECTOR
+========================================================= */
+
+.right-sidebar {
+    background: var(--panel);
+    border-left: 1px solid var(--border);
+    overflow-y: auto;
+}
+
+.inspector-header {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.inspector-section {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.inspector-title {
+    color: #999;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    font-weight: 700;
+    margin-bottom: 9px;
+}
+
+.property-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.property {
+    display: flex;
+    align-items: center;
+    background: #171717;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    height: 28px;
+    overflow: hidden;
+}
+
+.property span {
+    width: 26px;
+    color: #777;
+    font-size: 10px;
+    text-align: center;
+}
+
+.property input {
+    flex: 1;
+    width: 0;
+    height: 100%;
+    background: transparent;
+    border: 0;
+    outline: none;
+    color: white;
+    font-size: 11px;
+}
+
+.full-property {
+    margin-top: 6px;
+}
+
+.control-label {
+    display: block;
+    color: #888;
+    font-size: 10px;
+    margin-bottom: 4px;
+}
+
+.color-control {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.color-control input[type="color"] {
+    width: 35px;
+    height: 28px;
+    padding: 2px;
+    background: #171717;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+
+.color-value {
+    flex: 1;
+    background: #171717;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    height: 28px;
+    color: #ccc;
+    font-size: 11px;
+    padding: 6px;
+}
+
+.range {
+    width: 100%;
+}
+
+.inspector-button {
+    width: 100%;
+    padding: 7px;
+    margin-top: 5px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 5px;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.inspector-button:hover {
+    background: var(--card-hover);
+    color: white;
+}
+
+.inspector-button.danger {
+    color: #ff7777;
+}
+
+.no-selection {
+    padding: 25px 12px;
+    color: #777;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* =========================================================
+   CONTEXT MENU
+========================================================= */
+
+.context-menu {
+    position: fixed;
+    display: none;
+    min-width: 170px;
+    padding: 5px;
+    background: #292929;
+    border: 1px solid #444;
+    border-radius: 7px;
+    box-shadow: 0 12px 35px rgba(0,0,0,.5);
+    z-index: 1000;
+}
+
+.context-menu button {
+    width: 100%;
+    padding: 7px 9px;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    color: #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.context-menu button:hover {
+    background: var(--blue);
+    color: white;
+}
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.65);
+    z-index: 2000;
+}
+
+.modal {
+    width: 380px;
+    background: #252525;
+    border: 1px solid #444;
+    border-radius: 10px;
+    box-shadow: 0 25px 80px rgba(0,0,0,.6);
+    padding: 18px;
+}
+
+.modal h2 {
+    margin: 0 0 15px;
+    font-size: 16px;
+}
+
+.modal input,
+.modal select {
+    width: 100%;
+    background: #171717;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: white;
+    padding: 9px;
+    margin-bottom: 9px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 7px;
+    margin-top: 10px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+    .workspace {
+        grid-template-columns: 190px minmax(0,1fr) 200px;
+    }
+
+    .menu {
+        display: none;
+    }
+
+    .brand {
+        min-width: 100px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="app-header">
 
     <div class="header-left">
+
         <div class="brand">
-            <svg viewBox="0 0 100 100">
+            <svg viewBox="0 0 100 100" fill="none">
                 <polygon
                     points="50,10 90,85 10,85"
-                    fill="none"
                     stroke="#00FF88"
                     stroke-width="12"
-                />
+                    stroke-linejoin="round"/>
                 <polygon
                     points="50,30 75,75 25,75"
-                    fill="none"
                     stroke="#FF9F43"
                     stroke-width="8"
-                />
+                    stroke-linejoin="round"/>
             </svg>
-
             <span>Just Angles</span>
         </div>
 
-        <div class="menu-group">
+        <div class="menu">
             <button onclick="newProject()">File</button>
-            <button>Edit</button>
-            <button>View</button>
-            <button>Object</button>
+            <button onclick="showShortcuts()">Edit</button>
+            <button onclick="fitCanvas()">View</button>
+            <button onclick="groupSelected()">Object</button>
         </div>
+
     </div>
 
-    <div class="tool-mode">
+    <div class="header-center">
 
-        <button
-            id="selectTool"
-            class="toolbar-tool active"
-            onclick="setTool('select')"
-            title="Move / Select (V)">
+        <button class="header-tool active"
+                id="headerSelect"
+                onclick="setTool('select')">
             ↖
         </button>
 
-        <button
-            class="toolbar-tool"
-            onclick="setTool('frame')"
-            title="Frame (F)">
+        <button class="header-tool"
+                onclick="setTool('frame')">
             #
         </button>
 
-        <button
-            class="toolbar-tool"
-            onclick="setTool('rectangle')"
-            title="Rectangle (R)">
+        <button class="header-tool"
+                onclick="setTool('rectangle')">
             □
         </button>
 
-        <button
-            class="toolbar-tool"
-            onclick="setTool('ellipse')"
-            title="Ellipse (O)">
+        <button class="header-tool"
+                onclick="setTool('ellipse')">
             ○
         </button>
 
-        <button
-            class="toolbar-tool"
-            onclick="setTool('pen')"
-            title="Pen (P)">
+        <button class="header-tool"
+                onclick="setTool('pen')">
             ✒
         </button>
 
-        <button
-            class="toolbar-tool"
-            onclick="setTool('text')"
-            title="Text (T)">
+        <button class="header-tool"
+                onclick="setTool('text')">
             T
         </button>
 
-        <button
-            class="toolbar-tool"
-            onclick="setTool('hand')"
-            title="Hand (H)">
+        <button class="header-tool"
+                onclick="setTool('hand')">
             ✋
         </button>
 
@@ -84,29 +811,3596 @@
 
     <div class="header-right">
 
-        <button onclick="undo()">↶</button>
-        <button onclick="redo()">↷</button>
+        <button class="header-icon-btn"
+                onclick="undo()">
+            ↶
+        </button>
 
-        <div class="zoom-controls">
+        <button class="header-icon-btn"
+                onclick="redo()">
+            ↷
+        </button>
 
-            <button onclick="zoomCanvas(0.9)">−</button>
+        <div class="zoom-box">
 
-            <span id="zoomLevelText">100%</span>
+            <button onclick="changeZoom(.9)">−</button>
 
-            <button onclick="zoomCanvas(1.1)">+</button>
+            <span id="zoomText">100%</span>
+
+            <button onclick="changeZoom(1.1)">+</button>
 
         </div>
 
-        <button class="btn-header">
-            Share
+        <button class="header-icon-btn"
+                onclick="saveProject()">
+            Save
         </button>
 
-        <button
-            class="btn-header btn-blue"
-            onclick="exportTransparentSVG()">
+        <button class="primary-btn"
+                onclick="exportSVG()">
             Export
         </button>
 
     </div>
 
 </header>
+
+<!-- =========================================================
+     WORKSPACE
+========================================================= -->
+
+<div class="workspace">
+
+    <!-- =====================================================
+         LEFT SIDEBAR
+    ====================================================== -->
+
+    <aside class="left-sidebar">
+
+        <div class="sidebar-tabs">
+
+            <button
+                id="layersTab"
+                class="sidebar-tab active"
+                onclick="showLeftPanel('layers')">
+                Layers
+            </button>
+
+            <button
+                id="designTab"
+                class="sidebar-tab"
+                onclick="showLeftPanel('design')">
+                Assets
+            </button>
+
+        </div>
+
+        <!-- LAYERS -->
+
+        <div id="layersPanel"
+             class="sidebar-content">
+
+            <div class="page-header">
+
+                <span class="section-label">
+                    Pages
+                </span>
+
+                <button
+                    class="small-btn"
+                    onclick="addPage()">
+                    +
+                </button>
+
+            </div>
+
+            <div id="pagesList"></div>
+
+            <div class="layers-header">
+
+                <span class="section-label">
+                    Layers
+                </span>
+
+            </div>
+
+            <div
+                id="layersList"
+                class="layers-container">
+            </div>
+
+        </div>
+
+        <!-- ASSETS -->
+
+        <div id="designPanel"
+             class="sidebar-content"
+             style="display:none;">
+
+            <div class="panel-padding">
+
+                <div class="section-label">
+                    Character Builder
+                </div>
+
+                <br>
+
+                <button
+                    class="tool-button"
+                    onclick="addBaseAvatar()">
+                    + Base Avatar
+                </button>
+
+                <button
+                    class="tool-button"
+                    onclick="addAfroHair()">
+                    + Afro Hair
+                </button>
+
+                <div class="section-label"
+                     style="margin-top:15px;">
+                    Skin Tone
+                </div>
+
+                <div class="palette">
+
+                    <div class="swatch"
+                         style="background:#2D1A12"
+                         onclick="setSkinTone('#2D1A12')"></div>
+
+                    <div class="swatch"
+                         style="background:#3B2219"
+                         onclick="setSkinTone('#3B2219')"></div>
+
+                    <div class="swatch"
+                         style="background:#5C382A"
+                         onclick="setSkinTone('#5C382A')"></div>
+
+                    <div class="swatch"
+                         style="background:#8D5B4C"
+                         onclick="setSkinTone('#8D5B4C')"></div>
+
+                    <div class="swatch"
+                         style="background:#C68642"
+                         onclick="setSkinTone('#C68642')"></div>
+
+                    <div class="swatch"
+                         style="background:#E0AC69"
+                         onclick="setSkinTone('#E0AC69')"></div>
+
+                </div>
+
+                <hr style="border-color:#333; margin:18px 0;">
+
+                <div class="section-label">
+                    Media Vault
+                </div>
+
+                <br>
+
+                <button
+                    class="tool-button"
+                    onclick="document.getElementById('fileInput').click()">
+                    📷 Upload Image / SVG
+                </button>
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/*,.svg"
+                    style="display:none"
+                    onchange="handleUpload(event)">
+
+                <div
+                    id="assetVault"
+                    class="asset-grid">
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- =====================================================
+         CANVAS
+    ====================================================== -->
+
+    <main
+        id="canvasArea"
+        class="canvas-area">
+
+        <canvas
+            id="artboardCanvas">
+        </canvas>
+
+        <!-- BOTTOM TOOLBAR -->
+
+        <div class="bottom-toolbar">
+
+            <button
+                class="tool active"
+                id="tool-select"
+                onclick="setTool('select')"
+                title="Move / Select (V)">
+                ↖
+            </button>
+
+            <button
+                class="tool"
+                id="tool-frame"
+                onclick="setTool('frame')"
+                title="Frame (F)">
+                #
+            </button>
+
+            <button
+                class="tool"
+                id="tool-rectangle"
+                onclick="setTool('rectangle')"
+                title="Rectangle (R)">
+                □
+            </button>
+
+            <button
+                class="tool"
+                id="tool-ellipse"
+                onclick="setTool('ellipse')"
+                title="Ellipse (O)">
+                ○
+            </button>
+
+            <button
+                class="tool"
+                id="tool-pen"
+                onclick="setTool('pen')"
+                title="Pen (P)">
+                ✒
+            </button>
+
+            <button
+                class="tool"
+                id="tool-text"
+                onclick="setTool('text')"
+                title="Text (T)">
+                T
+            </button>
+
+            <div class="toolbar-divider"></div>
+
+            <button
+                class="tool"
+                id="tool-hand"
+                onclick="setTool('hand')"
+                title="Pan (H)">
+                ✋
+            </button>
+
+        </div>
+
+    </main>
+
+    <!-- =====================================================
+         RIGHT INSPECTOR
+    ====================================================== -->
+
+    <aside class="right-sidebar">
+
+        <div class="inspector-header">
+            <span class="section-label">
+                Design
+            </span>
+        </div>
+
+        <div id="noSelection"
+             class="no-selection">
+            Select an object to edit its properties.
+        </div>
+
+        <div id="inspector"
+             style="display:none;">
+
+            <!-- POSITION -->
+
+            <div class="inspector-section">
+
+                <div class="inspector-title">
+                    Transform
+                </div>
+
+                <div class="property-grid">
+
+                    <div class="property">
+                        <span>X</span>
+                        <input
+                            id="propX"
+                            type="number"
+                            onchange="updateProperty('left', this.value)">
+                    </div>
+
+                    <div class="property">
+                        <span>Y</span>
+                        <input
+                            id="propY"
+                            type="number"
+                            onchange="updateProperty('top', this.value)">
+                    </div>
+
+                    <div class="property">
+                        <span>W</span>
+                        <input
+                            id="propW"
+                            type="number"
+                            onchange="updateWidth(this.value)">
+                    </div>
+
+                    <div class="property">
+                        <span>H</span>
+                        <input
+                            id="propH"
+                            type="number"
+                            onchange="updateHeight(this.value)">
+                    </div>
+
+                </div>
+
+                <div class="property full-property">
+                    <span>↻</span>
+                    <input
+                        id="propRotation"
+                        type="number"
+                        onchange="updateProperty('angle', this.value)">
+                </div>
+
+            </div>
+
+            <!-- FILL -->
+
+            <div class="inspector-section">
+
+                <div class="inspector-title">
+                    Fill
+                </div>
+
+                <div class="color-control">
+
+                    <input
+                        type="color"
+                        id="fillPicker"
+                        onchange="setFill(this.value)">
+
+                    <div
+                        id="fillValue"
+                        class="color-value">
+                        #FFFFFF
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- STROKE -->
+
+            <div class="inspector-section">
+
+                <div class="inspector-title">
+                    Stroke
+                </div>
+
+                <div class="color-control">
+
+                    <input
+                        type="color"
+                        id="strokePicker"
+                        onchange="setStroke(this.value)">
+
+                    <div
+                        id="strokeValue"
+                        class="color-value">
+                        #000000
+                    </div>
+
+                </div>
+
+                <br>
+
+                <label class="control-label">
+                    Stroke Width
+                </label>
+
+                <input
+                    id="strokeWidth"
+                    class="range"
+                    type="range"
+                    min="0"
+                    max="50"
+                    value="1"
+                    oninput="setStrokeWidth(this.value)">
+
+            </div>
+
+            <!-- OPACITY -->
+
+            <div class="inspector-section">
+
+                <div class="inspector-title">
+                    Opacity
+                </div>
+
+                <input
+                    id="opacity"
+                    class="range"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="100"
+                    oninput="setOpacity(this.value)">
+
+            </div>
+
+            <!-- ALIGNMENT -->
+
+            <div class="inspector-section">
+
+                <div class="inspector-title">
+                    Alignment
+                </div>
+
+                <div class="property-grid">
+
+                    <button
+                        class="inspector-button"
+                        onclick="alignLeft()">
+                        ← Left
+                    </button>
+
+                    <button
+                        class="inspector-button"
+                        onclick="alignCenterH()">
+                        ↔ Center
+                    </button>
+
+                    <button
+                        class="inspector-button"
+                        onclick="alignRight()">
+                        → Right
+                    </button>
+
+                    <button
+                        class="inspector-button"
+                        onclick="alignTop()">
+                        ↑ Top
+                    </button>
+
+                    <button
+                        class="inspector-button"
+                        onclick="alignCenterV()">
+                        ↕ Center
+                    </button>
+
+                    <button
+                        class="inspector-button"
+                        onclick="alignBottom()">
+                        ↓ Bottom
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- ACTIONS -->
+
+            <div class="inspector-section">
+
+                <div class="inspector-title">
+                    Actions
+                </div>
+
+                <button
+                    class="inspector-button"
+                    onclick="duplicateSelected()">
+                    Duplicate
+                </button>
+
+                <button
+                    class="inspector-button"
+                    onclick="groupSelected()">
+                    Group Selection
+                </button>
+
+                <button
+                    class="inspector-button"
+                    onclick="ungroupSelected()">
+                    Ungroup
+                </button>
+
+                <button
+                    class="inspector-button"
+                    onclick="bringSelectedForward()">
+                    Bring Forward
+                </button>
+
+                <button
+                    class="inspector-button"
+                    onclick="sendSelectedBackward()">
+                    Send Backward
+                </button>
+
+                <button
+                    class="inspector-button danger"
+                    onclick="deleteSelected()">
+                    Delete
+                </button>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+</div>
+
+<!-- =========================================================
+     CONTEXT MENU
+========================================================= -->
+
+<div id="contextMenu" class="context-menu">
+
+    <button onclick="duplicateSelected(); hideContextMenu()">
+        Duplicate
+    </button>
+
+    <button onclick="copySelected(); hideContextMenu()">
+        Copy
+    </button>
+
+    <button onclick="pasteSelected(); hideContextMenu()">
+        Paste
+    </button>
+
+    <button onclick="groupSelected(); hideContextMenu()">
+        Group
+    </button>
+
+    <button onclick="deleteSelected(); hideContextMenu()">
+        Delete
+    </button>
+
+</div>
+
+<!-- =========================================================
+     NEW PAGE MODAL
+========================================================= -->
+
+<div id="pageModal"
+     class="modal-overlay">
+
+    <div class="modal">
+
+        <h2>New Page</h2>
+
+        <input
+            id="newPageName"
+            placeholder="Page name"
+            value="Page 2">
+
+        <div class="modal-actions">
+
+            <button
+                class="tool-button"
+                style="width:auto; margin:0;"
+                onclick="closePageModal()">
+                Cancel
+            </button>
+
+            <button
+                class="primary-btn"
+                onclick="createPage()">
+                Create Page
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   GLOBAL STATE
+========================================================= */
+
+let canvas;
+
+let currentTool = 'select';
+
+let currentZoom = 1;
+
+let isPanning = false;
+let panPoint = null;
+
+let isDrawingFrame = false;
+let frameStart = null;
+let temporaryFrame = null;
+
+let clipboard = null;
+
+let pages = [];
+
+let currentPageIndex = 0;
+
+let history = [];
+let redoHistory = [];
+
+let restoringHistory = false;
+
+let snapEnabled = true;
+let gridSize = 20;
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+window.addEventListener('DOMContentLoaded', () => {
+
+    canvas = new fabric.Canvas(
+        'artboardCanvas',
+        {
+            selection: true,
+            preserveObjectStacking: true,
+            stopContextMenu: true,
+            fireRightClick: true,
+            uniformScaling: false
+        }
+    );
+
+    resizeCanvas();
+
+    window.addEventListener(
+        'resize',
+        resizeCanvas
+    );
+
+    createInitialProject();
+
+    bindCanvasEvents();
+
+    updatePagesList();
+
+    updateLayersList();
+
+    updateInspector();
+
+    setTimeout(() => {
+        saveHistory();
+    }, 300);
+
+});
+
+
+/* =========================================================
+   CANVAS RESIZE
+========================================================= */
+
+function resizeCanvas() {
+
+    if (!canvas) return;
+
+    const area =
+        document.getElementById('canvasArea');
+
+    canvas.setDimensions({
+        width: area.clientWidth,
+        height: area.clientHeight
+    });
+
+    canvas.renderAll();
+}
+
+
+/* =========================================================
+   PROJECT / PAGES
+========================================================= */
+
+function createInitialProject() {
+
+    pages = [
+        {
+            id: 'page-1',
+            name: 'Page 1',
+            json: null
+        }
+    ];
+
+    currentPageIndex = 0;
+
+    createDefaultFrame();
+
+    saveCurrentPage();
+}
+
+
+function createDefaultFrame() {
+
+    const frame =
+        new fabric.Rect({
+            left: 150,
+            top: 100,
+            width: 700,
+            height: 500,
+            fill: '#ffffff',
+            rx: 4,
+            ry: 4,
+            name: 'Desktop',
+            isFrame: true,
+            frameId: 'frame-' + Date.now(),
+            selectable: true
+        });
+
+    canvas.add(frame);
+
+    canvas.sendToBack(frame);
+
+    canvas.setActiveObject(frame);
+
+    canvas.renderAll();
+}
+
+
+function addPage() {
+
+    document.getElementById(
+        'pageModal'
+    ).style.display = 'flex';
+
+    setTimeout(() => {
+        document.getElementById(
+            'newPageName'
+        ).focus();
+    }, 50);
+}
+
+
+function createPage() {
+
+    const name =
+        document.getElementById(
+            'newPageName'
+        ).value.trim() || 'New Page';
+
+    saveCurrentPage();
+
+    pages.push({
+        id: 'page-' + Date.now(),
+        name,
+        json: null
+    });
+
+    currentPageIndex =
+        pages.length - 1;
+
+    canvas.clear();
+
+    createDefaultFrame();
+
+    saveCurrentPage();
+
+    updatePagesList();
+
+    updateLayersList();
+
+    closePageModal();
+
+    saveHistory();
+}
+
+
+function closePageModal() {
+
+    document.getElementById(
+        'pageModal'
+    ).style.display = 'none';
+}
+
+
+function switchPage(index) {
+
+    if (index === currentPageIndex) return;
+
+    saveCurrentPage();
+
+    currentPageIndex = index;
+
+    canvas.clear();
+
+    const page =
+        pages[currentPageIndex];
+
+    if (page.json) {
+
+        canvas.loadFromJSON(
+            page.json,
+            () => {
+
+                canvas.renderAll();
+
+                updateLayersList();
+
+                updateInspector();
+
+                saveHistory();
+            }
+        );
+
+    } else {
+
+        createDefaultFrame();
+
+        updateLayersList();
+
+        saveHistory();
+    }
+
+    updatePagesList();
+}
+
+
+function saveCurrentPage() {
+
+    if (!canvas || !pages[currentPageIndex])
+        return;
+
+    pages[currentPageIndex].json =
+        canvas.toJSON([
+            'name',
+            'isFrame',
+            'frameId',
+            'locked',
+            'hidden'
+        ]);
+}
+
+
+function updatePagesList() {
+
+    const container =
+        document.getElementById(
+            'pagesList'
+        );
+
+    container.innerHTML = '';
+
+    pages.forEach((page, index) => {
+
+        const row =
+            document.createElement('div');
+
+        row.className =
+            'page-item' +
+            (index === currentPageIndex
+                ? ' active'
+                : '');
+
+        row.innerHTML = `
+            <span>▣</span>
+            <span>${escapeHTML(page.name)}</span>
+        `;
+
+        row.onclick =
+            () => switchPage(index);
+
+        container.appendChild(row);
+
+    });
+}
+
+
+/* =========================================================
+   TOOL SYSTEM
+========================================================= */
+
+function setTool(tool) {
+
+    currentTool = tool;
+
+    isDrawingFrame = false;
+
+    if (temporaryFrame) {
+
+        canvas.remove(
+            temporaryFrame
+        );
+
+        temporaryFrame = null;
+    }
+
+    canvas.isDrawingMode =
+        tool === 'pen';
+
+    canvas.selection =
+        tool === 'select';
+
+    canvas.defaultCursor =
+        tool === 'hand'
+            ? 'grab'
+            : tool === 'frame'
+                ? 'crosshair'
+                : 'default';
+
+    document
+        .querySelectorAll('.tool')
+        .forEach(button => {
+
+            button.classList.remove(
+                'active'
+            );
+        });
+
+    const activeBottom =
+        document.getElementById(
+            'tool-' + tool
+        );
+
+    if (activeBottom) {
+        activeBottom.classList.add(
+            'active'
+        );
+    }
+
+    document
+        .querySelectorAll('.header-tool')
+        .forEach(button => {
+            button.classList.remove(
+                'active'
+            );
+        });
+
+    if (tool === 'select') {
+
+        const select =
+            document.getElementById(
+                'headerSelect'
+            );
+
+        if (select)
+            select.classList.add(
+                'active'
+            );
+    }
+
+    if (tool === 'rectangle') {
+        addRectangle();
+        setTool('select');
+    }
+
+    if (tool === 'ellipse') {
+        addEllipse();
+        setTool('select');
+    }
+
+    if (tool === 'text') {
+        addText();
+        setTool('select');
+    }
+
+    if (tool === 'pen') {
+
+        canvas.freeDrawingBrush.color =
+            '#00FF88';
+
+        canvas.freeDrawingBrush.width =
+            3;
+    }
+}
+
+
+/* =========================================================
+   CANVAS EVENTS
+========================================================= */
+
+function bindCanvasEvents() {
+
+    canvas.on(
+        'selection:created',
+        () => {
+            updateInspector();
+            updateLayersList();
+        }
+    );
+
+    canvas.on(
+        'selection:updated',
+        () => {
+            updateInspector();
+            updateLayersList();
+        }
+    );
+
+    canvas.on(
+        'selection:cleared',
+        () => {
+            updateInspector();
+            updateLayersList();
+        }
+    );
+
+    canvas.on(
+        'object:modified',
+        () => {
+
+            snapActiveObject();
+
+            updateInspector();
+
+            updateLayersList();
+
+            saveHistory();
+        }
+    );
+
+    canvas.on(
+        'object:added',
+        () => {
+
+            updateLayersList();
+
+            if (!restoringHistory)
+                saveHistory();
+        }
+    );
+
+    canvas.on(
+        'object:removed',
+        () => {
+
+            updateLayersList();
+
+            updateInspector();
+
+            if (!restoringHistory)
+                saveHistory();
+        }
+    );
+
+
+    /* FRAME DRAWING */
+
+    canvas.on(
+        'mouse:down',
+        handleMouseDown
+    );
+
+    canvas.on(
+        'mouse:move',
+        handleMouseMove
+    );
+
+    canvas.on(
+        'mouse:up',
+        handleMouseUp
+    );
+
+
+    /* ZOOM */
+
+    canvas.on(
+        'mouse:wheel',
+        handleWheel
+    );
+}
+
+
+/* =========================================================
+   FRAME DRAWING
+========================================================= */
+
+function startFrameTool() {
+
+    setTool('frame');
+
+    isDrawingFrame = true;
+}
+
+
+function handleMouseDown(opt) {
+
+    if (currentTool === 'frame') {
+
+        const pointer =
+            canvas.getPointer(
+                opt.e
+            );
+
+        frameStart = {
+            x: pointer.x,
+            y: pointer.y
+        };
+
+        temporaryFrame =
+            new fabric.Rect({
+                left: pointer.x,
+                top: pointer.y,
+                width: 0,
+                height: 0,
+                fill: '#ffffff',
+                stroke: '#0c8ce9',
+                strokeWidth: 2,
+                rx: 4,
+                ry: 4,
+                selectable: false,
+                evented: false
+            });
+
+        canvas.add(
+            temporaryFrame
+        );
+
+        return;
+    }
+
+
+    /* HAND TOOL */
+
+    if (currentTool === 'hand') {
+
+        isPanning = true;
+
+        panPoint = {
+            x: opt.e.clientX,
+            y: opt.e.clientY
+        };
+
+        canvas.defaultCursor =
+            'grabbing';
+    }
+}
+
+
+function handleMouseMove(opt) {
+
+    if (
+        currentTool === 'frame' &&
+        temporaryFrame &&
+        frameStart
+    ) {
+
+        const pointer =
+            canvas.getPointer(
+                opt.e
+            );
+
+        const left =
+            Math.min(
+                frameStart.x,
+                pointer.x
+            );
+
+        const top =
+            Math.min(
+                frameStart.y,
+                pointer.y
+            );
+
+        const width =
+            Math.abs(
+                pointer.x -
+                frameStart.x
+            );
+
+        const height =
+            Math.abs(
+                pointer.y -
+                frameStart.y
+            );
+
+        temporaryFrame.set({
+            left,
+            top,
+            width,
+            height
+        });
+
+        canvas.renderAll();
+    }
+
+
+    if (
+        currentTool === 'hand' &&
+        isPanning
+    ) {
+
+        const dx =
+            opt.e.clientX -
+            panPoint.x;
+
+        const dy =
+            opt.e.clientY -
+            panPoint.y;
+
+        const vpt =
+            canvas.viewportTransform;
+
+        vpt[4] += dx;
+        vpt[5] += dy;
+
+        canvas.requestRenderAll();
+
+        panPoint = {
+            x: opt.e.clientX,
+            y: opt.e.clientY
+        };
+    }
+}
+
+
+function handleMouseUp() {
+
+    if (
+        currentTool === 'frame' &&
+        temporaryFrame
+    ) {
+
+        if (
+            temporaryFrame.width < 10 ||
+            temporaryFrame.height < 10
+        ) {
+
+            canvas.remove(
+                temporaryFrame
+            );
+
+            temporaryFrame = null;
+
+            return;
+        }
+
+        const frame =
+            temporaryFrame;
+
+        frame.set({
+            selectable: true,
+            evented: true,
+            stroke: null,
+            strokeWidth: 0,
+            name:
+                'Frame ' +
+                (canvas.getObjects()
+                    .filter(o => o.isFrame)
+                    .length + 1),
+            isFrame: true,
+            frameId:
+                'frame-' +
+                Date.now()
+        });
+
+        canvas.setActiveObject(frame);
+
+        temporaryFrame = null;
+
+        canvas.renderAll();
+
+        saveHistory();
+
+        setTool('select');
+    }
+
+
+    if (currentTool === 'hand') {
+
+        isPanning = false;
+
+        canvas.defaultCursor =
+            'grab';
+    }
+}
+
+
+/* =========================================================
+   ZOOM
+========================================================= */
+
+function changeZoom(factor) {
+
+    const point =
+        new fabric.Point(
+            canvas.getWidth() / 2,
+            canvas.getHeight() / 2
+        );
+
+    zoomAtPoint(
+        factor,
+        point
+    );
+}
+
+
+function zoomAtPoint(
+    factor,
+    point
+) {
+
+    let zoom =
+        canvas.getZoom() *
+        factor;
+
+    zoom =
+        Math.max(
+            .1,
+            Math.min(
+                5,
+                zoom
+            )
+        );
+
+    canvas.zoomToPoint(
+        point,
+        zoom
+    );
+
+    currentZoom = zoom;
+
+    document.getElementById(
+        'zoomText'
+    ).innerText =
+        Math.round(
+            zoom * 100
+        ) + '%';
+
+    canvas.requestRenderAll();
+}
+
+
+function handleWheel(opt) {
+
+    if (
+        !opt.e.ctrlKey &&
+        !opt.e.metaKey
+    ) {
+        return;
+    }
+
+    const factor =
+        opt.e.deltaY > 0
+            ? .9
+            : 1.1;
+
+    const point =
+        new fabric.Point(
+            opt.e.offsetX,
+            opt.e.offsetY
+        );
+
+    zoomAtPoint(
+        factor,
+        point
+    );
+
+    opt.e.preventDefault();
+    opt.e.stopPropagation();
+}
+
+
+function resetZoom() {
+
+    canvas.setZoom(1);
+
+    currentZoom = 1;
+
+    document.getElementById(
+        'zoomText'
+    ).innerText =
+        '100%';
+
+    canvas.requestRenderAll();
+}
+
+
+function fitCanvas() {
+
+    const objects =
+        canvas.getObjects();
+
+    if (!objects.length)
+        return;
+
+    const frames =
+        objects.filter(
+            o => o.isFrame
+        );
+
+    const target =
+        frames.length
+            ? frames[0]
+            : objects[0];
+
+    const bounds =
+        target.getBoundingRect();
+
+    const area =
+        document.getElementById(
+            'canvasArea'
+        );
+
+    const scale =
+        Math.min(
+            (area.clientWidth - 160) /
+                bounds.width,
+            (area.clientHeight - 160) /
+                bounds.height
+        );
+
+    canvas.setZoom(
+        Math.max(
+            .1,
+            Math.min(
+                2,
+                scale
+            )
+        )
+    );
+
+    const zoom =
+        canvas.getZoom();
+
+    canvas.absolutePan(
+        new fabric.Point(
+            target.left +
+                target.width / 2,
+            target.top +
+                target.height / 2
+        )
+    );
+
+    currentZoom = zoom;
+
+    document.getElementById(
+        'zoomText'
+    ).innerText =
+        Math.round(
+            zoom * 100
+        ) + '%';
+
+    canvas.renderAll();
+}
+
+
+/* =========================================================
+   OBJECT CREATION
+========================================================= */
+
+function addRectangle() {
+
+    const rect =
+        new fabric.Rect({
+
+            left: 250,
+            top: 200,
+
+            width: 150,
+            height: 100,
+
+            fill: '#00FF88',
+
+            stroke: '#000000',
+
+            strokeWidth: 1,
+
+            rx: 3,
+            ry: 3,
+
+            name: 'Rectangle'
+        });
+
+    canvas.add(rect);
+
+    canvas.setActiveObject(rect);
+
+    canvas.renderAll();
+}
+
+
+function addEllipse() {
+
+    const ellipse =
+        new fabric.Ellipse({
+
+            left: 280,
+            top: 230,
+
+            rx: 70,
+            ry: 50,
+
+            fill: '#FF9F43',
+
+            stroke: '#000000',
+
+            strokeWidth: 1,
+
+            name: 'Ellipse'
+        });
+
+    canvas.add(ellipse);
+
+    canvas.setActiveObject(
+        ellipse
+    );
+
+    canvas.renderAll();
+}
+
+
+function addText() {
+
+    const text =
+        new fabric.IText(
+            'Editable Text',
+            {
+                left: 250,
+                top: 200,
+
+                fontSize: 32,
+
+                fill: '#111111',
+
+                fontFamily:
+                    'Inter, sans-serif',
+
+                name: 'Text'
+            }
+        );
+
+    canvas.add(text);
+
+    canvas.setActiveObject(text);
+
+    text.enterEditing();
+
+    canvas.renderAll();
+}
+
+
+function addPenPath() {
+
+    const path =
+        new fabric.Path(
+            'M 0 100 Q 100 0 200 100 T 400 100',
+            {
+                left: 250,
+                top: 200,
+
+                fill: 'transparent',
+
+                stroke: '#00FF88',
+
+                strokeWidth: 4,
+
+                name: 'Vector Path'
+            }
+        );
+
+    canvas.add(path);
+
+    canvas.setActiveObject(path);
+
+    canvas.renderAll();
+}
+
+
+/* =========================================================
+   CHARACTER BUILDER
+========================================================= */
+
+function addBaseAvatar() {
+
+    const head =
+        new fabric.Circle({
+            radius: 55,
+            fill: '#8D5B4C',
+            name: 'Head',
+            objectPart: 'skin'
+        });
+
+    const neck =
+        new fabric.Rect({
+            width: 30,
+            height: 45,
+            left: 40,
+            top: 95,
+            fill: '#7A4B3D',
+            name: 'Neck',
+            objectPart: 'skin'
+        });
+
+    const body =
+        new fabric.Rect({
+            width: 150,
+            height: 150,
+            left: -25,
+            top: 145,
+            rx: 25,
+            ry: 25,
+            fill: '#0C8CE9',
+            name: 'Body'
+        });
+
+    const group =
+        new fabric.Group(
+            [
+                head,
+                neck,
+                body
+            ],
+            {
+                left: 300,
+                top: 200,
+                name: 'Character'
+            }
+        );
+
+    canvas.add(group);
+
+    canvas.setActiveObject(group);
+
+    canvas.renderAll();
+}
+
+
+function addAfroHair() {
+
+    const afro =
+        new fabric.Circle({
+
+            left: 285,
+            top: 145,
+
+            radius: 82,
+
+            fill: '#1A1A1A',
+
+            stroke: '#000',
+
+            strokeWidth: 2,
+
+            name: 'Afro Hair'
+        });
+
+    canvas.add(afro);
+
+    canvas.setActiveObject(afro);
+
+    canvas.renderAll();
+}
+
+
+function setSkinTone(color) {
+
+    const active =
+        canvas.getActiveObject();
+
+    if (!active)
+        return;
+
+    if (
+        active.type === 'group'
+    ) {
+
+        active.forEachObject(
+            obj => {
+
+                if (
+                    obj.objectPart ===
+                    'skin'
+                ) {
+                    obj.set(
+                        'fill',
+                        color
+                    );
+                }
+            }
+        );
+
+    } else {
+
+        active.set(
+            'fill',
+            color
+        );
+    }
+
+    canvas.renderAll();
+
+    saveHistory();
+}
+
+
+/* =========================================================
+   MEDIA VAULT
+========================================================= */
+
+function handleUpload(event) {
+
+    const file =
+        event.target.files[0];
+
+    if (!file)
+        return;
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        function(e) {
+
+            const data =
+                e.target.result;
+
+            addAssetThumbnail(data);
+
+            fabric.Image.fromURL(
+                data,
+                function(img) {
+
+                    img.set({
+                        left: 300,
+                        top: 200,
+                        scaleX: .5,
+                        scaleY: .5,
+                        name: file.name
+                    });
+
+                    canvas.add(img);
+
+                    canvas.setActiveObject(
+                        img
+                    );
+
+                    canvas.renderAll();
+
+                }
+            );
+        };
+
+    reader.readAsDataURL(file);
+
+    event.target.value = '';
+}
+
+
+function addAssetThumbnail(data) {
+
+    const vault =
+        document.getElementById(
+            'assetVault'
+        );
+
+    const img =
+        document.createElement('img');
+
+    img.src = data;
+
+    img.className =
+        'asset-thumb';
+
+    img.onclick =
+        () => {
+
+            fabric.Image.fromURL(
+                data,
+                function(image) {
+
+                    image.set({
+                        left: 300,
+                        top: 200,
+                        scaleX: .5,
+                        scaleY: .5,
+                        name: 'Asset'
+                    });
+
+                    canvas.add(image);
+
+                    canvas.setActiveObject(
+                        image
+                    );
+
+                    canvas.renderAll();
+                }
+            );
+        };
+
+    vault.appendChild(img);
+}
+
+
+/* =========================================================
+   LAYERS
+========================================================= */
+
+function updateLayersList() {
+
+    const container =
+        document.getElementById(
+            'layersList'
+        );
+
+    if (!container || !canvas)
+        return;
+
+    container.innerHTML = '';
+
+    const objects =
+        canvas.getObjects()
+            .slice()
+            .reverse();
+
+    objects.forEach(
+        (obj) => {
+
+            const row =
+                document.createElement(
+                    'div'
+                );
+
+            row.className =
+                'layer-row';
+
+            if (
+                canvas.getActiveObjects()
+                    .includes(obj)
+            ) {
+                row.classList.add(
+                    'selected'
+                );
+            }
+
+            const icon =
+                getLayerIcon(obj);
+
+            row.innerHTML = `
+
+                <span class="layer-icon">
+                    ${icon}
+                </span>
+
+                <span class="layer-name">
+                    ${escapeHTML(
+                        getObjectName(obj)
+                    )}
+                </span>
+
+                <button
+                    class="layer-action"
+                    title="Visibility"
+                    onclick="event.stopPropagation(); toggleVisibility(${canvas.getObjects().indexOf(obj)})">
+                    ${obj.visible === false ? '○' : '◉'}
+                </button>
+
+                <button
+                    class="layer-action"
+                    title="Lock"
+                    onclick="event.stopPropagation(); toggleLock(${canvas.getObjects().indexOf(obj)})">
+                    ${obj.locked ? '🔒' : '🔓'}
+                </button>
+            `;
+
+            row.onclick =
+                () => {
+
+                    if (
+                        obj.locked
+                    ) return;
+
+                    canvas.discardActiveObject();
+
+                    canvas.setActiveObject(
+                        obj
+                    );
+
+                    canvas.renderAll();
+
+                    updateInspector();
+                };
+
+            container.appendChild(row);
+        }
+    );
+}
+
+
+function getLayerIcon(obj) {
+
+    if (obj.isFrame)
+        return '▣';
+
+    switch (obj.type) {
+
+        case 'rect':
+            return '□';
+
+        case 'circle':
+        case 'ellipse':
+            return '○';
+
+        case 'i-text':
+        case 'text':
+            return 'T';
+
+        case 'image':
+            return '▧';
+
+        case 'path':
+            return '✒';
+
+        case 'group':
+            return '▦';
+
+        default:
+            return '◆';
+    }
+}
+
+
+function getObjectName(obj) {
+
+    if (obj.name)
+        return obj.name;
+
+    switch (obj.type) {
+
+        case 'rect':
+            return 'Rectangle';
+
+        case 'circle':
+        case 'ellipse':
+            return 'Ellipse';
+
+        case 'i-text':
+            return 'Text';
+
+        case 'image':
+            return 'Image';
+
+        case 'path':
+            return 'Vector Path';
+
+        case 'group':
+            return 'Group';
+
+        default:
+            return obj.type;
+    }
+}
+
+
+function toggleVisibility(index) {
+
+    const obj =
+        canvas.getObjects()[index];
+
+    if (!obj)
+        return;
+
+    obj.visible =
+        obj.visible === false;
+
+    canvas.renderAll();
+
+    updateLayersList();
+
+    saveHistory();
+}
+
+
+function toggleLock(index) {
+
+    const obj =
+        canvas.getObjects()[index];
+
+    if (!obj)
+        return;
+
+    obj.locked =
+        !obj.locked;
+
+    obj.set({
+        selectable:
+            !obj.locked,
+
+        evented:
+            !obj.locked
+    });
+
+    canvas.renderAll();
+
+    updateLayersList();
+
+    saveHistory();
+}
+
+
+/* =========================================================
+   INSPECTOR
+========================================================= */
+
+function updateInspector() {
+
+    const active =
+        canvas.getActiveObject();
+
+    const inspector =
+        document.getElementById(
+            'inspector'
+        );
+
+    const empty =
+        document.getElementById(
+            'noSelection'
+        );
+
+    if (!active) {
+
+        inspector.style.display =
+            'none';
+
+        empty.style.display =
+            'block';
+
+        return;
+    }
+
+    inspector.style.display =
+        'block';
+
+    empty.style.display =
+        'none';
+
+    document.getElementById(
+        'propX'
+    ).value =
+        Math.round(
+            active.left || 0
+        );
+
+    document.getElementById(
+        'propY'
+    ).value =
+        Math.round(
+            active.top || 0
+        );
+
+    document.getElementById(
+        'propW'
+    ).value =
+        Math.round(
+            active.getScaledWidth()
+        );
+
+    document.getElementById(
+        'propH'
+    ).value =
+        Math.round(
+            active.getScaledHeight()
+        );
+
+    document.getElementById(
+        'propRotation'
+    ).value =
+        Math.round(
+            active.angle || 0
+        );
+
+    const fill =
+        normalizeColor(
+            active.fill
+        );
+
+    const stroke =
+        normalizeColor(
+            active.stroke
+        );
+
+    if (fill) {
+
+        document.getElementById(
+            'fillPicker'
+        ).value = fill;
+
+        document.getElementById(
+            'fillValue'
+        ).innerText =
+            fill;
+    }
+
+    if (stroke) {
+
+        document.getElementById(
+            'strokePicker'
+        ).value = stroke;
+
+        document.getElementById(
+            'strokeValue'
+        ).innerText =
+            stroke;
+    }
+
+    document.getElementById(
+        'strokeWidth'
+    ).value =
+        active.strokeWidth || 0;
+
+    document.getElementById(
+        'opacity'
+    ).value =
+        Math.round(
+            (active.opacity ?? 1) * 100
+        );
+}
+
+
+function updateProperty(
+    property,
+    value
+) {
+
+    const active =
+        canvas.getActiveObject();
+
+    if (!active)
+        return;
+
+    active.set(
+        property,
+        parseFloat(value)
+    );
+
+    active.setCoords();
+
+    canvas.renderAll();
+
+    saveHistory();
+}
+
+
+function updateWidth(value) {
+
+    const active =
+        canvas.getActiveObject();
+
+    if (!active)
+        return;
+
+    const width =
+        parseFloat(value);
+
+    if (!width)
+        return;
+
+    const raw =
+        active.getScaledWidth();
+
+    active.scaleX *=
+        width / raw;
+
+    active.setCoords();
+
+    canvas.renderAll();
+
+    saveHistory();
+}
+
+
+function updateHeight(value) {
+
+    const active =
+        canvas.getActiveObject();
+
+    if (!active)
+        return;
+
+    const height =
+        parseFloat(value);
+
+    if (!height)
+        return;
+
+    const raw =
+        active.getScaledHeight();
+
+    active.scaleY *=
+        height / raw;
+
+    active.setCoords();
+
+    canvas.renderAll();
+
+    saveHistory();
+}
+
+
+function setFill(color) {
+
+    const objects =
+        canvas.getActiveObjects();
+
+    objects.forEach(
+        obj => obj.set(
+            'fill',
+            color
+        )
+    );
+
+    document.getElementById(
+        'fillValue'
+    ).innerText = color;
+
+    canvas.renderAll();
+
+    saveHistory();
+}
+
+
+function setStroke(color) {
+
+    const objects =
+        canvas.getActiveObjects();
+
+    objects.forEach(
+        obj => obj.set(
+            'stroke',
+            color
+        )
+    );
+
+    document.getElementById(
+        'strokeValue'
+    ).innerText = color;
+
+    canvas.renderAll();
+
+    saveHistory();
+}
+
+
+function setStrokeWidth(value) {
+
+    const objects =
+        canvas.getActiveObjects();
+
+    objects.forEach(
+        obj => obj.set(
+            'strokeWidth',
+            parseInt(value)
+        )
+    );
+
+    canvas.renderAll();
+
+    saveHistory();
+}
+
+
+function setOpacity(value) {
+
+    const opacity =
+        parseInt(value) / 100;
+
+    canvas.getActiveObjects()
+        .forEach(
+            obj => obj.set(
+                'opacity',
+                opacity
+            )
+        );
+
+    canvas.renderAll();
+
+    saveHistory();
+}
+
+
+/* =========================================================
+   ALIGNMENT
+========================================================= */
+
+function getSelectedObjects() {
+
+    return canvas.getActiveObjects();
+}
+
+
+function alignLeft() {
+
+    const objects =
+        getSelectedObjects();
+
+    if (objects.length < 2)
+        return;
+
+    const min =
+        Math.min(
+            ...objects.map(
+                o => o.left
+            )
+        );
+
+    objects.forEach(
+        o => {
+            o.set('left', min);
+            o.setCoords();
+        }
+    );
+
+    canvas.renderAll();
+    saveHistory();
+}
+
+
+function alignRight() {
+
+    const objects =
+        getSelectedObjects();
+
+    if (objects.length < 2)
+        return;
+
+    const max =
+        Math.max(
+            ...objects.map(
+                o =>
+                    o.left +
+                    o.getScaledWidth()
+            )
+        );
+
+    objects.forEach(
+        o => {
+
+            o.set(
+                'left',
+                max -
+                o.getScaledWidth()
+            );
+
+            o.setCoords();
+        }
+    );
+
+    canvas.renderAll();
+    saveHistory();
+}
+
+
+function alignCenterH() {
+
+    const objects =
+        getSelectedObjects();
+
+    if (objects.length < 2)
+        return;
+
+    const min =
+        Math.min(
+            ...objects.map(
+                o => o.left
+            )
+        );
+
+    const max =
+        Math.max(
+            ...objects.map(
+                o =>
+                    o.left +
+                    o.getScaledWidth()
+            )
+        );
+
+    const center =
+        (min + max) / 2;
+
+    objects.forEach(
+        o => {
+
+            o.set(
+                'left',
+                center -
+                o.getScaledWidth() / 2
+            );
+
+            o.setCoords();
+        }
+    );
+
+    canvas.renderAll();
+    saveHistory();
+}
+
+
+function alignTop() {
+
+    const objects =
+        getSelectedObjects();
+
+    if (objects.length < 2)
+        return;
+
+    const min =
+        Math.min(
+            ...objects.map(
+                o => o.top
+            )
+        );
+
+    objects.forEach(
+        o => {
+            o.set('top', min);
+            o.setCoords();
+        }
+    );
+
+    canvas.renderAll();
+    saveHistory();
+}
+
+
+function alignBottom() {
+
+    const objects =
+        getSelectedObjects();
+
+    if (objects.length < 2)
+        return;
+
+    const max =
+        Math.max(
+            ...objects.map(
+                o =>
+                    o.top +
+                    o.getScaledHeight()
+            )
+        );
+
+    objects.forEach(
+        o => {
+
+            o.set(
+                'top',
+                max -
+                o.getScaledHeight()
+            );
+
+            o.setCoords();
+        }
+    );
+
+    canvas.renderAll();
+    saveHistory();
+}
+
+
+function alignCenterV() {
+
+    const objects =
+        getSelectedObjects();
+
+    if (objects.length < 2)
+        return;
+
+    const min =
+        Math.min(
+            ...objects.map(
+                o => o.top
+            )
+        );
+
+    const max =
+        Math.max(
+            ...objects.map(
+                o =>
+                    o.top +
+                    o.getScaledHeight()
+            )
+        );
+
+    const center =
+        (min + max) / 2;
+
+    objects.forEach(
+        o => {
+
+            o.set(
+                'top',
+                center -
+                o.getScaledHeight() / 2
+            );
+
+            o.setCoords();
+        }
+    );
+
+    canvas.renderAll();
+    saveHistory();
+}
+
+
+/* =========================================================
+   OBJECT ACTIONS
+========================================================= */
+
+function deleteSelected() {
+
+    const objects =
+        canvas.getActiveObjects();
+
+    if (!objects.length)
+        return;
+
+    canvas.discardActiveObject();
+
+    objects.forEach(
+        obj => canvas.remove(obj)
+    );
+
+    canvas.renderAll();
+
+    saveHistory();
+}
+
+
+function duplicateSelected() {
+
+    const objects =
+        canvas.getActiveObjects();
+
+    if (!objects.length)
+        return;
+
+    const clones = [];
+
+    let remaining =
+        objects.length;
+
+    objects.forEach(
+        obj => {
+
+            obj.clone(
+                function(clone) {
+
+                    clone.set({
+                        left:
+                            (obj.left || 0)
+                            + 25,
+
+                        top:
+                            (obj.top || 0)
+                            + 25
+                    });
+
+                    canvas.add(clone);
+
+                    clones.push(clone);
+
+                    remaining--;
+
+                    if (remaining === 0) {
+
+                        canvas.discardActiveObject();
+
+                        if (
+                            clones.length === 1
+                        ) {
+
+                            canvas.setActiveObject(
+                                clones[0]
+                            );
+
+                        } else {
+
+                            const selection =
+                                new fabric.ActiveSelection(
+                                    clones,
+                                    {
+                                        canvas
+                                    }
+                                );
+
+                            canvas.setActiveObject(
+                                selection
+                            );
+                        }
+
+                        canvas.renderAll();
+
+                        saveHistory();
+                    }
+                }
+            );
+        }
+    );
+}
+
+
+function copySelected() {
+
+    const active =
+        canvas.getActiveObject();
+
+    if (!active)
+        return;
+
+    active.clone(
+        clone => {
+            clipboard = clone;
+        }
+    );
+}
+
+
+function pasteSelected() {
+
+    if (!clipboard)
+        return;
+
+    clipboard.clone(
+        clone => {
+
+            clone.set({
+                left:
+                    (clone.left || 0)
+                    + 30,
+
+                top:
+                    (clone.top || 0)
+                    + 30
+            });
+
+            canvas.add(clone);
+
+            canvas.setActiveObject(
+                clone
+            );
+
+            canvas.renderAll();
+
+            saveHistory();
+        }
+    );
+}
+
+
+function groupSelected() {
+
+    const active =
+        canvas.getActiveObject();
+
+    if (
+        !active ||
+        active.type !==
+            'activeSelection'
+    ) {
+        return;
+    }
+
+    const group =
+        active.toGroup();
+
+    group.name =
+        'Group';
+
+    canvas.setActiveObject(
+        group
+    );
+
+    canvas.renderAll();
+
+    updateLayersList();
+
+    saveHistory();
+}
+
+
+function ungroupSelected() {
+
+    const active =
+        canvas.getActiveObject();
+
+    if (
+        !active ||
+        active.type !== 'group'
+    ) {
+        return;
+    }
+
+    active.toActiveSelection();
+
+    canvas.renderAll();
+
+    updateLayersList();
+
+    saveHistory();
+}
+
+
+function bringSelectedForward() {
+
+    canvas.getActiveObjects()
+        .forEach(
+            obj =>
+                canvas.bringForward(obj)
+        );
+
+    canvas.renderAll();
+
+    updateLayersList();
+
+    saveHistory();
+}
+
+
+function sendSelectedBackward() {
+
+    canvas.getActiveObjects()
+        .forEach(
+            obj =>
+                canvas.sendBackwards(obj)
+        );
+
+    canvas.renderAll();
+
+    updateLayersList();
+
+    saveHistory();
+}
+
+
+/* =========================================================
+   SNAP
+========================================================= */
+
+function snapActiveObject() {
+
+    if (!snapEnabled)
+        return;
+
+    const active =
+        canvas.getActiveObject();
+
+    if (!active)
+        return;
+
+    if (active.isFrame)
+        return;
+
+    active.set({
+        left:
+            Math.round(
+                active.left /
+                gridSize
+            ) * gridSize,
+
+        top:
+            Math.round(
+                active.top /
+                gridSize
+            ) * gridSize
+    });
+
+    active.setCoords();
+}
+
+
+/* =========================================================
+   UNDO / REDO
+========================================================= */
+
+function saveHistory() {
+
+    if (
+        restoringHistory ||
+        !canvas
+    ) {
+        return;
+    }
+
+    const json =
+        JSON.stringify(
+            canvas.toJSON([
+                'name',
+                'isFrame',
+                'frameId',
+                'locked',
+                'hidden',
+                'objectPart'
+            ])
+        );
+
+    if (
+        !history.length ||
+        history[history.length - 1]
+            !== json
+    ) {
+
+        history.push(json);
+
+        if (
+            history.length > 60
+        ) {
+            history.shift();
+        }
+    }
+
+    redoHistory = [];
+
+    saveCurrentPage();
+}
+
+
+function undo() {
+
+    if (history.length <= 1)
+        return;
+
+    const current =
+        history.pop();
+
+    redoHistory.push(current);
+
+    const previous =
+        history[
+            history.length - 1
+        ];
+
+    restoreHistory(
+        previous
+    );
+}
+
+
+function redo() {
+
+    if (!redoHistory.length)
+        return;
+
+    const next =
+        redoHistory.pop();
+
+    history.push(next);
+
+    restoreHistory(next);
+}
+
+
+function restoreHistory(json) {
+
+    restoringHistory = true;
+
+    canvas.loadFromJSON(
+        json,
+        () => {
+
+            canvas.renderAll();
+
+            restoringHistory = false;
+
+            updateLayersList();
+
+            updateInspector();
+
+            saveCurrentPage();
+        }
+    );
+}
+
+
+/* =========================================================
+   SAVE / LOAD
+========================================================= */
+
+function saveProject() {
+
+    saveCurrentPage();
+
+    const project = {
+
+        version: 1,
+
+        name:
+            'Just Angles Project',
+
+        pages,
+
+        settings: {
+
+            gridSize,
+
+            snapEnabled
+        }
+    };
+
+    localStorage.setItem(
+        'just_angles_project',
+        JSON.stringify(project)
+    );
+
+    alert(
+        'Project saved.'
+    );
+}
+
+
+function loadProject() {
+
+    const saved =
+        localStorage.getItem(
+            'just_angles_project'
+        );
+
+    if (!saved) {
+
+        alert(
+            'No saved project found.'
+        );
+
+        return;
+    }
+
+    const project =
+        JSON.parse(saved);
+
+    pages =
+        project.pages || [];
+
+    currentPageIndex = 0;
+
+    canvas.clear();
+
+    if (
+        pages[0] &&
+        pages[0].json
+    ) {
+
+        canvas.loadFromJSON(
+            pages[0].json,
+            () => {
+
+                canvas.renderAll();
+
+                updatePagesList();
+
+                updateLayersList();
+
+                updateInspector();
+
+                saveHistory();
+            }
+        );
+
+    } else {
+
+        createDefaultFrame();
+    }
+}
+
+
+function newProject() {
+
+    if (
+        !confirm(
+            'Create a new project? Unsaved changes will be lost.'
+        )
+    ) {
+        return;
+    }
+
+    history = [];
+
+    redoHistory = [];
+
+    canvas.clear();
+
+    pages = [
+        {
+            id: 'page-1',
+            name: 'Page 1',
+            json: null
+        }
+    ];
+
+    currentPageIndex = 0;
+
+    createDefaultFrame();
+
+    updatePagesList();
+
+    updateLayersList();
+
+    saveHistory();
+}
+
+
+/* =========================================================
+   SVG EXPORT
+========================================================= */
+
+function exportSVG() {
+
+    const original =
+        canvas.backgroundColor;
+
+    canvas.backgroundColor =
+        'transparent';
+
+    const svg =
+        canvas.toSVG();
+
+    canvas.backgroundColor =
+        original;
+
+    canvas.renderAll();
+
+    const blob =
+        new Blob(
+            [svg],
+            {
+                type:
+                    'image/svg+xml;charset=utf-8'
+            }
+        );
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+    const link =
+        document.createElement(
+            'a'
+        );
+
+    link.href = url;
+
+    link.download =
+        'just-angles-design.svg';
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    setTimeout(
+        () => URL.revokeObjectURL(url),
+        1000
+    );
+}
+
+
+/* =========================================================
+   LEFT PANELS
+========================================================= */
+
+function showLeftPanel(panel) {
+
+    const layers =
+        document.getElementById(
+            'layersPanel'
+        );
+
+    const design =
+        document.getElementById(
+            'designPanel'
+        );
+
+    const layersTab =
+        document.getElementById(
+            'layersTab'
+        );
+
+    const designTab =
+        document.getElementById(
+            'designTab'
+        );
+
+    if (panel === 'layers') {
+
+        layers.style.display =
+            'block';
+
+        design.style.display =
+            'none';
+
+        layersTab.classList.add(
+            'active'
+        );
+
+        designTab.classList.remove(
+            'active'
+        );
+
+    } else {
+
+        layers.style.display =
+            'none';
+
+        design.style.display =
+            'block';
+
+        layersTab.classList.remove(
+            'active'
+        );
+
+        designTab.classList.add(
+            'active'
+        );
+    }
+}
+
+
+/* =========================================================
+   KEYBOARD SHORTCUTS
+========================================================= */
+
+document.addEventListener(
+    'keydown',
+    function(e) {
+
+        const target =
+            e.target;
+
+        if (
+            target.tagName ===
+                'INPUT' ||
+            target.tagName ===
+                'TEXTAREA' ||
+            target.isContentEditable
+        ) {
+            return;
+        }
+
+        const cmd =
+            e.ctrlKey ||
+            e.metaKey;
+
+
+        /* UNDO */
+
+        if (
+            cmd &&
+            e.key.toLowerCase() ===
+                'z' &&
+            !e.shiftKey
+        ) {
+
+            e.preventDefault();
+
+            undo();
+
+            return;
+        }
+
+
+        /* REDO */
+
+        if (
+            cmd &&
+            (
+                (
+                    e.key.toLowerCase() ===
+                    'z' &&
+                    e.shiftKey
+                ) ||
+                e.key.toLowerCase() ===
+                    'y'
+            )
+        ) {
+
+            e.preventDefault();
+
+            redo();
+
+            return;
+        }
+
+
+        /* DUPLICATE */
+
+        if (
+            cmd &&
+            e.key.toLowerCase() ===
+                'd'
+        ) {
+
+            e.preventDefault();
+
+            duplicateSelected();
+
+            return;
+        }
+
+
+        /* COPY */
+
+        if (
+            cmd &&
+            e.key.toLowerCase() ===
+                'c'
+        ) {
+
+            copySelected();
+
+            return;
+        }
+
+
+        /* PASTE */
+
+        if (
+            cmd &&
+            e.key.toLowerCase() ===
+                'v'
+        ) {
+
+            e.preventDefault();
+
+            pasteSelected();
+
+            return;
+        }
+
+
+        /* GROUP */
+
+        if (
+            cmd &&
+            !e.shiftKey &&
+            e.key.toLowerCase() ===
+                'g'
+        ) {
+
+            e.preventDefault();
+
+            groupSelected();
+
+            return;
+        }
+
+
+        /* UNGROUP */
+
+        if (
+            cmd &&
+            e.shiftKey &&
+            e.key.toLowerCase() ===
+                'g'
+        ) {
+
+            e.preventDefault();
+
+            ungroupSelected();
+
+            return;
+        }
+
+
+        /* DELETE */
+
+        if (
+            e.key === 'Delete' ||
+            e.key === 'Backspace'
+        ) {
+
+            deleteSelected();
+
+            return;
+        }
+
+
+        /* TOOLS */
+
+        switch (
+            e.key.toLowerCase()
+        ) {
+
+            case 'v':
+                setTool('select');
+                break;
+
+            case 'f':
+                setTool('frame');
+                break;
+
+            case 'r':
+                setTool('rectangle');
+                break;
+
+            case 'o':
+                setTool('ellipse');
+                break;
+
+            case 'p':
+                setTool('pen');
+                break;
+
+            case 't':
+                setTool('text');
+                break;
+
+            case 'h':
+                setTool('hand');
+                break;
+
+            case 'escape':
+
+                canvas.discardActiveObject();
+
+                canvas.renderAll();
+
+                break;
+        }
+
+
+        /* ARROW MOVEMENT */
+
+        const active =
+            canvas.getActiveObject();
+
+        if (
+            active &&
+            !cmd
+        ) {
+
+            let dx = 0;
+            let dy = 0;
+
+            const distance =
+                e.shiftKey
+                    ? 10
+                    : 1;
+
+            if (
+                e.key ===
+                    'ArrowLeft'
+            )
+                dx = -distance;
+
+            if (
+                e.key ===
+                    'ArrowRight'
+            )
+                dx = distance;
+
+            if (
+                e.key ===
+                    'ArrowUp'
+            )
+                dy = -distance;
+
+            if (
+                e.key ===
+                    'ArrowDown'
+            )
+                dy = distance;
+
+            if (
+                dx !== 0 ||
+                dy !== 0
+            ) {
+
+                e.preventDefault();
+
+                active.set({
+                    left:
+                        active.left +
+                        dx,
+
+                    top:
+                        active.top +
+                        dy
+                });
+
+                active.setCoords();
+
+                canvas.renderAll();
+
+                saveHistory();
+            }
+        }
+    }
+);
+
+
+/* =========================================================
+   CONTEXT MENU
+========================================================= */
+
+canvasArea.addEventListener(
+    'contextmenu',
+    function(e) {
+
+        e.preventDefault();
+
+        const menu =
+            document.getElementById(
+                'contextMenu'
+            );
+
+        menu.style.display =
+            'block';
+
+        menu.style.left =
+            e.clientX + 'px';
+
+        menu.style.top =
+            e.clientY + 'px';
+    }
+);
+
+
+document.addEventListener(
+    'click',
+    function(e) {
+
+        if (
+            !e.target.closest(
+                '#contextMenu'
+            )
+        ) {
+            hideContextMenu();
+        }
+    }
+);
+
+
+function hideContextMenu() {
+
+    document.getElementById(
+        'contextMenu'
+    ).style.display =
+        'none';
+}
+
+
+/* =========================================================
+   HELP
+========================================================= */
+
+function showShortcuts() {
+
+    alert(
+`JUST ANGLES SHORTCUTS
+
+V  Select
+F  Frame
+R  Rectangle
+O  Ellipse
+P  Pen
+T  Text
+H  Hand
+
+Ctrl/Cmd + Z  Undo
+Ctrl/Cmd + Shift + Z  Redo
+Ctrl/Cmd + D  Duplicate
+Ctrl/Cmd + C  Copy
+Ctrl/Cmd + V  Paste
+Ctrl/Cmd + G  Group
+Ctrl/Cmd + Shift + G  Ungroup
+
+Delete / Backspace  Delete
+
+Arrow Keys  Move 1px
+Shift + Arrow  Move 10px
+
+Ctrl/Cmd + Mouse Wheel  Zoom
+`
+    );
+}
+
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+function normalizeColor(color) {
+
+    if (!color)
+        return null;
+
+    if (
+        typeof color !==
+            'string'
+    )
+        return null;
+
+    if (
+        color ===
+            'transparent'
+    )
+        return '#000000';
+
+    if (
+        color.startsWith('#')
+    ) {
+        return color;
+    }
+
+    const match =
+        color.match(
+            /rgba?\((\d+),\s*(\d+),\s*(\d+)/
+        );
+
+    if (!match)
+        return '#000000';
+
+    return (
+        '#' +
+        [1,2,3]
+            .map(
+                i =>
+                    parseInt(
+                        match[i]
+                    )
+                    .toString(16)
+                    .padStart(2,'0')
+            )
+            .join('')
+    );
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(
+            /[&<>"']/g,
+            function(char) {
+
+                return {
+                    '&':
+                        '&amp;',
+
+                    '<':
+                        '&lt;',
+
+                    '>':
+                        '&gt;',
+
+                    '"':
+                        '&quot;',
+
+                    "'":
+                        '&#039;'
+                }[char];
+            }
+        );
+}
+
+
+/* =========================================================
+   INITIAL BRUSH
+========================================================= */
+
+setTimeout(
+    function() {
+
+        if (!canvas)
+            return;
+
+        canvas.freeDrawingBrush =
+            new fabric.PencilBrush(
+                canvas
+            );
+
+        canvas.freeDrawingBrush.color =
+            '#00FF88';
+
+        canvas.freeDrawingBrush.width =
+            3;
+
+    },
+    500
+);
+
+</script>
+
+</body>
+</html>
