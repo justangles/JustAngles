@@ -1,68 +1,779 @@
-<button class="tool" id="customArtboardBtn">
-  ＋ Create Custom Artboard
-</button>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Just Angles — Artboard Designer</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+<style>
+:root{--bg:#15171a;--panel:#22252a;--card:#2c3036;--canvas:#101215;--line:#3a4048;--text:#f7f8fa;--muted:#9da6b2;--mint:#00ff88;--orange:#ff9f43;--blue:#0c8ce9;--danger:#ff5555}
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font:12px Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.app{height:100%;display:flex;flex-direction:column}
+header{height:48px;display:flex;align-items:center;gap:12px;padding:0 14px;background:var(--panel);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:8px;color:#fff;text-decoration:none;font-weight:800;min-width:215px}.logo svg{width:24px;height:24px}
+.menu button,.headbtn{background:transparent;border:0;color:var(--muted);padding:7px 8px;border-radius:5px}.menu button:hover,.headbtn:hover{background:var(--card);color:#fff}
+.project{margin-left:auto;font-weight:700}.headbtn{background:var(--card);border:1px solid var(--line);color:#fff}.headbtn.primary{background:var(--mint);border-color:var(--mint);color:#00150b;font-weight:800}
+.workspace{flex:1;min-height:0;display:grid;grid-template-columns:275px 1fr 245px}.left,.right{background:var(--panel);min-height:0;overflow:hidden}.left{border-right:1px solid var(--line)}.right{border-left:1px solid var(--line);padding:12px;overflow:auto}
+.tabs{display:flex;border-bottom:1px solid var(--line)}.tab{flex:1;background:0;border:0;color:var(--muted);padding:11px 3px;font-size:10px;font-weight:800}.tab.active{color:#fff;border-bottom:2px solid var(--blue)}
+.panel{display:none;height:calc(100% - 39px);padding:11px;overflow:auto;flex-direction:column;gap:9px}.panel.active{display:flex}
+.subtabs{display:flex;flex-wrap:wrap;gap:4px}.subtab{background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:5px;padding:6px 8px;font-size:10px}.subtab.active{border-color:var(--blue);color:#fff}
+.search,.field input,.field select{width:100%;background:var(--canvas);border:1px solid var(--line);color:#fff;border-radius:5px;padding:7px}.section{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);font-weight:800;margin-top:3px}
+.tool{width:100%;padding:8px 9px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:5px;color:#fff;font-weight:650}.tool:hover{border-color:var(--blue)}.danger{color:var(--danger)}
+.layer{display:flex;align-items:center;gap:6px;padding:6px;background:var(--canvas);border:1px solid var(--line);border-radius:4px;font-size:10px}.layer.sel{border-color:var(--blue)}.layer .name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.layer button{background:0;border:0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.asset{min-height:60px;background:var(--canvas);border:1px solid var(--line);border-radius:5px;color:#fff;font-size:9px;padding:5px}.asset:hover{border-color:var(--mint)}.preview{height:34px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.canvas-label{position:absolute;top:10px;left:12px;z-index:8;background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:5px 8px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.4px}.canvas-area{position:relative;min-width:0;min-height:0;background:#0c0e11;display:flex;align-items:center;justify-content:center;overflow:hidden}.scroll{width:100%;height:100%;overflow:auto;display:flex;align-items:center;justify-content:center;padding:70px}.canvas-wrap{position:relative;box-shadow:0 20px 70px #0008}canvas{display:block}
+.zoomsep{width:1px;height:18px;background:var(--line);margin:0 3px}.dock{position:absolute;bottom:25px;left:50%;transform:translateX(-50%);display:flex;gap:3px;padding:5px;background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 10px 35px #0008;z-index:5}.dock button{border:0;background:0;color:var(--muted);padding:7px 8px;border-radius:5px;font-weight:700}.dock button.active,.dock button:hover{background:var(--blue);color:#fff}
+.status{position:absolute;bottom:0;left:0;right:0;height:25px;border-top:1px solid var(--line);background:#16181bcc;color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:10px}
+.inspector-title{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);font-weight:800;border-bottom:1px solid var(--line);padding-bottom:8px}.inspector{display:none;flex-direction:column;gap:9px}.row{display:grid;grid-template-columns:1fr 1fr;gap:6px}.field{display:flex;flex-direction:column;gap:4px}.field label{font-size:10px;color:var(--muted);font-weight:700}.color{display:flex;gap:5px}.color input[type=color]{width:40px;padding:0}.empty{text-align:center;color:var(--muted);padding:12px;font-size:10px}.swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}.swatch{height:22px;border:1px solid var(--line);border-radius:3px}.charpreview{height:105px;background:var(--canvas);border:1px solid var(--line);border-radius:6px;display:flex;justify-content:center;align-items:center}
+.modal{display:none;position:fixed;inset:0;background:#000b;align-items:center;justify-content:center;z-index:100}.modal>div{width:min(520px,90vw);background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:16px}.modal h2{font-size:15px;margin:0 0 7px}.modal p{color:var(--muted);font-size:11px;line-height:1.5}.modal-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:12px}
+@media(max-width:1000px){.workspace{grid-template-columns:220px 1fr}.right{display:none}.menu{display:none}}
 
-<div class="modal wide" id="customArtboardModal">
-  <div>
-    <h2>Create Custom Artboard</h2>
+/* Vector-editor tool behavior */
+.canvas-area.tool-pen #canvas{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M6 25L22 9l4 4L10 29 6 25Z' fill='%23ffffff' stroke='%23000000' stroke-width='2'/%3E%3Cpath d='M22 9l2-4 4 2-2 6' fill='%23ffcc00' stroke='%23000000' stroke-width='2'/%3E%3C/svg%3E") 3 27,crosshair!important}
+.canvas-area.tool-brush #canvas,.canvas-area.tool-pencil #canvas{cursor:crosshair!important}
+.canvas-area.tool-pen #canvas{cursor:crosshair!important}
+.modal.wide>div{width:min(720px,94vw);max-height:88vh;overflow:auto}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.template-lock{border:1px solid #6d4a91;background:#241b2d;color:#d8b7ff;border-radius:6px;padding:9px;font-size:10px;line-height:1.45}
+.canvas-area.tool-select #canvas{cursor:default!important}
+.canvas-area.tool-direct #canvas{cursor:crosshair!important}
+.canvas-area.tool-hand #canvas{cursor:grab!important}
+.canvas-area.tool-hand.is-panning #canvas{cursor:grabbing!important}
+.vector-anchor{pointer-events:all}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<a class="logo" href="index.html"><svg viewBox="0 0 100 100" fill="none"><polygon points="50,10 90,85 10,85" stroke="#00FF88" stroke-width="12"/><polygon points="50,30 75,75 25,75" stroke="#FF9F43" stroke-width="8"/></svg>Just Angles — Artboard</a>
+<nav class="menu"><button>File</button><button>Edit</button><button>View</button><button>Object</button><button>Arrange</button><button>Help</button></nav>
+<div class="project">Untitled Artboard</div><button class="headbtn" id="undo" title="Undo">↶ Undo</button><button class="headbtn" id="redo" title="Redo">↷ Redo</button><button class="headbtn" id="canvasLock">Canvas 🔓</button><button class="headbtn" id="save">Save</button><button class="headbtn" id="saveTemplate">Save as My Template</button><button class="headbtn" id="load">Load</button><button class="headbtn primary" id="export">Export SVG</button>
+</header>
+<div class="workspace">
+<aside class="left">
+<div class="tabs"><button class="tab active" data-panel="layers">LAYERS</button><button class="tab" data-panel="assets">ASSETS</button><button class="tab" data-panel="templates">TEMPLATES</button></div>
 
-    <p>
-      Set the exact canvas size. You can resize it later
-      from the Artboard section in the inspector.
-    </p>
+<section class="panel active" id="layers">
+<div class="section">Layers</div><input class="search" id="layerSearch" placeholder="Search layers"><div id="layersList"></div>
+<div style="margin-top:auto;display:flex;gap:5px"><button class="tool" id="group">Group</button><button class="tool" id="duplicate">Duplicate</button><button class="tool" id="deleteArtboard">Delete Artboard</button></div>
+</section>
 
-    <div class="modal-grid">
+<section class="panel" id="assets">
+<div class="subtabs"><button class="subtab active" data-source="mine">My Vault</button><button class="subtab" data-source="community">Community</button><button class="subtab" data-source="character">Character Builder</button></div>
+<div id="mine" class="source"><input class="search" placeholder="Search my assets"><div class="section">My Media</div><button class="tool" id="upload">＋ Upload image / SVG</button><input type="file" id="file" accept="image/*,.svg" hidden><div class="grid" id="vault"></div></div>
+<div id="community" class="source" style="display:none"><input class="search" placeholder="Search community assets"><div class="section">Community Library</div><div style="font-size:10px;color:var(--muted)">Human-created, licensed community resources with attribution.</div><div class="subtabs"><button class="subtab active">Shapes</button><button class="subtab">Lines</button><button class="subtab">Colors</button><button class="subtab">Backgrounds</button><button class="subtab">Textures</button><button class="subtab">Frames</button></div><div class="grid" id="communityGrid"></div><button class="tool" id="contribute">＋ Contribute to Community</button></div>
+<div id="character" class="source" style="display:none"><div class="section">Character Builder</div><div style="font-size:10px;color:var(--muted)">Afrocentric defaults. Universal customization.</div><div class="charpreview"><svg width="90" height="100" viewBox="0 0 90 100"><circle cx="45" cy="42" r="25" fill="#8D5B4C"/><path d="M17 40C10 14 25 4 45 6C65 4 80 16 73 40C66 25 57 19 45 19C33 19 24 25 17 40Z" fill="#171313"/><rect x="38" y="65" width="14" height="24" rx="5" fill="#7A4B3D"/><path d="M22 95Q45 72 68 95" fill="#0c8ce9"/></svg></div><div class="section">Suggested Skin Tones</div><div class="swatches" id="skins"></div><div class="field"><label>Custom skin color</label><div class="color"><input type="color" id="skin" value="#8D5B4C"><span style="font-size:10px;color:var(--muted)">Any color is allowed.</span></div></div><button class="tool" id="characterBtn">＋ Add Character Base</button><button class="tool" id="hairBtn">＋ Add Hair Asset</button></div>
+</section>
 
-      <div class="field">
-        <label>Artboard Name</label>
-        <input
-          class="search"
-          id="customAbName"
-          value="Custom Artboard"
-        >
-      </div>
+<section class="panel" id="templates">
+<input class="search" id="templateSearch" placeholder="Search templates">
+<div class="section">Starter Template Canvases / Artboards</div>
+<div style="font-size:10px;color:var(--muted)">Choose an artboard preset. It adds a new independent artboard to the workspace and never replaces your existing artboards.</div>
+<div class="grid" id="canvasTemplates"></div><button class="tool" id="customArtboardBtn">＋ Create Custom Artboard</button>
+<div class="section" style="margin-top:8px">Starter Template Designs</div>
+<div style="font-size:10px;color:var(--muted)">Choose an existing artboard first, then apply a design to that artboard. Existing artwork on that artboard can be replaced after confirmation.</div>
+<div class="grid" id="designTemplates"></div><div class="section" style="margin-top:8px">My Templates</div><div style="font-size:10px;color:var(--muted)">Your saved designs. Apply them to the selected artboard.</div><div class="grid" id="myTemplates"></div><div class="section" style="margin-top:8px">Community Templates</div><div id="communityTemplateAccess"></div><div class="grid" id="communityTemplates"></div><button class="tool" id="submitTemplateBtn">＋ Submit My Template</button>
+</section>
+</aside>
 
-      <div class="field">
-        <label>Background</label>
-        <input
-          type="color"
-          id="customAbBg"
-          value="#ffffff"
-        >
-      </div>
+<main class="canvas-area"><div class="canvas-label" id="canvasLabel">WORKSPACE · Select an artboard</div><div class="scroll"><div class="canvas-wrap"><canvas id="canvas" width="1600" height="900"></canvas></div></div>
+<div class="dock"><button class="active" data-tool="select">↖ Select</button><button data-tool="direct">◇ Direct</button><button data-tool="pen">⌁ Pen</button><button data-tool="pencil">✎ Pencil</button><button data-tool="brush">🖌 Brush</button><button data-tool="addAnchor">＋ Add Anchor</button><button data-tool="deleteAnchor">− Delete Anchor</button><button data-tool="curve">⌒ Curve</button><button data-tool="rect">□ Shape</button><button data-tool="circle">○ Circle</button><button data-tool="text">T Text</button><button data-tool="hand">✋ Hand</button><span class="zoomsep"></span><button id="zoomOut" title="Zoom out">−</button><button id="zoomReadout" title="Reset zoom">100%</button><button id="zoomIn" title="Zoom in">+</button><button id="zoomFit" title="Fit workspace">Fit</button></div><div class="status" id="status">Ready — human-made assets only.</div></main>
 
-      <div class="field">
-        <label>Width (px)</label>
-        <input
-          class="search"
-          id="customAbW"
-          type="number"
-          min="1"
-          value="1600"
-        >
-      </div>
-
-      <div class="field">
-        <label>Height (px)</label>
-        <input
-          class="search"
-          id="customAbH"
-          type="number"
-          min="1"
-          value="900"
-        >
-      </div>
-
-    </div>
-
-    <div class="modal-actions">
-      <button class="headbtn" id="customAbCancel">
-        Cancel
-      </button>
-
-      <button class="headbtn primary" id="customAbCreate">
-        Create Artboard
-      </button>
-    </div>
-  </div>
+<aside class="right"><div class="inspector-title">Design Inspector</div><div id="none" class="empty">Select an object to edit its properties.</div><div class="inspector" id="inspector">
+<div class="section">Transform</div><div class="row"><div class="field"><label>X</label><input id="x" type="number"></div><div class="field"><label>Y</label><input id="y" type="number"></div></div><div class="row"><div class="field"><label>Width</label><input id="w" type="number"></div><div class="field"><label>Height</label><input id="h" type="number"></div></div><div class="row"><div class="field"><label>Rotation</label><input id="angle" type="number"></div><div class="field"><label>Opacity</label><input id="opacity" type="number" min="0" max="100"></div></div>
+<div class="section">Appearance</div><div class="field"><label>Fill</label><div class="color"><input id="fill" type="color"><input id="fillText" class="search"></div></div><div class="field"><label>Stroke</label><div class="color"><input id="stroke" type="color"><input id="strokeText" class="search"></div></div><div class="field"><label>Stroke Width</label><input id="strokeWidth" type="range" min="0" max="30"><span id="strokeLabel" style="font-size:10px;color:var(--muted)">0 px</span></div><div class="field"><label>Object Name</label><input id="name" class="search"></div><label style="font-size:10px;color:var(--muted)"><input id="lock" type="checkbox"> Lock object</label><button class="tool danger" id="delete">Delete Selected</button></div>
+<div class="section" style="margin-top:15px">Artboard</div><div id="artboardInspector" class="empty">Select an artboard to edit its size.</div><div id="artboardControls" style="display:none;flex-direction:column;gap:7px"><div class="field"><label>Artboard Name</label><input id="abName" class="search"></div><div class="row"><div class="field"><label>Width</label><input id="abW" type="number" min="1"></div><div class="field"><label>Height</label><input id="abH" type="number" min="1"></div></div><div class="field"><label>Background</label><input id="abBg" type="color" value="#ffffff"></div><button class="tool" id="applyArtboardSize">Apply Artboard Changes</button><button class="tool" id="fitSelected">⌖ Fit Selected Artboard</button></div><div class="section" style="margin-top:15px">Canvas</div><div class="field"><label>Workspace Background</label><input id="bg" type="color" value="#101215"></div><label style="font-size:10px;color:var(--muted)"><input id="grid" type="checkbox"> Show grid</label></aside>
 </div>
+</div>
+<div class="modal wide" id="customArtboardModal"><div><h2>Create Custom Artboard</h2><p>Set the exact canvas size. You can resize it later from the Artboard section in the inspector.</p><div class="modal-grid"><div class="field"><label>Artboard Name</label><input class="search" id="customAbName" value="Custom Artboard"></div><div class="field"><label>Background</label><input type="color" id="customAbBg" value="#ffffff"></div><div class="field"><label>Width (px)</label><input class="search" id="customAbW" type="number" min="1" value="1600"></div><div class="field"><label>Height (px)</label><input class="search" id="customAbH" type="number" min="1" value="900"></div></div><div class="modal-actions"><button class="headbtn" id="customAbCancel">Cancel</button><button class="headbtn primary" id="customAbCreate">Create Artboard</button></div></div></div>
+<div class="modal" id="modal"><div><h2>Contribute to the Community</h2><p>Contributions are human-created resources. Add the asset, title it, choose usage terms, and submit it for review. Approved work can earn points and keeps creator attribution.</p><div class="field"><label>Title</label><input class="search" placeholder="e.g. Webtoon speech bubbles"></div><div class="field" style="margin-top:8px"><label>License</label><select class="search"><option>CC BY</option><option>CC BY-SA</option><option>Custom permitted-use terms</option></select></div><div class="modal-actions"><button class="headbtn" id="cancel">Cancel</button><button class="headbtn primary" id="submit">Submit for Review</button></div></div></div>
+
+<script>
+const c=new fabric.Canvas('canvas',{backgroundColor:'#101215',preserveObjectStacking:true,selection:true});
+const $=id=>document.getElementById(id);
+let tool='select',points=[],preview=null,count=1,vault=[];
+let history=[],redoHistory=[],historyBusy=false,canvasLocked=false,historyTimer=null;
+let artboards=[],activeArtboardId=null,artboardSeq=1,workspaceW=6000,workspaceH=5000;
+let handDown=false,lastPan=null;let drawingColor='#111827',pencilWidth=2,brushWidth=10;
+function configureDrawingTool(t){c.freeDrawingBrush=new fabric.PencilBrush(c);c.freeDrawingBrush.color=drawingColor;c.freeDrawingBrush.width=t==='pencil'?pencilWidth:brushWidth;c.freeDrawingBrush.decimate=2;}
+
+const ARTBOARD_PRESETS={
+  blank:{name:'Blank Artboard',w:1600,h:900},
+  webtoon:{name:'Webtoon Vertical Canvas',w:1080,h:1920},
+  novel:{name:'Novel Page Canvas',w:1200,h:1800},
+  cover:{name:'Book Cover Canvas',w:1200,h:1800},
+  comic:{name:'Comic Page Canvas',w:1600,h:1200},
+  sheet:{name:'Character Sheet Canvas',w:1600,h:1000}
+};
+
+function status(s){$('status').textContent=s}
+function uid(){return 'ab_'+Date.now().toString(36)+'_'+(artboardSeq++)}
+function snapshot(){return JSON.stringify({artboards,activeArtboardId,objects:c.getObjects().filter(o=>o.jaRole!=='artboard'&&o!==preview).map(o=>o.toObject(['name','jaType','jaNodes','jaClosed','jaSource','jaArtboardId']))})}
+function pushHistory(){if(historyBusy)return;clearTimeout(historyTimer);historyTimer=setTimeout(()=>{const s=snapshot();if(history[history.length-1]!==s){history.push(s);if(history.length>80)history.shift();redoHistory=[]}},80)}
+function restoreState(s){
+  historyBusy=true;
+  const data=JSON.parse(s);
+  c.clear();
+  c.backgroundColor='#101215';
+  artboards=data.artboards||[];activeArtboardId=data.activeArtboardId||null;
+  artboards.forEach(addArtboardRect);
+  fabric.util.enlivenObjects(data.objects||[],objs=>{objs.forEach(o=>{if(o.jaArtboardId){applyClip(o);c.add(o)}});c.renderAll();updateCanvasLabel();layers();inspect();historyBusy=false});
+}
+function undo(){if(history.length<2)return status('Nothing to undo.');redoHistory.push(history.pop());restoreState(history[history.length-1]);status('Undo.')}
+function redo(){if(!redoHistory.length)return status('Nothing to redo.');const s=redoHistory.pop();history.push(s);restoreState(s);status('Redo.')}
+
+function resizeWorkspace(){
+  c.setDimensions({width:workspaceW,height:workspaceH});
+  c.renderAll();
+}
+let artboardDragState=null;
+function updateArtboardClip(o,ab){
+  if(!o||!ab)return;
+  o.clipPath=new fabric.Rect({left:ab.x,top:ab.y,width:ab.w,height:ab.h,originX:'left',originY:'top',absolutePositioned:true});
+  o.setCoords();
+}
+function addArtboardRect(ab){
+  const r=new fabric.Rect({
+    left:ab.x,top:ab.y,width:ab.w,height:ab.h,fill:ab.background||'#fff',
+    stroke:ab.id===activeArtboardId?'#00ff88':'#505862',strokeWidth:ab.id===activeArtboardId?4:2,
+    rx:0,ry:0,originX:'left',originY:'top',
+    selectable:!canvasLocked,evented:!canvasLocked,hasControls:false,hasBorders:true,
+    lockScalingX:true,lockScalingY:true,lockRotation:true,
+    name:ab.name,jaRole:'artboard',jaArtboardId:ab.id,excludeFromExport:true
+  });
+  r.on('mousedown',()=>{selectArtboard(ab.id);artboardDragState={id:ab.id,x:r.left,y:r.top}});
+  r.on('moving',()=>{
+    const current=getArtboard(ab.id);if(!current||!artboardDragState)return;
+    const dx=r.left-artboardDragState.x,dy=r.top-artboardDragState.y;
+    if(!dx&&!dy)return;
+    current.x=r.left;current.y=r.top;
+    artboardObjects(current.id).forEach(o=>{
+      o.left+=dx;o.top+=dy;
+      updateArtboardClip(o,current);
+    });
+    artboardDragState={id:ab.id,x:r.left,y:r.top};
+    updateCanvasLabel();c.requestRenderAll();
+  });
+  r.on('modified',()=>{artboardDragState=null;refreshArtboardStyles();layers();pushHistory();status(`${ab.name} moved — its design stays attached.`)});
+  c.add(r);c.sendToBack(r);
+  return r;
+}
+function addArtboard(key,x,y){
+  const p=ARTBOARD_PRESETS[key]; if(!p)return;
+  const id=uid();
+  const ab={id,name:p.name,w:p.w,h:p.h,x,y,background:'#fff'};
+  artboards.push(ab);activeArtboardId=id;
+  workspaceW=Math.max(workspaceW,ab.x+ab.w+400);workspaceH=Math.max(workspaceH,ab.y+ab.h+400);
+  addArtboardRect(ab);resizeWorkspace();refreshArtboardStyles();updateCanvasLabel();layers();c.renderAll();pushHistory();
+  status(p.name+' added to the workspace.');
+}
+function nextArtboardPosition(w,h){
+  const gap=180,margin=180;
+  if(!artboards.length)return {x:margin,y:margin};
+  let x=margin,y=margin;
+  for(const a of artboards){
+    x=Math.max(x,a.x+a.w+gap);
+    y=Math.max(y,a.y);
+  }
+  const maxX=Math.max(...artboards.map(a=>a.x+a.w));
+  if(x>maxX+2200){x=margin;y=Math.max(...artboards.map(a=>a.y+a.h))+gap}
+  return {x,y};
+}
+function addPreset(key){
+  const p=ARTBOARD_PRESETS[key],pos=nextArtboardPosition(p.w,p.h);
+  addArtboard(key,pos.x,pos.y);
+}
+function getArtboard(id){return artboards.find(a=>a.id===id)}
+function artboardObjects(id){return c.getObjects().filter(o=>o.jaRole!=='artboard'&&o.jaArtboardId===id&&o!==preview)}
+function pointInArtboard(pt,ab){return pt.x>=ab.x&&pt.x<=ab.x+ab.w&&pt.y>=ab.y&&pt.y<=ab.y+ab.h}
+function artboardAtPoint(pt){return [...artboards].reverse().find(ab=>pointInArtboard(pt,ab))}
+function selectArtboard(id){
+  activeArtboardId=id;refreshArtboardStyles();updateCanvasLabel();layers();inspectArtboard();c.discardActiveObject();clearNodeHandles();c.renderAll();
+}
+function refreshArtboardStyles(){
+  c.getObjects().filter(o=>o.jaRole==='artboard').forEach(o=>{
+    const active=o.jaArtboardId===activeArtboardId;
+    o.set({stroke:active?'#00ff88':'#505862',strokeWidth:active?4:2});
+  });
+}
+function updateCanvasLabel(){
+  const ab=getArtboard(activeArtboardId);
+  $('canvasLabel').textContent=ab?`${ab.name.toUpperCase()} · ${ab.w} × ${ab.h} px · WORKSPACE`:'WORKSPACE · Select an artboard';
+}
+function applyClip(o){const ab=getArtboard(o.jaArtboardId);if(ab)updateArtboardClip(o,ab)}
+function isInside(o,ab){return !!ab && o.left>=ab.x-1 && o.top>=ab.y-1}
+function addObject(o,abId=activeArtboardId){
+  const ab=getArtboard(abId);if(!ab){status('Select an artboard first.');return null}
+  o.jaArtboardId=ab.id;o.jaSource=o.jaSource||'human-created';
+  applyClip(o);c.add(o);return o;
+}
+function localPos(ab,rx,ry){return {left:ab.x+rx,top:ab.y+ry}}
+function clearArtboard(abId){
+  const os=artboardObjects(abId);os.forEach(o=>c.remove(o));clearNodeHandles();c.discardActiveObject();c.renderAll();layers();inspect();
+}
+function removeArtboard(){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  if(!confirm(`Delete "${ab.name}" and everything on it? This cannot be undone without Undo.`))return;
+  artboardObjects(ab.id).forEach(o=>c.remove(o));
+  const r=c.getObjects().find(o=>o.jaRole==='artboard'&&o.jaArtboardId===ab.id);if(r)c.remove(r);
+  artboards=artboards.filter(a=>a.id!==ab.id);activeArtboardId=artboards.at(-1)?.id||null;
+  refreshArtboardStyles();updateCanvasLabel();layers();inspect();c.renderAll();pushHistory();status('Artboard deleted.');
+}
+function setCanvasSize(w,h,label){addPreset({w,h})}
+function setTool(t){
+  tool=t;
+  document.querySelectorAll('.dock button[data-tool]').forEach(b=>b.classList.toggle('active',b.dataset.tool===t));
+  document.querySelector('.canvas-area').className='canvas-area tool-'+t;
+  c.isDrawingMode=(t==='brush'||t==='pencil');if(t==='brush'||t==='pencil')configureDrawingTool(t);
+  const selecting=(t==='select'||t==='direct');
+  c.selection=!canvasLocked&&selecting;
+  c.getObjects().forEach(o=>{
+    if(o.jaRole==='artboard')o.selectable=!canvasLocked&&selecting;
+    else if(o!==preview)o.selectable=!canvasLocked&&selecting;
+  });
+  clearNodeHandles();
+  if(t==='pen'){points=[];removePreview();c.discardActiveObject();status('Pen: click to place anchors. Double-click or Enter finishes. Click first point to close.')}
+  else if(t==='direct')status('Direct Select: select a vector path, then drag its anchors.')
+  else if(t==='addAnchor')status('Add Anchor: click a segment of a vector path.')
+  else if(t==='deleteAnchor')status('Delete Anchor: click an anchor.')
+  else if(t==='curve')status('Curve: click an anchor to toggle corner/smooth.')
+  else if(t==='pencil')status('Pencil: draw freehand vector strokes.');
+  else if(t==='brush')status('Brush: draw expressive freehand vector strokes.');
+  else if(t==='hand')status('Hand: drag to pan. Use the wheel or zoom controls to zoom.')
+  else status('Tool: '+t);
+}
+function removePreview(){
+  if(preview){c.remove(preview);preview=null;c.renderAll()}
+}
+function makePenPath(nodes,closed=false,previewMode=false){
+  if(!nodes.length)return null;
+  const minX=Math.min(...nodes.map(n=>n.x)),minY=Math.min(...nodes.map(n=>n.y));
+  const local=nodes.map(n=>({...n,x:n.x-minX,y:n.y-minY}));
+  const d=[['M',local[0].x,local[0].y]];
+  for(let i=1;i<local.length;i++){
+    const a=local[i-1],b=local[i];
+    d.push(['C',
+      a.x+(a.outX||0),a.y+(a.outY||0),
+      b.x+(b.inX||0),b.y+(b.inY||0),
+      b.x,b.y
+    ]);
+  }
+  if(closed){
+    const a=local[local.length-1],b=local[0];
+    d.push(['C',
+      a.x+(a.outX||0),a.y+(a.outY||0),
+      b.x+(b.inX||0),b.y+(b.inY||0),
+      b.x,b.y
+    ],['Z']);
+  }
+  return new fabric.Path(d,{
+    left:minX,top:minY,fill:closed?'rgba(12,140,233,.10)':'',
+    stroke:previewMode?'#00FF88':'#111827',strokeWidth:previewMode?2:3,
+    strokeLineCap:'round',strokeLineJoin:'round',
+    dashArray:previewMode?[6,5]:undefined,selectable:false,evented:false,
+    objectCaching:false
+  });
+}
+function previewPath(){
+  removePreview();
+  if(!points.length)return;
+  preview=makePenPath(points,false,true);
+  if(preview){c.add(preview);c.renderAll()}
+}
+function updatePenPreview(){
+  previewPath();
+  const n=points.at(-1); if(!n)return;
+  if(window._penPreviewHandles){window._penPreviewHandles.forEach(h=>c.remove(h));}
+  window._penPreviewHandles=[];
+  if(n.inX||n.inY||n.outX||n.outY){
+    const base=new fabric.Circle({left:n.x-4,top:n.y-4,radius:4,fill:'#00FF88',selectable:false,evented:false});
+    c.add(base);window._penPreviewHandles.push(base);
+    if(n.outX||n.outY){
+      const line=new fabric.Line([n.x,n.y,n.x+n.outX,n.y+n.outY],{stroke:'#00FF88',strokeWidth:1,selectable:false,evented:false});
+      const h=new fabric.Circle({left:n.x+n.outX-4,top:n.y+n.outY-4,radius:4,fill:'#fff',stroke:'#00FF88',strokeWidth:2,selectable:false,evented:false});
+      c.add(line,h);window._penPreviewHandles.push(line,h);
+    }
+  }
+  c.renderAll();
+}
+function finishPen(close=false){
+  const ab=getArtboard(activeArtboardId);
+  if(!ab){status('Pen Tool: select an artboard first.');return}
+  if(points.length<2){points=[];removePreview();return}
+  removePreview();
+  if(window._penPreviewHandles){window._penPreviewHandles.forEach(h=>c.remove(h));window._penPreviewHandles=[]}
+  const p=makePenPath(points,close,false);
+  const localNodes=points.map(n=>({...n,x:n.x-p.left,y:n.y-p.top}));p.set({name:'Pen Path '+count++,jaType:'vectorPath',jaNodes:localNodes,jaClosed:close,selectable:true,evented:true});
+  addObject(p);c.setActiveObject(p);c.renderAll();layers();inspect();pushHistory();
+  points=[];setTool('select');
+}
+function nodeWorld(o,node){return {x:o.left+node.x,y:o.top+node.y}}
+function clearNodeHandles(){
+  if(window._nodeHandles){window._nodeHandles.forEach(h=>c.remove(h));window._nodeHandles=[]}
+  if(window._nodeLines){window._nodeLines.forEach(h=>c.remove(h));window._nodeLines=[]}
+  c.renderAll();
+}
+function redrawVectorPath(o){
+  const ns=o.jaNodes||[];if(ns.length<2)return;
+  const p=makePenPath(ns,o.jaClosed,false);
+  o.set({left:p.left,top:p.top,path:p.path,scaleX:1,scaleY:1});
+  o.setCoords();applyClip(o);c.renderAll();
+}
+function showNodeHandles(o){
+  clearNodeHandles();if(!o||o.jaType!=='vectorPath')return;
+  window._nodeHandles=[];window._nodeLines=[];
+  (o.jaNodes||[]).forEach((node,i)=>{
+    const wp=nodeWorld(o,node);
+    // incoming/outgoing Bezier handles
+    [['inX','inY','in'],['outX','outY','out']].forEach(([kx,ky,label])=>{
+      if(!(node[kx]||node[ky]))return;
+      const hx=wp.x+node[kx],hy=wp.y+node[ky];
+      const line=new fabric.Line([wp.x,wp.y,hx,hy],{stroke:'#0c8ce9',strokeWidth:1,selectable:false,evented:false});
+      const h=new fabric.Circle({left:hx-5,top:hy-5,radius:5,fill:'#fff',stroke:'#0c8ce9',strokeWidth:2,
+        hasControls:false,hasBorders:false,selectable:true,evented:true,originX:'left',originY:'top',
+        jaNodeIndex:i,jaHandle:label,jaOwner:o});
+      h.on('moving',()=>{
+        const nx=h.left+5-o.left,ny=h.top+5-o.top;
+        o.jaNodes[i][kx]=nx-o.jaNodes[i].x;o.jaNodes[i][ky]=ny-o.jaNodes[i].y;
+        if(label==='in') { o.jaNodes[i].inX=nx-o.jaNodes[i].x;o.jaNodes[i].inY=ny-o.jaNodes[i].y; }
+        else { o.jaNodes[i].outX=nx-o.jaNodes[i].x;o.jaNodes[i].outY=ny-o.jaNodes[i].y; }
+        redrawVectorPath(o);showNodeHandles(o);
+      });
+      h.on('modified',pushHistory);
+      c.add(line,h);window._nodeLines.push(line);window._nodeHandles.push(h);
+    });
+    const h=new fabric.Circle({left:wp.x-5,top:wp.y-5,radius:5,fill:'#0c8ce9',stroke:'#fff',strokeWidth:1,
+      hasControls:false,hasBorders:false,selectable:true,evented:true,originX:'left',originY:'top',
+      jaNodeIndex:i,jaAnchor:true,jaOwner:o});
+    h.on('moving',()=>{
+      const nx=h.left+5-o.left,ny=h.top+5-o.top;
+      o.jaNodes[i].x=nx;o.jaNodes[i].y=ny;
+      redrawVectorPath(o);showNodeHandles(o);
+    });
+    h.on('modified',pushHistory);
+    c.add(h);window._nodeHandles.push(h);
+  });
+  window._nodeHandles.forEach(h=>c.bringToFront(h));c.renderAll()
+}
+function nearestVectorPath(pt){
+  const candidates=c.getObjects().filter(o=>o.jaType==='vectorPath'&&o.jaArtboardId===activeArtboardId);
+  return candidates.reverse().find(o=>{
+    const b=o.getBoundingRect();return pt.x>=b.left-12&&pt.x<=b.left+b.width+12&&pt.y>=b.top-12&&pt.y<=b.top+b.height+12;
+  })||null;
+}
+function addAnchorAtPoint(pt){
+  const o=nearestVectorPath(pt);if(!o)return status('Add Anchor: click on a vector path.');
+  const ns=o.jaNodes||[];let best={d:Infinity,index:1};
+  for(let i=0;i<ns.length-1;i++){
+    const a=nodeWorld(o,ns[i]),b=nodeWorld(o,ns[i+1]);
+    const dx=b.x-a.x,dy=b.y-a.y,t=Math.max(0,Math.min(1,((pt.x-a.x)*dx+(pt.y-a.y)*dy)/(dx*dx+dy*dy||1)));
+    const q={x:a.x+t*dx,y:a.y+t*dy},d=Math.hypot(pt.x-q.x,pt.y-q.y);
+    if(d<best.d)best={d,index:i+1,point:q}
+  }
+  if(best.d>30)return status('Click closer to the path segment.');
+  const n={x:best.point.x-o.left,y:best.point.y-o.top,inX:0,inY:0,outX:0,outY:0,type:'corner'};
+  ns.splice(best.index,0,n);redrawVectorPath(o);showNodeHandles(o);pushHistory();status('Anchor added.');
+}
+function deleteAnchorAtPoint(pt){
+  const o=nearestVectorPath(pt);if(!o)return status('Delete Anchor: click a vector path.');
+  let bi=-1,bd=18;(o.jaNodes||[]).forEach((n,i)=>{const w=nodeWorld(o,n),d=Math.hypot(pt.x-w.x,pt.y-w.y);if(d<bd){bd=d;bi=i}});
+  if(bi<0)return status('Click an anchor point.');
+  if(o.jaNodes.length<=2)return status('A path needs at least two anchors.');
+  o.jaNodes.splice(bi,1);redrawVectorPath(o);showNodeHandles(o);pushHistory();status('Anchor deleted.');
+}
+function toggleCurveAtPoint(pt){
+  const o=nearestVectorPath(pt);if(!o)return status('Curve: click a vector path anchor.');
+  let bi=-1,bd=18;(o.jaNodes||[]).forEach((n,i)=>{const w=nodeWorld(o,n),d=Math.hypot(pt.x-w.x,pt.y-w.y);if(d<bd){bd=d;bi=i}});
+  if(bi<0)return status('Click an anchor point.');
+  const n=o.jaNodes[bi];
+  if(n.type==='smooth'){n.type='corner';n.inX=n.inY=n.outX=n.outY=0}
+  else {n.type='smooth';n.inX=-35;n.inY=0;n.outX=35;n.outY=0}
+  redrawVectorPath(o);showNodeHandles(o);pushHistory();status(n.type==='smooth'?'Smooth anchor':'Corner anchor');
+}
+function addPolygon(sides,name,rx=180,ry=150,radius=80,fill='#8c6cff'){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  const cx=ab.x+rx,cy=ab.y+ry,pts=[];
+  for(let i=0;i<sides;i++){const a=-Math.PI/2+i*(Math.PI*2/sides);pts.push({x:Math.cos(a)*radius,y:Math.sin(a)*radius})}
+  const o=new fabric.Polygon(pts,{left:cx,top:cy,fill,stroke:'#111827',strokeWidth:3,name});
+  addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory();
+}
+function addEllipse(){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  const o=new fabric.Ellipse({...localPos(ab,220,180),rx:110,ry:70,fill:'#ff9f43',stroke:'#111827',strokeWidth:3,name:'Ellipse'});
+  addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory();
+}
+function addRhombus(){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  const o=new fabric.Polygon([{x:0,y:-80},{x:120,y:0},{x:0,y:80},{x:-120,y:0}],{...localPos(ab,240,180),fill:'#8c6cff',stroke:'#111827',strokeWidth:3,name:'Rhombus'});
+  addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory();
+}
+function addTrapezoid(){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  const o=new fabric.Polygon([{x:-110,y:-70},{x:110,y:-70},{x:75,y:70},{x:-75,y:70}],{...localPos(ab,250,190),fill:'#00ff88',stroke:'#111827',strokeWidth:3,name:'Trapezoid'});
+  addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory();
+}
+function addParallelogram(){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  const o=new fabric.Polygon([{x:-100,y:-70},{x:120,y:-70},{x:70,y:70},{x:-150,y:70}],{...localPos(ab,260,200),fill:'#ff9f43',stroke:'#111827',strokeWidth:3,name:'Parallelogram'});
+  addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory();
+}
+function addRect(){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  const o=new fabric.Rect({...localPos(ab,Math.min(120,ab.w/4),Math.min(120,ab.h/4)),width:180,height:120,fill:'#0c8ce9',stroke:'#111827',strokeWidth:3,name:'Rectangle'});
+  addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory()
+}
+function addCircle(){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  const o=new fabric.Circle({...localPos(ab,Math.min(350,ab.w/3),Math.min(250,ab.h/3)),radius:75,fill:'#ff9f43',stroke:'#111827',strokeWidth:3,name:'Circle'});
+  addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory()
+}
+function addLine(){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  const o=new fabric.Line([ab.x+120,ab.y+120,ab.x+380,ab.y+120],{stroke:'#00FF88',strokeWidth:4,name:'Community Line'});
+  addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory()
+}
+function addText(){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  const o=new fabric.IText('Type here',{...localPos(ab,120,120),fontSize:52,fill:'#111',name:'Text'});
+  addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory()
+}
+function addCharacter(){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  const skin=$('skin').value;
+  const head=new fabric.Circle({...localPos(ab,690,255),radius:70,fill:skin,name:'Head'});
+  const neck=new fabric.Rect({...localPos(ab,720,375),width:45,height:65,fill:skin,name:'Neck'});
+  const body=new fabric.Triangle({...localPos(ab,625,420),width:250,height:250,fill:'#0c8ce9',name:'Body'});
+  [head,neck,body].forEach(o=>addObject(o));
+  c.discardActiveObject();c.renderAll();layers();status('Character base added — hair is a separate asset.');pushHistory()
+}
+function addHair(){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  const o=new fabric.Circle({...localPos(ab,610,180),radius:125,fill:'#171313',stroke:'#000',strokeWidth:2,name:'Afro Hair',jaType:'hair'});
+  addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory()
+}
+function del(){
+  const o=c.getActiveObject();if(!o)return status('Select an object or artboard first.');
+  if(o.jaRole==='artboard'){activeArtboardId=o.jaArtboardId;removeArtboard();return}
+  c.remove(o);c.discardActiveObject();clearNodeHandles();c.renderAll();layers();inspect();pushHistory()
+}
+function duplicate(){
+  const o=c.getActiveObject();if(!o||o.jaRole==='artboard')return status('Select an object to duplicate.');
+  o.clone(n=>{n.set({left:o.left+20,top:o.top+20,name:(o.name||'Object')+' Copy'});n.jaArtboardId=o.jaArtboardId;applyClip(n);c.add(n).setActiveObject(n);c.renderAll();layers();pushHistory()})
+}
+function group(){
+  const a=c.getActiveObjects().filter(o=>o.jaRole!=='artboard');if(a.length<2)return;
+  const abId=a[0].jaArtboardId;if(a.some(o=>o.jaArtboardId!==abId))return status('Group objects from the same artboard.');
+  const g=new fabric.Group(a,{name:'Group',jaArtboardId:abId});a.forEach(o=>c.remove(o));applyClip(g);c.add(g).setActiveObject(g);c.renderAll();layers();pushHistory()
+}
+function layers(){
+  const box=$('layersList');box.innerHTML='';
+  const abs=[...artboards].reverse();
+  if(!abs.length){box.innerHTML='<div class="empty">No artboards yet. Add one from Templates.</div>';return}
+  abs.forEach(ab=>{
+    const row=document.createElement('div');row.className='layer '+(activeArtboardId===ab.id?'sel':'');
+    row.innerHTML=`<button class="layerdot">▧</button><span>${ab.name}</span><span style="margin-left:auto;color:var(--muted);font-size:9px">${ab.w}×${ab.h}</span>`;
+    row.onclick=()=>selectArtboard(ab.id);box.appendChild(row);
+    if(activeArtboardId===ab.id){
+      artboardObjects(ab.id).reverse().forEach(o=>{
+        const r=document.createElement('div');r.className='layer '+(c.getActiveObject()===o?'sel':'');r.style.paddingLeft='24px';
+        const v=document.createElement('button');v.textContent=o.visible===false?'○':'●';
+        v.onclick=e=>{e.stopPropagation();o.visible=o.visible===false;c.renderAll();layers()};
+        r.append(v);const span=document.createElement('span');span.textContent=o.name||o.type;r.append(span);
+        r.onclick=()=>{c.setActiveObject(o);c.renderAll();inspect()};box.appendChild(r)
+      })
+    }
+  })
+}
+function inspectArtboard(){const ab=getArtboard(activeArtboardId),box=$('artboardControls'),empty=$('artboardInspector');if(!ab){box.style.display='none';empty.style.display='block';return}box.style.display='flex';empty.style.display='none';$('abName').value=ab.name;$('abW').value=ab.w;$('abH').value=ab.h;$('abBg').value=ab.background||'#ffffff';}
+function resizeActiveArtboard(){const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');const w=Math.max(1,+$('abW').value||ab.w),h=Math.max(1,+$('abH').value||ab.h),name=$('abName').value.trim()||ab.name,bg=$('abBg').value||ab.background;ab.w=w;ab.h=h;ab.name=name;ab.background=bg;const r=c.getObjects().find(o=>o.jaRole==='artboard'&&o.jaArtboardId===ab.id);if(r)r.set({width:w,height:h,fill:bg,name});artboardObjects(ab.id).forEach(o=>updateArtboardClip(o,ab));workspaceW=Math.max(workspaceW,ab.x+w+400);workspaceH=Math.max(workspaceH,ab.y+h+400);resizeWorkspace();updateCanvasLabel();refreshArtboardStyles();layers();inspectArtboard();c.renderAll();pushHistory();status(`${name} resized to ${w} × ${h} px.`)}
+function fitSelectedArtboard(){const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');const area=document.querySelector('.canvas-area'),pad=120,aw=Math.max(200,area.clientWidth-pad),ah=Math.max(180,area.clientHeight-pad),z=Math.min(aw/ab.w,ah/ab.h),tx=area.clientWidth/2-(ab.x+ab.w/2)*z,ty=area.clientHeight/2-(ab.y+ab.h/2)*z;c.setViewportTransform([z,0,0,z,tx,ty]);$('zoomReadout').textContent=Math.round(z*100)+'%';c.requestRenderAll();status('Focused on '+ab.name+'.')}
+
+function inspect(){
+  const o=c.getActiveObject();
+  if(!o||o.jaRole==='artboard'){$('none').style.display='block';$('inspector').style.display='none';inspectArtboard();return}
+  $('none').style.display='none';$('inspector').style.display='block';inspectArtboard();
+  $('x').value=Math.round(o.left||0);$('y').value=Math.round(o.top||0);$('w').value=Math.round((o.getScaledWidth&&o.getScaledWidth())||0);$('h').value=Math.round((o.getScaledHeight&&o.getScaledHeight())||0);
+  $('angle').value=Math.round(o.angle||0);$('opacity').value=Math.round((o.opacity??1)*100);$('name').value=o.name||o.type;
+  $('fill').value=o.fill&&typeof o.fill==='string'&&o.fill[0]==='#'?o.fill:'#000000';$('stroke').value=o.stroke&&typeof o.stroke==='string'&&o.stroke[0]==='#'?o.stroke:'#000000';$('strokeWidth').value=o.strokeWidth||0;
+}
+function applyInspector(){
+  const o=c.getActiveObject();if(!o||o.jaRole==='artboard')return;
+  o.set({left:+$('x').value,top:+$('y').value,angle:+$('angle').value,opacity:Math.max(0,Math.min(100,+$('opacity').value))/100,name:$('name').value,fill:$('fill').value,stroke:$('stroke').value,strokeWidth:+$('strokeWidth').value});
+  if(o.jaArtboardId)applyClip(o);o.setCoords();c.renderAll();layers();pushHistory()
+}
+['x','y','angle','opacity','name','fill','stroke','strokeWidth'].forEach(id=>$(id).addEventListener('change',applyInspector));
+$('w').addEventListener('change',()=>{const o=c.getActiveObject();if(o&&o.jaRole!=='artboard'){o.scaleToWidth(+$('w').value);applyInspector()}});
+$('h').addEventListener('change',()=>{const o=c.getActiveObject();if(o&&o.jaRole!=='artboard'){o.scaleToHeight(+$('h').value);applyInspector()}});
+
+function makeDesignObjects(t,ab){
+  const A=(text,rx,ry,opts={})=>new fabric.IText(text,{...localPos(ab,rx,ry),...opts,name:opts.name||text});
+  if(t==='bookCover')return [
+    new fabric.Rect({...localPos(ab,0,0),width:ab.w,height:ab.h,fill:'#252a32',name:'Cover Background'}),
+    A('BOOK TITLE',Math.max(60,ab.w*.25),ab.h*.32,{fontSize:Math.max(44,ab.w*.08),fill:'#fff',fontWeight:'700',name:'Book Title'}),
+    A('Author Name',Math.max(60,ab.w*.36),ab.h*.48,{fontSize:38,fill:'#fff',name:'Author Name'}),
+    A('VOLUME 01',Math.max(60,ab.w*.40),ab.h*.54,{fontSize:26,fill:'#ff9f43',name:'Volume Number'})
+  ];
+  if(t==='titlePage')return [A('BOOK NAME HERE',ab.w*.24,ab.h*.34,{fontSize:64,fill:'#111',fontWeight:'700',name:'Book Name'}),A('Author Name',ab.w*.38,ab.h*.46,{fontSize:36,fill:'#333',name:'Author Name'}),A('VOLUME 01',ab.w*.42,ab.h*.52,{fontSize:26,fill:'#ff9f43',name:'Volume Number'})];
+  if(t==='webtoonTitle')return [A('EPISODE TITLE',ab.w*.25,ab.h*.38,{fontSize:60,fill:'#111',fontWeight:'700',name:'Episode Title'}),A('by Creator Name',ab.w*.34,ab.h*.47,{fontSize:28,fill:'#555',name:'Creator Name'})];
+  if(t==='characterSheet')return [A('CHARACTER NAME',70,60,{fontSize:52,fill:'#111',fontWeight:'700',name:'Character Name'}),A('Reference / Turnaround Sheet',75,125,{fontSize:22,fill:'#555',name:'Sheet Subtitle'})];
+  return [];
+}
+function designTemplate(t){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select the artboard you want to design first.');
+  const existing=artboardObjects(ab.id).length;
+  const go=()=>{
+    clearArtboard(ab.id);
+    makeDesignObjects(t,ab).forEach(o=>addObject(o,ab.id));
+    c.renderAll();layers();inspect();pushHistory();status('Design template applied to '+ab.name+'.')
+  };
+  existing?confirmChange('Replace the current design on the selected artboard with this starter design?',go):go()
+}
+function confirmChange(msg,action){if(confirm(msg))action()}
+
+const communityTemplateSamples=[{name:'Minimal Book Cover',category:'Book Design',w:1200,h:1800,description:'Clean title, author, and artwork framework.',objects:[{type:'rect',left:0,top:0,width:1200,height:1800,fill:'#20242a'},{type:'text',text:'BOOK TITLE',left:150,top:500,fontSize:86,fill:'#fff',fontWeight:'700'},{type:'text',text:'Author Name',left:220,top:650,fontSize:42,fill:'#ff9f43'}]},{name:'Webtoon Episode Starter',category:'Webtoon',w:1080,h:1920,description:'Vertical episode title and panel starter.',objects:[{type:'text',text:'EPISODE TITLE',left:120,top:150,fontSize:72,fill:'#111',fontWeight:'700'},{type:'rect',left:100,top:400,width:880,height:520,fill:'#e8edf2'}]},{name:'Character Reference Sheet',category:'Character',w:1600,h:1000,description:'Character name, reference area, and notes.',objects:[{type:'text',text:'CHARACTER NAME',left:80,top:60,fontSize:60,fill:'#111',fontWeight:'700'},{type:'rect',left:80,top:180,width:620,height:700,fill:'#f0f0f0'}]}];
+function communityUnlocked(){return +(localStorage.getItem('jaCommunityContributions')||0)>0}
+function renderCommunityTemplates(){const box=$('communityTemplates'),access=$('communityTemplateAccess');if(!box)return;box.innerHTML='';if(!communityUnlocked()){access.innerHTML='<div class="template-lock">🔒 Community Templates are unlocked by contributing to the Just Angles community. Submit an approved asset or template to begin earning access and points.</div>';return}access.innerHTML='<div style="font-size:10px;color:var(--muted)">Community access unlocked. Creator attribution stays attached to shared templates.</div>';communityTemplateSamples.forEach(t=>{const b=document.createElement('button');b.className='asset';b.innerHTML=`<div class="preview">✦</div>${t.name}<div style="color:var(--muted);font-size:8px;margin-top:3px">${t.category} · ${t.w}×${t.h}</div>`;b.onclick=()=>applyCommunityTemplate(t);box.append(b)})}
+function applyCommunityTemplate(t){const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');const go=()=>{clearArtboard(ab.id);const sx=ab.w/t.w,sy=ab.h/t.h;t.objects.forEach(x=>{let o;if(x.type==='rect')o=new fabric.Rect({...localPos(ab,x.left*sx,x.top*sy),width:x.width*sx,height:x.height*sy,fill:x.fill,name:'Community Template Element'});else o=new fabric.IText(x.text,{...localPos(ab,x.left*sx,x.top*sy),fontSize:x.fontSize*sx,fill:x.fill,fontWeight:x.fontWeight||'400',name:x.text});addObject(o,ab.id)});c.renderAll();layers();pushHistory();status('Community template applied — creator attribution retained.')};artboardObjects(ab.id).length?confirmChange('Replace the current design on the selected artboard with this community template?',go):go()}
+function submitTemplate(){const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');const name=prompt('Name your template:',ab.name+' Template');if(!name)return;const list=JSON.parse(localStorage.getItem('jaCommunitySubmittedTemplates')||'[]');list.push({name,category:'Creator Template',w:ab.w,h:ab.h,objects:templatePayload(ab)});localStorage.setItem('jaCommunitySubmittedTemplates',JSON.stringify(list));localStorage.setItem('jaCommunityContributions',String(+(localStorage.getItem('jaCommunityContributions')||0)+1));renderCommunityTemplates();status('Template submitted for community review. Contribution recorded; community access is unlocked in this prototype.')}
+
+function renderTemplateCards(){
+  const canvases=[
+    ['Blank Artboard','▧','1600×900','blank'],['Webtoon Vertical Canvas','▥','1080×1920','webtoon'],['Novel Page Canvas','▤','1200×1800','novel'],
+    ['Book Cover Canvas','▣','1200×1800','cover'],['Comic Page Canvas','▦','1600×1200','comic'],['Character Sheet Canvas','◫','1600×1000','sheet']
+  ];
+  const designs=[
+    ['Book Cover — Title / Author / Volume','▣','Design for selected artboard','bookCover'],['Novel Title Page','▤','Design for selected artboard','titlePage'],
+    ['Webtoon Episode Title','▥','Design for selected artboard','webtoonTitle'],['Character Sheet Starter','◫','Design for selected artboard','characterSheet']
+  ];
+  $('canvasTemplates').innerHTML='';$('designTemplates').innerHTML='';
+  canvases.forEach(([n,icon,size,t])=>{const b=document.createElement('button');b.className='asset';b.innerHTML=`<div class="preview">${icon}</div>${n}<div style="color:var(--muted);font-size:8px;margin-top:3px">${size}</div>`;b.onclick=()=>addPreset(t);$('canvasTemplates').append(b)});
+  designs.forEach(([n,icon,desc,t])=>{const b=document.createElement('button');b.className='asset';b.innerHTML=`<div class="preview">${icon}</div>${n}<div style="color:var(--muted);font-size:8px;margin-top:3px">${desc}</div>`;b.onclick=()=>designTemplate(t);$('designTemplates').append(b)});
+  renderMyTemplates();renderCommunityTemplates()
+}
+function templatePayload(ab){
+  return artboardObjects(ab.id).map(o=>{const j=o.toObject(['name','jaType','jaNodes','jaClosed','jaSource','jaArtboardId']);j.left-=ab.x;j.top-=ab.y;delete j.clipPath;delete j.jaArtboardId;return j})
+}
+function renderMyTemplates(){
+  const grid=$('myTemplates');if(!grid)return;grid.innerHTML='';
+  const list=JSON.parse(localStorage.getItem('jaMyTemplates')||'[]');
+  if(!list.length){grid.innerHTML='<div class="empty">No saved templates yet.</div>';return}
+  list.forEach((tpl,i)=>{const b=document.createElement('button');b.className='asset';b.innerHTML=`<div class="preview">✦</div>${tpl.name}<div style="color:var(--muted);font-size:8px;margin-top:3px">${tpl.w}×${tpl.h}</div>`;b.onclick=()=>applyMyTemplate(tpl);grid.append(b)})
+}
+function saveMyTemplate(){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard to save as a template.');
+  const name=prompt('Name this template:',ab.name+' Template');if(!name)return;
+  const list=JSON.parse(localStorage.getItem('jaMyTemplates')||'[]');
+  list.push({name,w:ab.w,h:ab.h,objects:templatePayload(ab)});
+  localStorage.setItem('jaMyTemplates',JSON.stringify(list));renderMyTemplates();status('Saved to My Templates.')
+}
+function applyMyTemplate(tpl){
+  const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+  const go=()=>{clearArtboard(ab.id);fabric.util.enlivenObjects(tpl.objects,objs=>{objs.forEach(o=>{o.set({left:o.left+ab.x,top:o.top+ab.y,jaArtboardId:ab.id});applyClip(o);c.add(o)});c.renderAll();layers();pushHistory();status('My Template applied to '+ab.name+'.')})};
+  artboardObjects(ab.id).length?confirmChange('Replace the current design on the selected artboard with this saved template?',go):go()
+}
+
+const communitySets={
+ Shapes:[
+  ['▭','Rectangle',()=>addRect()],['▢','Rounded Rectangle',()=>{const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');const o=new fabric.Rect({...localPos(ab,160,140),width:220,height:140,rx:24,ry:24,fill:'#0c8ce9',name:'Rounded Rectangle'});addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory()}],
+  ['○','Circle',()=>addCircle()],['⬭','Ellipse',()=>addEllipse()],['△','Triangle',()=>{addPolygon(3,'Triangle',240,180,90,'#ff9f43')}],
+  ['▱','Rhombus',()=>addRhombus()],['⏢','Trapezoid',()=>addTrapezoid()],['▱','Parallelogram',()=>addParallelogram()],
+  ['⬟','Pentagon',()=>addPolygon(5,'Pentagon',280,180,90,'#8c6cff')],['⬡','Hexagon',()=>addPolygon(6,'Hexagon',320,180,90,'#00ff88')],
+  ['⬢','Heptagon',()=>addPolygon(7,'Heptagon',360,180,90,'#ff9f43')],['🛑','Octagon',()=>addPolygon(8,'Octagon',400,180,90,'#8c6cff')],
+  ['◇','Diamond',()=>{const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');const o=new fabric.Polygon([{x:0,y:-90},{x:70,y:0},{x:0,y:90},{x:-70,y:0}],{...localPos(ab,440,180),fill:'#00ff88',name:'Diamond'});addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory()}],
+  ['✚','Cross',()=>{const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');const o=new fabric.Polygon([{x:-30,y:-100},{x:30,y:-100},{x:30,y:-30},{x:100,y:-30},{x:100,y:30},{x:30,y:30},{x:30,y:100},{x:-30,y:100},{x:-30,y:30},{x:-100,y:30},{x:-100,y:-30},{x:-30,y:-30}],{...localPos(ab,500,180),fill:'#ff9f43',name:'Cross'});addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory()}]
+ ],
+ Lines:[
+  ['—','Line',()=>addLine()],['→','Arrow',()=>{const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');const o=new fabric.Line([ab.x+120,ab.y+120,ab.x+380,ab.y+120],{stroke:'#00ff88',strokeWidth:5,name:'Arrow'});addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory()}],
+  ['↗','Diagonal',()=>{const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');const o=new fabric.Line([ab.x+120,ab.y+120,ab.x+380,ab.y+260],{stroke:'#00ff88',strokeWidth:5,name:'Diagonal Line'});addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory()}],
+  ['⋯','Dotted',()=>{const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');const o=new fabric.Line([ab.x+120,ab.y+320,ab.x+500,ab.y+320],{stroke:'#ff9f43',strokeWidth:5,strokeDashArray:[4,12],name:'Dotted Line'});addObject(o);c.setActiveObject(o);c.renderAll();layers();pushHistory()}],
+  ['∥','Parallel',()=>status('Parallel line tool ready for the next vector-tool pass.')]
+ ],
+ Colors:[
+  ['●','Skin Tone Palette',()=>status('Skin tone palette selected.')],['✦','Accent Palette',()=>status('Accent palette selected.')],
+  ['◐','Warm Palette',()=>status('Warm palette selected.')],['◑','Cool Palette',()=>status('Cool palette selected.')],
+  ['◒','Neutral Palette',()=>status('Neutral palette selected.')],['◓','Monochrome',()=>status('Monochrome palette selected.')]
+ ],
+ Backgrounds:[
+  ['▧','Paper',()=>setArtboardBackground('#f4f0e8')],['▒','Dark',()=>setArtboardBackground('#20242a')],
+  ['░','Warm',()=>setArtboardBackground('#efe0c6')],['▦','Grid',()=>setArtboardBackground('#e8edf2')]
+ ],
+ Textures:[['▒','Paper Grain',()=>status('Human-created texture placeholder selected.')],['░','Halftone',()=>status('Human-created halftone placeholder selected.')],['▓','Canvas Grain',()=>status('Human-created canvas texture selected.')]],
+ Frames:[['□','Panel Frame',()=>addFrame()],['▣','Photo Frame',()=>addFrame(true)],['◫','Inset Frame',()=>addFrame(false)]],
+ Icons:[['★','Star Icon',()=>addStarIcon()],['♥','Heart Icon',()=>addHeartIcon()],['◆','Diamond Icon',()=>addDiamondIcon()],['✦','Spark Icon',()=>addStarIcon()]],
+ Brushes:[['╱','Ink Brush',()=>status('Ink Brush selected.')],['≈','Pencil',()=>status('Pencil selected.')],['〰','Marker',()=>status('Marker selected.')]],
+ Patterns:[['◇','Pattern A',()=>status('Pattern selected.')],['◈','Pattern B',()=>status('Pattern selected.')],['▦','Grid Pattern',()=>status('Grid pattern selected.')]]
+};
+function setArtboardBackground(color){
+ const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');
+ ab.background=color;const r=c.getObjects().find(o=>o.jaRole==='artboard'&&o.jaArtboardId===ab.id);
+ if(r)r.set('fill',color);c.requestRenderAll();pushHistory();
+}
+function renderCommunitySet(name){const grid=$('communityGrid');grid.innerHTML='';(communitySets[name]||[]).forEach(([icon,label,fn])=>{const b=document.createElement('button');b.className='asset';b.innerHTML=`<div class="preview">${icon}</div>${label}`;b.onclick=fn;grid.append(b)})}
+document.querySelectorAll('#community .subtab').forEach(b=>b.onclick=()=>{document.querySelectorAll('#community .subtab').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCommunitySet(b.textContent.trim())});
+
+function setActiveFromTarget(target){
+  if(!target)return;
+  if(target.jaRole==='artboard'){selectArtboard(target.jaArtboardId);return}
+  if(target.jaArtboardId){activeArtboardId=target.jaArtboardId;refreshArtboardStyles();updateCanvasLabel()}
+}
+function nearestVectorPath(pt){
+  let best=null,bestD=Infinity;
+  for(const o of c.getObjects()){
+    if(o.jaType!=='vectorPath'||o.jaArtboardId!==activeArtboardId)continue;
+    const ns=o.jaNodes||[];
+    ns.forEach((n,i)=>{const w=nodeWorld(o,n),d=Math.hypot(pt.x-w.x,pt.y-w.y);if(d<bestD){best={o,index:i};bestD=d}});
+    for(let i=0;i<ns.length-1;i++){
+      const a=nodeWorld(o,ns[i]),b=nodeWorld(o,ns[i+1]),vx=b.x-a.x,vy=b.y-a.y;
+      const t=Math.max(0,Math.min(1,((pt.x-a.x)*vx+(pt.y-a.y)*vy)/(vx*vx+vy*vy||1)));
+      const q={x:a.x+t*vx,y:a.y+t*vy},d=Math.hypot(pt.x-q.x,pt.y-q.y);
+      if(d<bestD){best={o,index:i+1,insert:{x:q.x,y:q.y}};bestD=d}
+    }
+  }
+  return bestD<30?best:null;
+}
+function addAnchorAtPoint(pt){
+  const hit=nearestVectorPath(pt);if(!hit)return status('Anchor Tool: click near a vector path.');
+  const {o,index,insert}=hit;
+  if(!insert)return status('Anchor Tool: click a segment between two points.');
+  const local={x:insert.x-o.left,y:insert.y-o.top};
+  o.jaNodes.splice(index,0,local);redrawVectorPath(o);c.setActiveObject(o);showNodeHandles(o);pushHistory();status('Anchor added.');
+}
+function deleteAnchorAtPoint(pt){
+  const hit=nearestVectorPath(pt);if(!hit)return status('Delete Anchor: click near an anchor point.');
+  const {o,index}=hit;
+  if((o.jaNodes||[]).length<=2)return status('A vector path needs at least two anchors.');
+  o.jaNodes.splice(index,1);redrawVectorPath(o);c.setActiveObject(o);showNodeHandles(o);pushHistory();status('Anchor deleted.');
+}
+function toggleCurveAtPoint(pt){
+  const hit=nearestVectorPath(pt);if(!hit)return status('Curve Tool: click an anchor on a vector path.');
+  const {o,index}=hit;
+  // First-pass curve affordance: mark the node smooth and expose it for the next Bezier pass.
+  o.jaNodes[index].smooth=!o.jaNodes[index].smooth;
+  showNodeHandles(o);pushHistory();status(o.jaNodes[index].smooth?'Anchor set to smooth.':'Anchor set to corner.');
+}
+c.on('selection:created',e=>{setActiveFromTarget(e.selected?.[0]);layers();inspect();if(tool==='direct'&&e.selected?.[0]?.jaType==='vectorPath')showNodeHandles(e.selected[0])});
+c.on('selection:updated',e=>{setActiveFromTarget(e.selected?.[0]);layers();inspect();if(tool==='direct'&&e.selected?.[0]?.jaType==='vectorPath')showNodeHandles(e.selected[0])});
+c.on('selection:cleared',()=>{clearNodeHandles();layers();inspect()});
+c.on('object:modified',e=>{if(e.target?.jaRole==='artboard'){const ab=getArtboard(e.target.jaArtboardId);if(ab){ab.x=e.target.left;ab.y=e.target.top;artboardObjects(ab.id).forEach(o=>updateArtboardClip(o,ab));}}pushHistory();layers();inspect()});
+
+c.on('mouse:down',e=>{
+  const p=c.getPointer(e.e);
+  if(tool==='pen'){
+    const ab=artboardAtPoint(p);
+    if(!ab){status('Pen Tool: click inside an artboard.');return}
+    if(ab.id!==activeArtboardId)selectArtboard(ab.id);
+    if(points.length>2&&Math.hypot(p.x-points[0].x,p.y-points[0].y)<16){finishPen(true);return}
+    const n={x:p.x,y:p.y,inX:0,inY:0,outX:0,outY:0,type:'corner'};
+    points.push(n);updatePenPreview();return;
+  }
+  if(tool==='addAnchor'){addAnchorAtPoint(p);return}
+  if(tool==='deleteAnchor'){deleteAnchorAtPoint(p);return}
+  if(tool==='curve'){toggleCurveAtPoint(p);return}
+  if(tool==='hand'){handDown=true;lastPan={x:e.e.clientX,y:e.e.clientY};document.querySelector('.canvas-area').classList.add('is-panning');return}
+  if(!e.target){const ab=artboardAtPoint(p);if(ab)selectArtboard(ab.id)}
+});
+c.on('mouse:move',e=>{
+  const p=c.getPointer(e.e);
+  if(tool==='pen'&&points.length){
+    const n=points.at(-1);
+    // Dragging while placing an anchor creates a Bezier handle pair.
+    if(e.e.buttons){
+      const dx=p.x-n.x,dy=p.y-n.y;
+      n.outX=dx;n.outY=dy;n.inX=-dx;n.inY=-dy;n.type='smooth';
+      updatePenPreview();
+    }
+    return;
+  }
+  if(tool==='hand'&&handDown&&lastPan){
+    const dx=e.e.clientX-lastPan.x,dy=e.e.clientY-lastPan.y,v=c.viewportTransform;
+    v[4]+=dx;v[5]+=dy;c.requestRenderAll();lastPan={x:e.e.clientX,y:e.e.clientY};
+  }
+});
+c.on('mouse:up',e=>{
+  if(tool==='hand'){handDown=false;lastPan=null;document.querySelector('.canvas-area').classList.remove('is-panning');}
+});
+c.on('mouse:dblclick',()=>tool==='pen'&&finishPen(false));
+
+// Freehand Paintbrush creates actual Fabric vector paths, separate from Pen.
+c.on('path:created',e=>{
+  if(tool!=='brush'&&tool!=='pencil')return;
+  const path=e.path,ab=artboardAtPoint({x:path.left,y:path.top})||getArtboard(activeArtboardId);
+  if(!ab){c.remove(path);status('Paintbrush: draw inside an artboard.');return}
+  path.set({jaArtboardId:ab.id,jaSource:'human-created',name:(tool==='pencil'?'Pencil Stroke ':'Brush Stroke ')+count++,
+    jaType:tool==='pencil'?'pencilPath':'brushPath',fill:'',stroke:'#111827',strokeWidth:3,strokeLineCap:'round',strokeLineJoin:'round'});
+  applyClip(path);c.setActiveObject(path);layers();inspect();pushHistory();status('Paintbrush stroke created as vector artwork.');
+});
+
+// The workspace zooms with the wheel. Hand Tool is for panning by dragging.
+c.on('mouse:wheel',opt=>{
+  let z=c.getZoom();z*=0.999**opt.e.deltaY;z=Math.max(.1,Math.min(4,z));
+  c.zoomToPoint({x:opt.e.offsetX,y:opt.e.offsetY},z);
+  $('zoomReadout').textContent=Math.round(z*100)+'%';opt.e.preventDefault();opt.e.stopPropagation();
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Home'){e.preventDefault();fitSelectedArtboard();return}
+  if(tool==='pen'&&e.key==='Enter')finishPen(false);
+  if(tool==='pen'&&e.key==='Escape'){points=[];removePreview();setTool('select')}
+  if((e.key==='Delete'||e.key==='Backspace')&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){if(c.getActiveObject())del();else if(activeArtboardId)removeArtboard();}
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo()}
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='y'){e.preventDefault();redo()}
+});
+
+document.querySelectorAll('.dock button').forEach(b=>b.onclick=()=>setTool(b.dataset.tool));
+function setZoom(z,point){
+  z=Math.max(.1,Math.min(4,z));
+  const pt=point||{x:c.getWidth()/2,y:c.getHeight()/2};
+  c.zoomToPoint(pt,z);$('zoomReadout').textContent=Math.round(z*100)+'%';c.requestRenderAll();
+}
+function fitWorkspace(){
+  const area=document.querySelector('.canvas-area');
+  const pad=100,aw=Math.max(300,area.clientWidth-pad),ah=Math.max(250,area.clientHeight-pad);
+  const z=Math.min(aw/workspaceW,ah/workspaceH);
+  const tx=(area.clientWidth-workspaceW*z)/2,ty=(area.clientHeight-workspaceH*z)/2;
+  c.setViewportTransform([z,0,0,z,tx,ty]);$('zoomReadout').textContent=Math.round(z*100)+'%';c.requestRenderAll();
+}
+$('zoomOut').onclick=()=>setZoom(c.getZoom()/1.2);
+$('zoomIn').onclick=()=>setZoom(c.getZoom()*1.2);
+$('zoomReadout').onclick=()=>setZoom(1);
+$('zoomFit').onclick=fitSelectedArtboard;
+$('undo').onclick=undo;$('redo').onclick=redo;
+$('canvasLock').onclick=()=>{canvasLocked=!canvasLocked;$('canvasLock').textContent=canvasLocked?'Canvas 🔒':'Canvas 🔓';c.getObjects().forEach(o=>{o.selectable=!canvasLocked;o.evented=!canvasLocked});c.selection=!canvasLocked;status(canvasLocked?'Workspace locked — artboards and artwork cannot be moved.':'Workspace unlocked.');c.renderAll()};
+$('delete').onclick=del;$('deleteArtboard').onclick=removeArtboard;$('duplicate').onclick=duplicate;$('group').onclick=group;
+$('characterBtn').onclick=addCharacter;$('hairBtn').onclick=addHair;
+$('saveTemplate').onclick=saveMyTemplate;
+$('customArtboardBtn').onclick=()=>{$('customArtboardModal').style.display='flex'};
+$('customAbCancel').onclick=()=>{$('customArtboardModal').style.display='none'};
+$('customAbCreate').onclick=()=>{const w=Math.max(1,+$('customAbW').value||1600),h=Math.max(1,+$('customAbH').value||900),name=$('customAbName').value.trim()||'Custom Artboard',bg=$('customAbBg').value||'#ffffff',id=uid(),pos=nextArtboardPosition(w,h),ab={id,name,w,h,x:pos.x,y:pos.y,background:bg};artboards.push(ab);activeArtboardId=id;workspaceW=Math.max(workspaceW,ab.x+w+400);workspaceH=Math.max(workspaceH,ab.y+h+400);addArtboardRect(ab);resizeWorkspace();refreshArtboardStyles();updateCanvasLabel();layers();inspectArtboard();c.renderAll();pushHistory();$('customArtboardModal').style.display='none';fitSelectedArtboard();status(name+' created.')};
+$('applyArtboardSize').onclick=resizeActiveArtboard;$('fitSelected').onclick=fitSelectedArtboard;$('submitTemplateBtn').onclick=submitTemplate;
+$('save').onclick=()=>{localStorage.setItem('justAnglesArtboardV4',JSON.stringify({artboards,activeArtboardId,workspaceW,workspaceH,objects:c.getObjects().filter(o=>o.jaRole!=='artboard').map(o=>o.toObject(['name','jaType','jaNodes','jaClosed','jaSource','jaArtboardId']))}));status('Workspace saved locally.')};
+$('load').onclick=()=>{
+  const raw=localStorage.getItem('justAnglesArtboardV4');if(!raw)return status('No saved workspace found.');
+  restoreState(JSON.stringify({...JSON.parse(raw),objects:JSON.parse(raw).objects}));history=[snapshot()];status('Workspace loaded.')
+};
+$('export').onclick=()=>{
+  const prev=activeArtboardId,ab=getArtboard(prev);if(!ab)return status('Select an artboard to export.');
+  const visible=c.getObjects().filter(o=>o.jaArtboardId===ab.id&&o.jaRole!=='artboard');const old=c.getActiveObject();c.discardActiveObject();
+  const data=c.toSVG({suppressPreamble:false});const blob=new Blob([data],{type:'image/svg+xml'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(ab.name||'artboard')+'.svg';a.click();URL.revokeObjectURL(a.href);if(old)c.setActiveObject(old);status('SVG exported. Note: workspace export is a full workspace SVG in this prototype.')
+};
+$('grid').onchange=e=>{$('.canvas-area').style.backgroundImage=e.target.checked?'linear-gradient(#ffffff10 1px,transparent 1px),linear-gradient(90deg,#ffffff10 1px,transparent 1px)':'none';$('.canvas-area').style.backgroundSize=e.target.checked?'20px 20px':'auto'};
+$('bg').oninput=e=>{c.backgroundColor=e.target.value;c.renderAll()};
+$('upload').onclick=()=>$('file').click();
+$('file').onchange=e=>{const f=e.target.files[0];if(!f)return;const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard before importing media.');const r=new FileReader();r.onload=ev=>{fabric.Image.fromURL(ev.target.result,img=>{img.set({left:ab.x+80,top:ab.y+80,name:f.name,jaSource:'user-upload'});img.scaleToWidth(Math.min(400,ab.w-160));addObject(img);c.setActiveObject(img);c.renderAll();layers();pushHistory();renderVault()})};r.readAsDataURL(f);e.target.value=''};
+function renderVault(){const v=$('vault');v.innerHTML='';const saved=JSON.parse(localStorage.getItem('jaVault')||'[]');if(!saved.length){v.innerHTML='<div class="empty">Your uploaded media will appear here.</div>';return}saved.forEach((x,i)=>{const b=document.createElement('button');b.className='asset';b.innerHTML=`<div class="preview">▧</div>${x.name}`;b.onclick=()=>{const ab=getArtboard(activeArtboardId);if(!ab)return status('Select an artboard first.');fabric.Image.fromURL(x.data,img=>{img.set({left:ab.x+80,top:ab.y+80,name:x.name,jaSource:'user-upload'});img.scaleToWidth(Math.min(400,ab.w-160));addObject(img);c.setActiveObject(img);c.renderAll();layers();pushHistory()})};v.append(b)})}
+$('file').addEventListener('change',()=>{});
+document.querySelectorAll('.subtabs').forEach(tab=>tab.addEventListener('click',e=>{const b=e.target.closest('.subtab');if(!b||!b.dataset.source)return;document.querySelectorAll('.source').forEach(s=>s.style.display='none');$(b.dataset.source).style.display='block';document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.toggle('active',t.dataset.panel==='assets'))}));
+document.querySelectorAll('.tabs .tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tabs .tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));$(t.dataset.panel).classList.add('active')});
+$('characterBtn').onclick=addCharacter;
+$('hairBtn').onclick=addHair;
+
+const skinTones=['#3B1F18','#5A2E22','#74402F','#8D5B4C','#A86F5B','#C98F79','#E1B09A','#F0C8B5'];
+skinTones.forEach(col=>{const s=document.createElement('button');s.className='swatch';s.style.background=col;s.onclick=()=>{$('skin').value=col};$('skins').append(s)});
+renderTemplateCards();renderCommunitySet('Shapes');renderVault();
+
+function initialWorkspace(){
+  const id=uid(),ab={id,name:'Blank Artboard',w:1600,h:900,x:100,y:100,background:'#fff'};
+  artboards=[ab];activeArtboardId=id;addArtboardRect(ab);resizeWorkspace();refreshArtboardStyles();updateCanvasLabel();layers();c.renderAll();
+  history=[snapshot()];inspectArtboard();fitSelectedArtboard();status('Ready — workspace with one blank artboard.')
+}
+initialWorkspace();
+</script></body></html>
