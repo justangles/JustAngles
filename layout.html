@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Just Angles | Pro Layout & Print Editor</title>
+    <title>Just Angles | Anti-AI Layout & Print Editor</title>
     <!-- Fabric.js Vector Canvas Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
-    <!-- Expanded Google Fonts Library Integration -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600;800&family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@600;800&family=Oswald:wght@600&family=Playfair+Display:wght@700&family=Roboto+Mono&family=Special+Elite&display=swap" rel="stylesheet">
+    <!-- Expanded Google Fonts for Webtoons & Publishing -->
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Cinzel:wght@700&family=Comic+Neue:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600;800&family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@600;800&family=Oswald:wght@600&family=Playfair+Display:wght@700&family=Special+Elite&display=swap" rel="stylesheet">
     <style>
         :root {
             --mint: #00FF88;
@@ -140,7 +140,7 @@
 
         /* Middle Inspector Controls */
         .sidebar-controls {
-            width: 280px;
+            width: 290px;
             background-color: var(--bg-surface);
             border-right: 1px solid var(--border-muted);
             padding: 16px;
@@ -169,7 +169,7 @@
 
         label { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
 
-        input[type="color"], select, input[type="range"], input[type="number"] {
+        input[type="color"], select, input[type="range"] {
             width: 100%;
             background-color: #121518;
             border: 1px solid var(--border-muted);
@@ -201,6 +201,19 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .color-swatch {
+            height: 26px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid var(--border-muted);
         }
 
         .notice-box {
@@ -266,7 +279,7 @@
             Just Angles — Layout & Page Editor
         </a>
 
-        <div class="layout-badge">InDesign & Canva Engine • Margins, Shapes & Media</div>
+        <div class="layout-badge">100% Anti-AI Engine • Zero Data Scraping</div>
 
         <div class="header-actions">
             <button class="btn-action" onclick="saveProjectVirtual()">Save Layout</button>
@@ -290,13 +303,13 @@
         <!-- Inspector & Layout Controls -->
         <div class="sidebar-controls">
             
-            <h3>Document & Margins</h3>
+            <h3>Document Presets</h3>
             <div class="control-group">
-                <label>Document Size</label>
+                <label>Format Size</label>
                 <select id="docPresetSelect" onchange="applyDocPreset(this.value)">
                     <option value="trade">6" x 9" Trade Paperback</option>
                     <option value="letter">8.5" x 11" Standard</option>
-                    <option value="webtoon">Webtoon Vertical Scroll</option>
+                    <option value="webtoon">Webtoon Vertical Scroll (Tapas Ready)</option>
                 </select>
             </div>
 
@@ -310,21 +323,32 @@
                 <input type="color" id="bgColorPicker" value="#FFFFFF" onchange="updatePageBgColor(this.value)">
             </div>
 
-            <h3>Expanded Google Fonts</h3>
+            <h3>Afrocentric Character Builder</h3>
+            <button class="tool-btn" onclick="addBaseAvatar()">+ Add Base Character</button>
+            <button class="tool-btn" onclick="addAfroHair()">+ Add Afro Hair Asset</button>
+            <label>Melanin Skin Tone Palette</label>
+            <div class="palette-grid">
+                <div class="color-swatch" style="background: #3B2219;" onclick="setSkinTone('#3B2219')"></div>
+                <div class="color-swatch" style="background: #5C382A;" onclick="setSkinTone('#5C382A')"></div>
+                <div class="color-swatch" style="background: #8D5B4C;" onclick="setSkinTone('#8D5B4C')"></div>
+                <div class="color-swatch" style="background: #C68642;" onclick="setSkinTone('#C68642')"></div>
+            </div>
+
+            <h3>Typography & Lettering</h3>
             <button class="tool-btn" onclick="addHeadingText()">+ Add Book Title</button>
-            <button class="tool-btn" onclick="addBodyText()">+ Add Body Text Block</button>
+            <button class="tool-btn" onclick="addBodyText()">+ Add Body Copy / Comic Bubble</button>
 
             <div class="control-group">
-                <label>Font Family</label>
+                <label>Font Selection</label>
                 <select id="fontSelect" onchange="updateFont(this.value)">
+                    <option value="'Comic Neue', sans-serif">Comic Neue (Webtoon Dialogue)</option>
+                    <option value="'Bangers', cursive">Bangers (Action Headline)</option>
                     <option value="'Lora', serif">Lora (Book Serif)</option>
                     <option value="'Playfair Display', serif">Playfair (Editorial)</option>
                     <option value="'Cinzel', serif">Cinzel (Fantasy Headline)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Bold Modern)</option>
-                    <option value="'Inter', sans-serif">Inter (Clean Sans)</option>
-                    <option value="'Oswald', sans-serif">Oswald (Tall Display)</option>
+                    <option value="'Montserrat', sans-serif">Montserrat (Modern)</option>
+                    <option value="'Inter', sans-serif">Inter (Clean)</option>
                     <option value="'Special Elite', cursive">Special Elite (Typewriter)</option>
-                    <option value="'Roboto Mono', monospace">Roboto Mono (Monospace)</option>
                 </select>
             </div>
 
@@ -343,14 +367,14 @@
                 <button class="tool-btn" onclick="addHexagon()">Hexagon</button>
             </div>
 
-            <h3>Upload Assets & Media</h3>
-            <button class="tool-btn" onclick="triggerFileInput('bg')">🖼 Add Background</button>
-            <button class="tool-btn" onclick="triggerFileInput('photo')">📷 Add Photo</button>
-            <button class="tool-btn" onclick="triggerFileInput('vector')">✦ Add Vector Asset</button>
+            <h3>Upload Assets & Backgrounds</h3>
+            <button class="tool-btn" onclick="triggerFileInput('bg')">🖼 Add Fitted Background</button>
+            <button class="tool-btn" onclick="triggerFileInput('photo')">📷 Add Photo Asset</button>
+            <button class="tool-btn" onclick="triggerFileInput('vector')">✦ Add Vector Overlay</button>
             <input type="file" id="mediaUploader" style="display:none;" onchange="handleFileUpload(event)">
 
             <div class="notice-box">
-                <strong>PG Policy Notice:</strong> Absolutely no nudity or sexually explicit content. Violators will be permanently banned and reported.
+                <strong>PG Policy & Anti-AI Lock:</strong> Absolutely no nudity or sexually explicit content. Zero user assets are fed to generative AI algorithms.
             </div>
 
             <h3>Actions</h3>
@@ -386,7 +410,6 @@
         let marginSize = 20;
         let pageCount = 1;
         let activeUploadType = 'photo';
-        let pagesData = { 1: null };
 
         // Draw Margin Guides
         function drawGuides() {
@@ -410,10 +433,9 @@
 
         drawGuides();
 
-        // Add Pages Dynamically
+        // Add Pages
         function addPage() {
             pageCount++;
-            pagesData[pageCount] = null;
             const pageList = document.getElementById('pageThumbList');
             const newThumb = document.createElement('div');
             newThumb.className = 'page-thumb';
@@ -443,60 +465,74 @@
             canvas.renderAll();
         }
 
-        // Shape Vault Tools
-        function addRectangle() {
-            const rect = new fabric.Rect({
-                left: 150, top: 200, width: 140, height: 100,
-                fill: '#00FF88', stroke: '#121518', strokeWidth: 2
+        // Afrocentric Character Builder
+        function addBaseAvatar() {
+            const head = new fabric.Circle({ left: 180, top: 160, radius: 55, fill: '#8D5B4C', name: 'skin' });
+            const neck = new fabric.Rect({ left: 218, top: 250, width: 30, height: 45, fill: '#7A4B3D', name: 'skin' });
+            const avatarGroup = new fabric.Group([neck, head], { left: 180, top: 160 });
+            canvas.add(avatarGroup);
+            canvas.setActiveObject(avatarGroup);
+        }
+
+        function addAfroHair() {
+            const afro = new fabric.Circle({
+                left: 145, top: 110, radius: 85,
+                fill: '#1A1A1A', stroke: '#000000', strokeWidth: 2
             });
-            canvas.add(rect);
-            canvas.setActiveObject(rect);
+            canvas.add(afro);
+            canvas.setActiveObject(afro);
+        }
+
+        function setSkinTone(colorHex) {
+            const active = canvas.getActiveObject();
+            if (active) {
+                if (active.type === 'group') {
+                    active.forEachObject(obj => {
+                        if (obj.name === 'skin') obj.set('fill', colorHex);
+                    });
+                } else {
+                    active.set('fill', colorHex);
+                }
+                canvas.renderAll();
+            }
+        }
+
+        // Shape Vault
+        function addRectangle() {
+            const rect = new fabric.Rect({ left: 150, top: 200, width: 140, height: 100, fill: '#00FF88', stroke: '#121518', strokeWidth: 2 });
+            canvas.add(rect); canvas.setActiveObject(rect);
         }
 
         function addRoundedRect() {
-            const rect = new fabric.Rect({
-                left: 150, top: 200, width: 140, height: 100, rx: 16, ry: 16,
-                fill: '#FF9F43', stroke: '#121518', strokeWidth: 2
-            });
-            canvas.add(rect);
-            canvas.setActiveObject(rect);
+            const rect = new fabric.Rect({ left: 150, top: 200, width: 140, height: 100, rx: 16, ry: 16, fill: '#FF9F43', stroke: '#121518', strokeWidth: 2 });
+            canvas.add(rect); canvas.setActiveObject(rect);
         }
 
         function addCircle() {
-            const circle = new fabric.Circle({
-                left: 150, top: 200, radius: 55,
-                fill: '#00FF88', stroke: '#121518', strokeWidth: 2
-            });
-            canvas.add(circle);
-            canvas.setActiveObject(circle);
+            const circle = new fabric.Circle({ left: 150, top: 200, radius: 55, fill: '#00FF88', stroke: '#121518', strokeWidth: 2 });
+            canvas.add(circle); canvas.setActiveObject(circle);
         }
 
         function addTriangle() {
-            const tri = new fabric.Triangle({
-                left: 150, top: 200, width: 120, height: 110,
-                fill: '#FF9F43', stroke: '#121518', strokeWidth: 2
-            });
-            canvas.add(tri);
-            canvas.setActiveObject(tri);
+            const tri = new fabric.Triangle({ left: 150, top: 200, width: 120, height: 110, fill: '#FF9F43', stroke: '#121518', strokeWidth: 2 });
+            canvas.add(tri); canvas.setActiveObject(tri);
         }
 
         function addStar() {
             const path = new fabric.Path('M 100 0 L 125 75 L 200 75 L 140 125 L 160 200 L 100 150 L 40 200 L 60 125 L 0 75 L 75 75 Z', {
                 left: 150, top: 200, fill: '#00FF88', stroke: '#121518', strokeWidth: 2, scaleX: 0.6, scaleY: 0.6
             });
-            canvas.add(path);
-            canvas.setActiveObject(path);
+            canvas.add(path); canvas.setActiveObject(path);
         }
 
         function addHexagon() {
             const path = new fabric.Path('M 50 0 L 150 0 L 200 86 L 150 172 L 50 172 L 0 86 Z', {
                 left: 150, top: 200, fill: '#FF9F43', stroke: '#121518', strokeWidth: 2, scaleX: 0.6, scaleY: 0.6
             });
-            canvas.add(path);
-            canvas.setActiveObject(path);
+            canvas.add(path); canvas.setActiveObject(path);
         }
 
-        // Media Upload Handling
+        // Ratio-Preserving File & Background Upload
         function triggerFileInput(type) {
             activeUploadType = type;
             document.getElementById('mediaUploader').click();
@@ -511,13 +547,26 @@
                 const data = f.target.result;
                 fabric.Image.fromURL(data, function(img) {
                     if (activeUploadType === 'bg') {
+                        // Fit background preserving aspect ratio (Cover Fit)
+                        const canvasAspect = canvas.width / canvas.height;
+                        const imgAspect = img.width / img.height;
+                        let scaleFactor;
+
+                        if (canvasAspect > imgAspect) {
+                            scaleFactor = canvas.width / img.width;
+                        } else {
+                            scaleFactor = canvas.height / img.height;
+                        }
+
                         img.set({
-                            scaleX: canvas.width / img.width,
-                            scaleY: canvas.height / img.height
+                            originX: 'center', originY: 'center',
+                            left: canvas.width / 2, top: canvas.height / 2,
+                            scaleX: scaleFactor, scaleY: scaleFactor
                         });
+
                         canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
                     } else {
-                        img.set({ left: 100, top: 100, scaleX: 0.5, scaleY: 0.5 });
+                        img.set({ left: 100, top: 100, scaleX: 0.4, scaleY: 0.4 });
                         canvas.add(img);
                         canvas.setActiveObject(img);
                     }
@@ -550,7 +599,7 @@
         }
 
         function addHeadingText() {
-            const heading = new fabric.IText('THE NOVEL TITLE', {
+            const heading = new fabric.IText('WEBTOON TITLE', {
                 left: 70, top: 120, fontSize: 32,
                 fill: '#121518', fontFamily: document.getElementById('fontSelect').value
             });
@@ -559,8 +608,8 @@
         }
 
         function addBodyText() {
-            const body = new fabric.IText('Chapter 1\n\nOnce upon a time in a world driven by pure vectors...', {
-                left: 70, top: 200, fontSize: 16,
+            const body = new fabric.IText('Dialogue Bubble / Panel Text...', {
+                left: 70, top: 200, fontSize: 18,
                 fill: '#252A32', fontFamily: document.getElementById('fontSelect').value
             });
             canvas.add(body);
@@ -588,7 +637,7 @@
             if (active) canvas.remove(active);
         }
 
-        // Virtual Storage & Export
+        // Storage & Export
         function saveProjectVirtual() {
             localStorage.setItem('just_angles_layout_project', JSON.stringify(canvas.toJSON()));
             alert('Layout document saved virtually!');
@@ -616,7 +665,7 @@
             const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `just-angles-layout-page-${pageCount}.svg`;
+            link.download = `just-angles-anti-ai-layout-p${pageCount}.svg`;
             link.click();
         }
     </script>
