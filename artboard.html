@@ -3,559 +3,332 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Just Angles — Artboard Designer</title>
 
 <style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Inter,Arial,sans-serif;background:#111318;color:#fff}
+button,input,select{font:inherit}
+button{cursor:pointer}
 
 :root{
-  --bg:#101116;
-  --panel:#17191f;
-  --panel2:#1e2128;
-  --panel3:#252932;
-  --border:#373c47;
-
-  --text:#f4f4f7;
-  --muted:#9298a5;
-
+  --bg:#111318;
+  --panel:#191c22;
+  --panel2:#20242c;
+  --card:#252a33;
+  --line:#343a45;
+  --muted:#9ca3af;
   --purple:#9b6cff;
-  --purpleLight:#b996ff;
-
-  --green:#25e58b;
-  --blue:#63a9ff;
-  --orange:#ff9e4a;
-  --red:#ff6565;
-
-  --canvas:#0d0f13;
+  --purple2:#7652d9;
+  --mint:#00e89a;
+  --orange:#ff9f43;
+  --canvas:#30343c;
 }
-
-*{
-  box-sizing:border-box;
-}
-
-html,
-body{
-  width:100%;
-  height:100%;
-  margin:0;
-  overflow:hidden;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,Arial,sans-serif;
-}
-
-button,
-input,
-select{
-  font:inherit;
-}
-
-button{
-  color:var(--text);
-  cursor:pointer;
-}
-
-/* =========================================================
-   APP
-========================================================= */
 
 .app{
+  width:100vw;
   height:100vh;
-  display:grid;
-  grid-template-rows:58px 1fr 52px;
+  display:flex;
+  flex-direction:column;
 }
 
-/* =========================================================
-   TOP BAR
-========================================================= */
-
-.topbar{
+/* HEADER */
+header{
+  height:54px;
+  flex:none;
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:0 15px;
-  background:#14161b;
-  border-bottom:1px solid var(--border);
+  gap:8px;
+  padding:0 12px;
+  background:#15181e;
+  border-bottom:1px solid var(--line);
 }
 
 .logo{
-  font-size:17px;
-  font-weight:900;
-  letter-spacing:1px;
-  margin-right:12px;
-}
-
-.logo span{
-  color:var(--green);
-}
-
-.mode{
   display:flex;
-  gap:5px;
+  align-items:center;
+  gap:8px;
+  color:#fff;
+  text-decoration:none;
+  font-weight:800;
+  white-space:nowrap;
 }
 
-.mode button{
-  padding:7px 11px;
-  border:1px solid var(--border);
-  border-radius:6px;
-  background:var(--panel3);
-  font-size:10px;
+.logo svg{
+  width:28px;
+  height:28px;
 }
 
-.mode button.active{
+.menu{
+  display:flex;
+  gap:3px;
+  margin-left:15px;
+}
+
+.menu button,
+.headbtn{
+  background:transparent;
+  color:#d9dde5;
+  border:1px solid transparent;
+  border-radius:5px;
+  padding:7px 9px;
+}
+
+.menu button:hover,
+.headbtn:hover{
+  background:var(--card);
+  border-color:var(--line);
+}
+
+.project{
+  margin-left:auto;
+  color:#cbd0d8;
+  font-size:12px;
+}
+
+.headbtn.primary{
+  background:var(--purple);
   border-color:var(--purple);
-  background:rgba(155,108,255,.16);
+  color:#fff;
+  font-weight:800;
 }
 
-.top-spacer{
+/* MAIN */
+.workspace{
   flex:1;
-}
-
-.top-button{
-  background:var(--panel3);
-  border:1px solid var(--border);
-  border-radius:6px;
-  padding:7px 12px;
-  font-size:10px;
-}
-
-.top-button:hover{
-  border-color:var(--purple);
-}
-
-.top-button.green{
-  color:var(--green);
-  border-color:var(--green);
-}
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.main{
   min-height:0;
   display:grid;
-  grid-template-columns:285px 1fr 300px;
+  grid-template-columns:280px minmax(0,1fr) 270px;
 }
 
-/* =========================================================
-   LEFT
-========================================================= */
-
-.left-panel{
+/* LEFT */
+.left{
+  background:var(--panel);
+  border-right:1px solid var(--line);
   min-width:0;
   display:flex;
   flex-direction:column;
-  background:var(--panel);
-  border-right:1px solid var(--border);
 }
 
-.left-tabs{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  border-bottom:1px solid var(--border);
+.tabs{
+  display:flex;
+  border-bottom:1px solid var(--line);
 }
 
-.left-tabs button{
-  border:0;
-  background:transparent;
-  padding:13px 3px;
-  color:var(--muted);
-  font-size:9px;
-  font-weight:800;
-  border-bottom:2px solid transparent;
-}
-
-.left-tabs button.active{
-  color:white;
-  border-bottom-color:var(--purple);
-}
-
-.left-content{
-  min-height:0;
+.tab{
   flex:1;
-  overflow:auto;
+  background:transparent;
+  border:0;
+  color:var(--muted);
+  padding:12px 4px;
+  font-size:10px;
+  font-weight:900;
+}
+
+.tab.active{
+  color:#fff;
+  border-bottom:2px solid var(--purple);
 }
 
 .panel{
-  padding:12px;
+  display:none;
+  flex:1;
+  min-height:0;
+  overflow:auto;
+  padding:11px;
 }
 
-.hidden{
-  display:none !important;
+.panel.active{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
 }
 
-.search{
+.section{
+  font-size:10px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-weight:900;
+}
+
+.search,
+.field input,
+.field select{
   width:100%;
+  background:#11141a;
+  border:1px solid var(--line);
+  border-radius:5px;
+  color:#fff;
   padding:8px;
-  border:1px solid var(--border);
-  border-radius:6px;
-  background:#101216;
-  color:white;
   outline:none;
 }
 
-.search:focus{
+.search:focus,
+.field input:focus,
+.field select:focus{
   border-color:var(--purple);
 }
 
-.section-title{
-  margin:15px 0 8px;
-  color:#d7dae0;
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:.8px;
-  text-transform:uppercase;
-}
-
-/* =========================================================
-   LAYERS
-========================================================= */
-
-.layer{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  min-height:34px;
-  padding:6px 7px;
+.tool{
+  background:var(--card);
+  color:#e9ebef;
+  border:1px solid var(--line);
   border-radius:5px;
-  font-size:10px;
-}
-
-.layer:hover{
-  background:var(--panel3);
-}
-
-.layer.selected{
-  background:rgba(155,108,255,.15);
-  outline:1px solid rgba(155,108,255,.45);
-}
-
-.layer-icon{
-  width:20px;
-  text-align:center;
-  color:var(--purpleLight);
-}
-
-.layer-name{
-  flex:1;
-}
-
-.layer-eye,
-.layer-lock{
-  color:var(--muted);
-  cursor:pointer;
-}
-
-.add-layer{
-  width:100%;
-  margin-top:8px;
   padding:8px;
-  border:1px solid var(--border);
-  border-radius:6px;
-  background:var(--panel3);
   text-align:left;
+}
+
+.tool:hover{
+  border-color:#5b6270;
+  background:#2b3039;
+}
+
+.tool.primary{
+  background:var(--purple);
+  border-color:var(--purple);
+  color:#fff;
+}
+
+.tool.danger{
+  color:#ff9b9b;
+}
+
+.subtabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px;
+}
+
+.subtab{
+  background:var(--card);
+  border:1px solid var(--line);
+  color:var(--muted);
+  border-radius:5px;
+  padding:6px 8px;
   font-size:10px;
 }
 
-.add-layer:hover{
+.subtab.active{
+  background:#332650;
   border-color:var(--purple);
+  color:#fff;
 }
 
-/* =========================================================
-   ASSETS
-========================================================= */
-
-.asset-tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:5px;
-  margin:9px 0;
-}
-
-.asset-tabs button{
-  padding:7px 2px;
-  border:1px solid var(--border);
-  border-radius:5px;
-  background:var(--panel3);
-  color:var(--muted);
-  font-size:8px;
-}
-
-.asset-tabs button.active{
-  color:white;
-  border-color:var(--purple);
-  background:rgba(155,108,255,.13);
-}
-
-.asset-category{
-  margin-top:12px;
-}
-
-.asset-category-title{
-  color:#d9dce3;
-  font-size:9px;
-  font-weight:800;
-  margin-bottom:6px;
-}
-
-.asset-grid{
+.grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:7px;
+  gap:6px;
 }
 
 .asset{
-  min-height:78px;
-  border:1px solid var(--border);
-  border-radius:7px;
-  background:var(--panel3);
-  padding:9px;
-  text-align:left;
+  min-height:75px;
+  background:#11141a;
+  border:1px solid var(--line);
+  border-radius:6px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  color:#ddd;
+  font-size:10px;
 }
 
 .asset:hover{
   border-color:var(--purple);
-  transform:translateY(-1px);
 }
 
 .asset-preview{
-  height:38px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-  margin-bottom:5px;
-}
-
-.asset-name{
-  font-size:9px;
-  font-weight:700;
-}
-
-.asset-meta{
-  color:var(--muted);
-  font-size:7px;
-  margin-top:3px;
-}
-
-/* =========================================================
-   TEMPLATES
-========================================================= */
-
-.template-tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:5px;
-  margin:10px 0;
-}
-
-.template-tabs button{
-  border:1px solid var(--border);
-  background:var(--panel3);
-  border-radius:5px;
-  color:var(--muted);
-  padding:8px 3px;
-  font-size:8px;
-}
-
-.template-tabs button.active{
-  color:white;
-  border-color:var(--purple);
-  background:rgba(155,108,255,.15);
-}
-
-.template-box{
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:7px;
-  background:linear-gradient(
-    180deg,
-    rgba(155,108,255,.17),
-    rgba(155,108,255,.05)
-  );
-  border:1px solid rgba(155,108,255,.45);
-  font-size:9px;
-  line-height:1.5;
-}
-
-.template-box strong{
-  color:var(--purpleLight);
-}
-
-.template-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:7px;
+  font-size:25px;
 }
 
 .template{
-  min-height:105px;
-  border:1px solid var(--border);
+  background:#11141a;
+  border:1px solid var(--line);
   border-radius:7px;
-  background:var(--panel3);
-  padding:7px;
-  text-align:left;
+  padding:9px;
+  cursor:pointer;
 }
 
 .template:hover{
   border-color:var(--purple);
 }
 
-.template-thumb{
-  height:63px;
+.template-preview{
+  height:80px;
   border-radius:4px;
-  margin-bottom:7px;
+  background:linear-gradient(135deg,#37215d,#9b6cff);
   display:flex;
   align-items:center;
   justify-content:center;
-  color:#111;
-  font-size:20px;
-  background:linear-gradient(
-    135deg,
-    #eee,
-    #bbb
-  );
+  font-size:22px;
+  margin-bottom:7px;
 }
 
-.template-title{
-  font-size:9px;
-  font-weight:800;
+.template strong{
+  display:block;
+  font-size:11px;
 }
 
-.template-meta{
+.template small{
   color:var(--muted);
-  font-size:7px;
-  margin-top:3px;
 }
 
-/* =========================================================
-   WORKSPACE
-========================================================= */
-
-.workspace{
+/* CENTER */
+.canvas-area{
   position:relative;
   min-width:0;
   min-height:0;
   overflow:hidden;
   background:
-    radial-gradient(
-      circle at center,
-      #1b1e25 0%,
-      #0c0e12 70%
-    );
+    radial-gradient(circle at 50% 50%,#282c34 0,#20242b 45%,#191c22 100%);
 }
 
-.workspace-top{
-  position:absolute;
-  z-index:20;
-  left:12px;
-  right:12px;
-  top:12px;
-  display:flex;
-  align-items:center;
-  gap:6px;
-  pointer-events:none;
-}
-
-.workspace-top > *{
-  pointer-events:auto;
-}
-
-.chip{
-  border:1px solid var(--border);
-  background:rgba(20,23,29,.92);
-  padding:7px 9px;
-  border-radius:5px;
-  font-size:9px;
-}
-
-.chip strong{
-  color:var(--green);
-}
-
-.chip-button{
-  cursor:pointer;
-}
-
-.canvas{
-  position:absolute;
-  inset:0;
-  overflow:hidden;
-  cursor:default;
-}
-
-.canvas.hand{
+.canvas-area.hand{
   cursor:grab;
 }
 
-.canvas.hand:active{
+.canvas-area.panning{
   cursor:grabbing;
 }
 
-.canvas-inner{
+#workspace{
   position:absolute;
-  width:2400px;
-  height:1600px;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  transform-origin:center;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  transform-origin:0 0;
 }
-
-.canvas-grid{
-  position:absolute;
-  inset:0;
-  background-image:
-    linear-gradient(
-      rgba(255,255,255,.035) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.035) 1px,
-      transparent 1px
-    );
-  background-size:20px 20px;
-}
-
-/* =========================================================
-   ARTBOARD
-========================================================= */
 
 .artboard{
   position:absolute;
   background:#fff;
+  box-shadow:0 10px 35px #0008;
+  border:2px solid #555;
+  user-select:none;
+}
+
+.artboard.active{
+  border:2px solid var(--purple);
   box-shadow:
-    0 20px 60px rgba(0,0,0,.45);
-  border:1px solid rgba(255,255,255,.2);
+    0 0 0 1px #9b6cff66,
+    0 10px 35px #0009;
 }
 
-.artboard.selected{
-  outline:2px solid var(--purple);
-  outline-offset:4px;
-}
-
-.artboard-name{
+.artboard-title{
   position:absolute;
-  left:0;
-  bottom:calc(100% + 9px);
-  color:#c7cbd3;
-  font-size:9px;
+  top:-23px;
+  left:-2px;
+  font-size:10px;
+  color:#b9bec8;
   white-space:nowrap;
 }
 
-.artboard-size{
-  position:absolute;
-  right:0;
-  bottom:calc(100% + 9px);
-  color:#777e8a;
-  font-size:8px;
+.artboard.active .artboard-title{
+  color:#c9b8ff;
 }
-
-/* =========================================================
-   SVG DRAWING AREA
-========================================================= */
 
 .artboard svg{
   width:100%;
@@ -564,263 +337,221 @@ button{
   overflow:visible;
 }
 
-.vector-path{
-  fill:none;
-  stroke:#111;
-  stroke-width:3;
-  pointer-events:stroke;
-}
-
-.vector-path.selected{
-  stroke:var(--purple);
-  stroke-width:4;
-}
-
-.svg-object{
+.object{
   cursor:pointer;
 }
 
-.svg-object.selected{
-  outline:1px solid var(--blue);
+.object.selected{
+  outline:2px solid var(--purple);
+  outline-offset:2px;
 }
 
-/* =========================================================
-   RIGHT PANEL
-========================================================= */
+.node{
+  fill:#fff;
+  stroke:var(--purple);
+  stroke-width:2;
+}
 
-.right-panel{
-  min-width:0;
-  overflow:auto;
+.handle{
+  stroke:var(--purple);
+  stroke-width:1.5;
+  stroke-dasharray:4 3;
+}
+
+/* CENTER CONTROLS */
+.canvas-controls{
+  position:absolute;
+  left:12px;
+  bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  background:#15181ee8;
+  border:1px solid var(--line);
+  padding:5px;
+  border-radius:7px;
+  z-index:20;
+}
+
+.canvas-controls button{
+  background:#252a33;
+  border:1px solid var(--line);
+  color:#fff;
+  border-radius:4px;
+  padding:5px 8px;
+}
+
+.zoom-readout{
+  min-width:50px;
+  text-align:center;
+  font-size:11px;
+}
+
+.status{
+  position:absolute;
+  left:50%;
+  bottom:12px;
+  transform:translateX(-50%);
+  background:#15181ee8;
+  border:1px solid var(--line);
+  padding:6px 10px;
+  border-radius:6px;
+  color:#bfc4ce;
+  font-size:10px;
+  z-index:20;
+  pointer-events:none;
+}
+
+/* RIGHT */
+.right{
   background:var(--panel);
-  border-left:1px solid var(--border);
-}
-
-.right-tabs{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  border-bottom:1px solid var(--border);
-}
-
-.right-tabs button{
-  border:0;
-  background:transparent;
-  color:var(--muted);
-  padding:13px 3px;
-  font-size:9px;
-  font-weight:800;
-  border-bottom:2px solid transparent;
-}
-
-.right-tabs button.active{
-  color:white;
-  border-bottom-color:var(--purple);
-}
-
-.right-content{
+  border-left:1px solid var(--line);
+  overflow:auto;
   padding:12px;
 }
 
 .property-section{
-  margin-bottom:18px;
+  padding-bottom:13px;
+  margin-bottom:13px;
+  border-bottom:1px solid var(--line);
 }
 
 .property-title{
-  color:#ddd;
-  font-size:9px;
+  font-size:11px;
   font-weight:900;
-  text-transform:uppercase;
   margin-bottom:9px;
-  letter-spacing:.7px;
-}
-
-.field-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:7px;
 }
 
 .field{
-  margin-bottom:7px;
-}
-
-.field label{
-  display:block;
-  margin-bottom:4px;
-  color:var(--muted);
-  font-size:8px;
-}
-
-.field input,
-.field select{
-  width:100%;
-  padding:7px;
-  border:1px solid var(--border);
-  border-radius:5px;
-  background:#101216;
-  color:white;
-}
-
-.field input:focus,
-.field select:focus{
-  outline:none;
-  border-color:var(--purple);
-}
-
-/* =========================================================
-   BACKGROUND
-========================================================= */
-
-.background-card{
-  padding:10px;
-  border:1px solid var(--border);
-  background:var(--panel3);
-  border-radius:7px;
-}
-
-.background-preview{
-  height:55px;
-  border-radius:5px;
-  border:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  gap:4px;
   margin-bottom:8px;
 }
 
-.background-controls{
-  display:flex;
-  gap:7px;
+.field label{
+  font-size:10px;
+  color:var(--muted);
+  font-weight:800;
 }
 
-.background-controls input[type="color"]{
+.color-row{
+  display:grid;
+  grid-template-columns:42px 1fr;
+  gap:6px;
+}
+
+input[type=color]{
   width:42px;
   height:34px;
   padding:2px;
-  border:1px solid var(--border);
+  background:#11141a;
+  border:1px solid var(--line);
   border-radius:5px;
-  background:#111;
 }
 
-.background-controls input[type="text"]{
-  flex:1;
-  min-width:0;
-  background:#101216;
-  color:white;
-  border:1px solid var(--border);
-  border-radius:5px;
-  padding:7px;
+.value-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
 }
 
-.transparency{
-  margin-top:7px;
-  color:var(--muted);
-  font-size:8px;
-}
-
-/* =========================================================
-   FILL + STROKE
-========================================================= */
-
-.color-control{
+.layer-row{
   display:flex;
   align-items:center;
   gap:7px;
-  padding:8px;
-  background:var(--panel3);
-  border:1px solid var(--border);
-  border-radius:6px;
-  margin-bottom:6px;
-}
-
-.color-control input[type="color"]{
-  width:31px;
-  height:31px;
-  border:0;
-  padding:0;
-  background:transparent;
-}
-
-.color-control span{
-  font-size:9px;
-}
-
-.color-control small{
-  color:var(--muted);
-  margin-left:auto;
-}
-
-/* =========================================================
-   ALIGN
-========================================================= */
-
-.align-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:5px;
-}
-
-.align-grid button{
-  padding:8px 2px;
-  border:1px solid var(--border);
-  background:var(--panel3);
+  padding:7px;
   border-radius:5px;
-  font-size:9px;
+  background:#11141a;
+  border:1px solid transparent;
+  cursor:pointer;
+  margin-bottom:4px;
+  font-size:10px;
 }
 
-.align-grid button:hover{
+.layer-row:hover{
+  border-color:var(--line);
+}
+
+.layer-row.active{
   border-color:var(--purple);
+  background:#2b2140;
 }
 
-/* =========================================================
-   TOOLBAR
-========================================================= */
-
-.toolbar{
-  display:flex;
-  align-items:center;
-  gap:4px;
-  padding:6px 9px;
-  overflow:auto;
-  background:#15171c;
-  border-top:1px solid var(--border);
+.layer-icon{
+  width:18px;
+  text-align:center;
+  color:#bda7ff;
 }
 
-.tool{
-  min-width:43px;
-  height:37px;
-  padding:0 9px;
-  border:1px solid var(--border);
-  border-radius:6px;
-  background:var(--panel3);
-  font-size:9px;
+.layer-name{
+  flex:1;
+  overflow:hidden;
+  text-overflow:ellipsis;
   white-space:nowrap;
 }
 
-.tool:hover{
-  border-color:var(--purple);
+.artboard-controls{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
 }
 
-.tool.active{
-  background:rgba(155,108,255,.2);
+.full{
+  grid-column:1/-1;
+}
+
+/* TOOLBAR */
+.toolbar{
+  height:58px;
+  flex:none;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  padding:7px 10px;
+  background:#15181e;
+  border-top:1px solid var(--line);
+  overflow-x:auto;
+}
+
+.tool-button{
+  height:40px;
+  min-width:58px;
+  padding:5px 8px;
+  background:#20242c;
+  color:#d7dbe2;
+  border:1px solid #343a45;
+  border-radius:6px;
+  font-size:10px;
+  white-space:nowrap;
+}
+
+.tool-button:hover{
+  background:#2b3039;
+}
+
+.tool-button.active{
+  background:#3a285c;
   border-color:var(--purple);
+  color:#fff;
 }
 
 .tool-separator{
   width:1px;
-  height:27px;
-  background:var(--border);
+  height:28px;
+  background:var(--line);
   margin:0 4px;
 }
 
-/* =========================================================
-   MODAL
-========================================================= */
-
+/* MODAL */
 .modal{
+  display:none;
   position:fixed;
   inset:0;
+  background:#0009;
   z-index:100;
-  display:none;
   align-items:center;
   justify-content:center;
-  background:rgba(0,0,0,.7);
 }
 
 .modal.show{
@@ -828,30 +559,34 @@ button{
 }
 
 .modal-box{
-  width:min(620px,92vw);
-  max-height:90vh;
-  overflow:auto;
-  padding:20px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:10px;
-  box-shadow:0 30px 100px rgba(0,0,0,.65);
+  width:min(520px,90vw);
+  background:#1b1f26;
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:18px;
+  box-shadow:0 25px 80px #000b;
 }
 
 .modal-box h2{
   margin:0 0 6px;
+  font-size:16px;
 }
 
 .modal-box p{
+  margin:0 0 14px;
   color:var(--muted);
-  font-size:10px;
+  font-size:11px;
   line-height:1.5;
 }
 
 .modal-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:9px;
+  gap:8px;
+}
+
+.modal-grid .wide{
+  grid-column:1/-1;
 }
 
 .modal-actions{
@@ -861,1697 +596,622 @@ button{
   margin-top:14px;
 }
 
-.modal-actions button{
-  padding:8px 13px;
-  border:1px solid var(--border);
-  border-radius:6px;
-  background:var(--panel3);
-}
-
-.modal-actions .primary{
-  color:var(--green);
-  border-color:var(--green);
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:900px){
-
-  .main{
-    grid-template-columns:235px 1fr 250px;
+@media(max-width:1100px){
+  .workspace{
+    grid-template-columns:230px minmax(0,1fr);
   }
-
-}
-
-@media(max-width:700px){
-
-  .main{
-    grid-template-columns:1fr;
-  }
-
-  .left-panel,
-  .right-panel{
+  .right{
     display:none;
   }
-
 }
 
+@media(max-width:750px){
+  .workspace{
+    grid-template-columns:1fr;
+  }
+  .left{
+    display:none;
+  }
+}
 </style>
 </head>
-
 
 <body>
 
 <div class="app">
 
-<!-- =====================================================
-     TOP BAR
-===================================================== -->
+<header>
 
-<header class="topbar">
+<a class="logo" href="#">
+<svg viewBox="0 0 100 100" fill="none">
+<polygon points="50,10 90,85 10,85" stroke="#00FF88" stroke-width="12"/>
+<polygon points="50,30 75,75 25,75" stroke="#FF9F43" stroke-width="8"/>
+</svg>
+Just Angles — Artboard
+</a>
 
-  <div class="logo">
-    JUST <span>ANGLES</span>
-  </div>
+<nav class="menu">
+<button>File</button>
+<button>Edit</button>
+<button>View</button>
+<button>Object</button>
+<button>Arrange</button>
+<button>Help</button>
+</nav>
 
-  <div class="mode">
+<div class="project">Untitled Artboard Project</div>
 
-    <button class="active">
-      Artboard Designer
-    </button>
-
-    <button>
-      Layout Designer
-    </button>
-
-  </div>
-
-  <div class="top-spacer"></div>
-
-  <button class="top-button" id="undo">
-    ↶ Undo
-  </button>
-
-  <button class="top-button" id="redo">
-    ↷ Redo
-  </button>
-
-  <button class="top-button">
-    Save
-  </button>
-
-  <button class="top-button green" id="export">
-    Export
-  </button>
+<button class="headbtn" id="undoBtn">↶ Undo</button>
+<button class="headbtn" id="redoBtn">↷ Redo</button>
+<button class="headbtn" id="saveBtn">Save</button>
+<button class="headbtn primary" id="exportBtn">Export SVG</button>
 
 </header>
 
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
+<div class="workspace">
 
-<main class="main">
+<!-- LEFT -->
+<aside class="left">
 
-
-<!-- =====================================================
-     LEFT PANEL
-===================================================== -->
-
-<aside class="left-panel">
-
-  <div class="left-tabs">
-
-    <button
-      class="active"
-      data-panel="layersPanel"
-    >
-      LAYERS
-    </button>
-
-    <button
-      data-panel="assetsPanel"
-    >
-      ASSETS
-    </button>
-
-    <button
-      data-panel="templatesPanel"
-    >
-      TEMPLATES
-    </button>
-
-  </div>
+<div class="tabs">
+<button class="tab active" data-panel="layersPanel">LAYERS</button>
+<button class="tab" data-panel="assetsPanel">ASSETS</button>
+<button class="tab" data-panel="templatesPanel">TEMPLATES</button>
+</div>
 
 
-  <div class="left-content">
+<!-- LAYERS -->
+<section class="panel active" id="layersPanel">
 
+<div class="section">Layers</div>
 
-<!-- =====================================================
-     LAYERS
-===================================================== -->
+<input class="search" id="layerSearch" placeholder="Search layers">
 
-<section
-  class="panel"
-  id="layersPanel"
->
+<div id="layersList"></div>
 
-  <input
-    class="search"
-    placeholder="Search layers..."
-  >
+<button class="tool" id="newArtboardBtn">
+＋ New Artboard
+</button>
 
-  <div class="section-title">
-    ARTBOARDS
-  </div>
-
-  <div id="artboardLayers"></div>
-
-  <button
-    class="add-layer"
-    id="addArtboard"
-  >
-    ＋ New Artboard
-  </button>
-
-
-  <div class="section-title">
-    OBJECTS
-  </div>
-
-  <div id="objectLayers">
-
-    <div class="layer selected">
-      <div class="layer-icon">▣</div>
-      <div class="layer-name">
-        Background
-      </div>
-      <div class="layer-eye">
-        ◉
-      </div>
-      <div class="layer-lock">
-        ♢
-      </div>
-    </div>
-
-  </div>
-
-  <button class="add-layer">
-    ＋ New Layer
-  </button>
-
-  <button class="add-layer">
-    ＋ New Group
-  </button>
+<button class="tool" id="customArtboardBtn">
+＋ Custom Dimensions
+</button>
 
 </section>
 
 
-<!-- =====================================================
-     ASSETS
-===================================================== -->
+<!-- ASSETS -->
+<section class="panel" id="assetsPanel">
 
-<section
-  class="panel hidden"
-  id="assetsPanel"
+<div class="subtabs">
+<button class="subtab active" data-asset-panel="vaultPanel">My Vault</button>
+<button class="subtab" data-asset-panel="communityPanel">Community</button>
+<button class="subtab" data-asset-panel="characterPanel">Character Builder</button>
+</div>
+
+
+<div id="vaultPanel">
+
+<div class="section">My Vault</div>
+
+<p style="font-size:10px;color:var(--muted)">
+Your personal assets. PNG, JPG/JPEG and SVG can be added here and reused.
+</p>
+
+<button class="tool primary" id="uploadBtn">
+＋ Add PNG / JPG / SVG
+</button>
+
+<input
+type="file"
+id="assetInput"
+accept="image/png,image/jpeg,image/jpg,image/svg+xml"
+multiple
+hidden
 >
 
-  <input
-    class="search"
-    placeholder="Search assets..."
-  >
-
-  <div class="asset-tabs">
-
-    <button class="active">
-      MY VAULT
-    </button>
-
-    <button>
-      COMMUNITY
-    </button>
-
-    <button>
-      BUILDER
-    </button>
-
-  </div>
-
-
-  <div class="asset-category">
-
-    <div class="asset-category-title">
-      MY VAULT
-    </div>
-
-    <div class="asset-grid">
-
-      <button class="asset">
-        <div class="asset-preview">◇</div>
-        <div class="asset-name">Shapes</div>
-        <div class="asset-meta">
-          Vector assets
-        </div>
-      </button>
-
-      <button class="asset">
-        <div class="asset-preview">✦</div>
-        <div class="asset-name">Icons</div>
-        <div class="asset-meta">
-          Saved icons
-        </div>
-      </button>
-
-      <button class="asset">
-        <div class="asset-preview">▤</div>
-        <div class="asset-name">Frames</div>
-        <div class="asset-meta">
-          Layout elements
-        </div>
-      </button>
-
-      <button class="asset">
-        <div class="asset-preview">✿</div>
-        <div class="asset-name">Decorative</div>
-        <div class="asset-meta">
-          Design elements
-        </div>
-      </button>
-
-      <button class="asset">
-        <div class="asset-preview">≈</div>
-        <div class="asset-name">Textures</div>
-        <div class="asset-meta">
-          Your textures
-        </div>
-      </button>
-
-      <button class="asset">
-        <div class="asset-preview">🖌</div>
-        <div class="asset-name">Brushes</div>
-        <div class="asset-meta">
-          Your brushes
-        </div>
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="asset-category">
-
-    <div class="asset-category-title">
-      COMMUNITY ASSETS
-    </div>
-
-    <div class="asset-grid">
-
-      <button class="asset">
-
-        <div class="asset-preview">
-          ✦
-        </div>
-
-        <div class="asset-name">
-          Community
-        </div>
-
-        <div class="asset-meta">
-          Human-created assets
-        </div>
-
-      </button>
-
-
-      <button class="asset">
-
-        <div class="asset-preview">
-          ♙
-        </div>
-
-        <div class="asset-name">
-          Character Builder
-        </div>
-
-        <div class="asset-meta">
-          Character pieces
-        </div>
-
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="asset-category">
-
-    <div class="asset-category-title">
-      YOUR ASSETS
-    </div>
-
-    <button
-      class="add-layer"
-      id="uploadAsset"
-    >
-      ＋ Add Your Own Asset
-    </button>
-
-    <button class="add-layer">
-      ＋ Create Asset From Selection
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     TEMPLATES
-===================================================== -->
-
-<section
-  class="panel hidden"
-  id="templatesPanel"
->
-
-  <input
-    class="search"
-    placeholder="Search templates..."
-  >
-
-
-  <div class="template-tabs">
-
-    <button
-      class="active"
-      data-template="canvasTemplates"
-    >
-      ARTBOARD CANVAS
-    </button>
-
-    <button
-      data-template="designTemplates"
-    >
-      DESIGN TEMPLATES
-    </button>
-
-    <button
-      data-template="myTemplates"
-    >
-      MY TEMPLATES
-    </button>
-
-    <button
-      data-template="communityTemplates"
-    >
-      COMMUNITY
-    </button>
-
-  </div>
-
-
-<!-- =====================================================
-     ARTBOARD CANVAS
-===================================================== -->
-
-<div id="canvasTemplates">
-
-  <div class="template-box">
-
-    <strong>ARTBOARD CANVAS</strong>
-
-    <br>
-
-    Choose the size and working space
-    first. These are not finished designs.
-
-  </div>
-
-  <button
-    class="add-layer"
-    id="customArtboard"
-  >
-    ＋ Custom Dimensions
-  </button>
-
-
-  <div class="section-title">
-    Artboard Presets
-  </div>
-
-
-  <div class="template-grid">
-
-    <button
-      class="template"
-      data-preset="book"
-    >
-
-      <div class="template-thumb">
-        📕
-      </div>
-
-      <div class="template-title">
-        Book Cover
-      </div>
-
-      <div class="template-meta">
-        1200 × 1800
-      </div>
-
-    </button>
-
-
-    <button
-      class="template"
-      data-preset="novel"
-    >
-
-      <div class="template-thumb">
-        📖
-      </div>
-
-      <div class="template-title">
-        Novel / Title Page
-      </div>
-
-      <div class="template-meta">
-        1200 × 1800
-      </div>
-
-    </button>
-
-
-    <button
-      class="template"
-      data-preset="webtoon"
-    >
-
-      <div class="template-thumb">
-        ▥
-      </div>
-
-      <div class="template-title">
-        Webtoon
-      </div>
-
-      <div class="template-meta">
-        1080 × 1920
-      </div>
-
-    </button>
-
-
-    <button
-      class="template"
-      data-preset="character"
-    >
-
-      <div class="template-thumb">
-        ♙
-      </div>
-
-      <div class="template-title">
-        Character Art
-      </div>
-
-      <div class="template-meta">
-        1600 × 1200
-      </div>
-
-    </button>
-
-
-    <button
-      class="template"
-      data-preset="bookmark"
-    >
-
-      <div class="template-thumb">
-        ▯
-      </div>
-
-      <div class="template-title">
-        Bookmark
-      </div>
-
-      <div class="template-meta">
-        600 × 1800
-      </div>
-
-    </button>
-
-
-    <button
-      class="template"
-      data-preset="square"
-    >
-
-      <div class="template-thumb">
-        □
-      </div>
-
-      <div class="template-title">
-        Square
-      </div>
-
-      <div class="template-meta">
-        1200 × 1200
-      </div>
-
-    </button>
-
-  </div>
+<div class="grid" id="vaultGrid"></div>
 
 </div>
 
 
-<!-- =====================================================
-     DESIGN TEMPLATES
-===================================================== -->
+<div id="communityPanel" style="display:none">
 
-<div
-  id="designTemplates"
-  class="hidden"
->
+<div class="section">Community</div>
 
-  <div class="template-box">
+<p style="font-size:10px;color:var(--muted)">
+Human-created resources shared by the Just Angles community.
+</p>
 
-    <strong>DESIGN TEMPLATES</strong>
+<div class="grid">
 
-    <br>
+<div class="asset">
+<div class="asset-preview">◇</div>
+Vector Assets
+</div>
 
-    These contain actual human-created
-    layouts and design systems that can
-    be edited after inserting them.
+<div class="asset">
+<div class="asset-preview">▧</div>
+Backgrounds
+</div>
 
-  </div>
+<div class="asset">
+<div class="asset-preview">✦</div>
+Icons
+</div>
 
+<div class="asset">
+<div class="asset-preview">〰</div>
+Brushes
+</div>
 
-  <div class="section-title">
-    Book Cover Templates
-  </div>
+</div>
 
-  <div class="template-grid">
-
-    <button class="template">
-
-      <div class="template-thumb">
-        📕
-      </div>
-
-      <div class="template-title">
-        Editorial Cover
-      </div>
-
-      <div class="template-meta">
-        Modular
-      </div>
-
-    </button>
-
-
-    <button class="template">
-
-      <div class="template-thumb">
-        📘
-      </div>
-
-      <div class="template-title">
-        Novel Cover
-      </div>
-
-      <div class="template-meta">
-        Modular
-      </div>
-
-    </button>
-
-  </div>
-
-
-  <div class="section-title">
-    Novel / Title Pages
-  </div>
-
-  <div class="template-grid">
-
-    <button class="template">
-
-      <div class="template-thumb">
-        T
-      </div>
-
-      <div class="template-title">
-        Chapter Opener
-      </div>
-
-      <div class="template-meta">
-        Editable
-      </div>
-
-    </button>
-
-
-    <button class="template">
-
-      <div class="template-thumb">
-        T
-      </div>
-
-      <div class="template-title">
-        Title Page
-      </div>
-
-      <div class="template-meta">
-        Editable
-      </div>
-
-    </button>
-
-  </div>
-
-
-  <div class="section-title">
-    Webtoon Templates
-  </div>
-
-  <div class="template-grid">
-
-    <button class="template">
-
-      <div class="template-thumb">
-        ▥
-      </div>
-
-      <div class="template-title">
-        Episode Layout
-      </div>
-
-      <div class="template-meta">
-        Editable
-      </div>
-
-    </button>
-
-
-    <button class="template">
-
-      <div class="template-thumb">
-        ▤
-      </div>
-
-      <div class="template-title">
-        Panel Layout
-      </div>
-
-      <div class="template-meta">
-        Editable
-      </div>
-
-    </button>
-
-  </div>
-
-
-  <div class="section-title">
-    Character Art Templates
-  </div>
-
-  <div class="template-grid">
-
-    <button class="template">
-
-      <div class="template-thumb">
-        ♙
-      </div>
-
-      <div class="template-title">
-        Character Sheet
-      </div>
-
-      <div class="template-meta">
-        Editable
-      </div>
-
-    </button>
-
-
-    <button class="template">
-
-      <div class="template-thumb">
-        ◉
-      </div>
-
-      <div class="template-title">
-        Expression Sheet
-      </div>
-
-      <div class="template-meta">
-        Editable
-      </div>
-
-    </button>
-
-  </div>
-
-
-  <div class="section-title">
-    Bookmark Templates
-  </div>
-
-  <div class="template-grid">
-
-    <button class="template">
-
-      <div class="template-thumb">
-        ▯
-      </div>
-
-      <div class="template-title">
-        Bookmark
-      </div>
-
-      <div class="template-meta">
-        Editable
-      </div>
-
-    </button>
-
-  </div>
+<button class="tool" id="contributeBtn">
+＋ Contribute to Community
+</button>
 
 </div>
 
 
-<!-- =====================================================
-     MY TEMPLATES
-===================================================== -->
+<div id="characterPanel" style="display:none">
 
-<div
-  id="myTemplates"
-  class="hidden"
->
+<div class="section">Character Builder</div>
 
-  <div class="template-box">
+<p style="font-size:10px;color:var(--muted)">
+Build a reusable character asset.
+</p>
 
-    <strong>MY TEMPLATES</strong>
-
-    <br>
-
-    Your own saved designs and reusable
-    modular systems.
-
-  </div>
-
-  <button
-    class="add-layer"
-    id="saveTemplate"
-  >
-    ＋ Save Current Design as Template
-  </button>
-
-  <div id="myTemplateList"></div>
-
+<div class="field">
+<label>Skin</label>
+<input type="color" id="charSkin" value="#8D5B4C">
 </div>
 
+<div class="field">
+<label>Hair</label>
+<select id="charHair">
+<option value="#171313">Black</option>
+<option value="#5A3825">Brown</option>
+<option value="#D2A85A">Blonde</option>
+<option value="#B84A6A">Color</option>
+</select>
+</div>
 
-<!-- =====================================================
-     COMMUNITY
-===================================================== -->
+<div class="field">
+<label>Shirt</label>
+<input type="color" id="charShirt" value="#7A4BFF">
+</div>
 
-<div
-  id="communityTemplates"
-  class="hidden"
->
-
-  <div class="template-box">
-
-    <strong>COMMUNITY TEMPLATES</strong>
-
-    <br><br>
-
-    Designers can submit their own
-    human-created designs.
-
-    <br><br>
-
-    Approved contributions earn
-    <strong>community points.</strong>
-
-  </div>
-
-
-  <div class="section-title">
-    Community Designs
-  </div>
-
-
-  <div class="template-grid">
-
-    <button class="template">
-
-      <div class="template-thumb">
-        📕
-      </div>
-
-      <div class="template-title">
-        Creator Book Cover
-      </div>
-
-      <div class="template-meta">
-        Community
-      </div>
-
-    </button>
-
-
-    <button class="template">
-
-      <div class="template-thumb">
-        ♙
-      </div>
-
-      <div class="template-title">
-        Character Design
-      </div>
-
-      <div class="template-meta">
-        Community
-      </div>
-
-    </button>
-
-  </div>
-
-
-  <button
-    class="add-layer"
-    id="submitCommunity"
-  >
-    ＋ Submit My Design to Community
-  </button>
+<button class="tool primary" id="addCharacterBtn">
+＋ Add Character to Artboard
+</button>
 
 </div>
 
 </section>
 
+
+<!-- TEMPLATES -->
+<section class="panel" id="templatesPanel">
+
+<div class="section">Templates</div>
+
+<input class="search" id="templateSearch" placeholder="Search templates">
+
+<button class="tool" id="templateArtboardBtn">
+Artboard Canvas
+</button>
+
+<button class="tool" id="presetTemplateBtn">
+Artboard Presets
+</button>
+
+<button class="tool" id="customTemplateBtn">
+Custom Dimensions
+</button>
+
+<div class="section" style="margin-top:7px">
+Design Templates
 </div>
+
+<div id="templateGrid">
+
+<div class="template" data-template="cover">
+<div class="template-preview">▣</div>
+<strong>Book Cover</strong>
+<small>1200 × 1800</small>
+</div>
+
+<div class="template" data-template="novel">
+<div class="template-preview">T</div>
+<strong>Novel / Title Page</strong>
+<small>1200 × 1800</small>
+</div>
+
+<div class="template" data-template="webtoon">
+<div class="template-preview">▥</div>
+<strong>Webtoon</strong>
+<small>1080 × 1920</small>
+</div>
+
+<div class="template" data-template="character">
+<div class="template-preview">○</div>
+<strong>Character Art</strong>
+<small>1600 × 1000</small>
+</div>
+
+<div class="template" data-template="bookmark">
+<div class="template-preview">▯</div>
+<strong>Bookmark</strong>
+<small>600 × 1800</small>
+</div>
+
+<div class="template" data-template="blank">
+<div class="template-preview">＋</div>
+<strong>Blank Canvas</strong>
+<small>1600 × 900</small>
+</div>
+
+</div>
+
+<div class="section" style="margin-top:7px">
+My Templates
+</div>
+
+<div class="grid" id="myTemplates">
+<div class="asset">
+<div class="asset-preview">＋</div>
+Save designs here
+</div>
+</div>
+
+<div class="section" style="margin-top:7px">
+Community Templates
+</div>
+
+<div class="grid">
+
+<div class="asset">
+<div class="asset-preview">✦</div>
+Community
+</div>
+
+<div class="asset">
+<div class="asset-preview">★</div>
+Earn Points
+</div>
+
+</div>
+
+</section>
 
 </aside>
 
 
-<!-- =====================================================
-     WORKSPACE
-===================================================== -->
+<!-- CENTER -->
+<main class="canvas-area" id="canvasArea">
 
-<section class="workspace">
+<div id="workspace"></div>
 
-  <div class="workspace-top">
+<div class="canvas-controls">
 
-    <div class="chip">
-      <strong>ARTBOARD DESIGNER</strong>
-    </div>
+<button id="zoomOut">−</button>
 
-    <button
-      class="chip chip-button"
-      id="workspaceAddArtboard"
-    >
-      ＋ Artboard
-    </button>
+<div class="zoom-readout" id="zoomReadout">100%</div>
 
-    <button
-      class="chip chip-button"
-      id="fitArtboard"
-    >
-      ⌂ Home / Fit
-    </button>
+<button id="zoomIn">＋</button>
 
-    <button
-      class="chip chip-button"
-      id="zoomOut"
-    >
-      −
-    </button>
+<button id="fitBtn">Fit</button>
 
-    <div
-      class="chip"
-      id="zoomDisplay"
-    >
-      100%
-    </div>
-
-    <button
-      class="chip chip-button"
-      id="zoomIn"
-    >
-      ＋
-    </button>
-
-  </div>
-
-
-  <div
-    class="canvas"
-    id="canvas"
-  >
-
-    <div
-      class="canvas-inner"
-      id="canvasInner"
-    >
-
-      <div class="canvas-grid"></div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     RIGHT PANEL
-===================================================== -->
-
-<aside class="right-panel">
-
-  <div class="right-tabs">
-
-    <button class="active">
-      DESIGN
-    </button>
-
-    <button>
-      APPEARANCE
-    </button>
-
-    <button>
-      ALIGN
-    </button>
-
-  </div>
-
-
-  <div class="right-content">
-
-
-<!-- =====================================================
-     ARTBOARD SIZE
-===================================================== -->
-
-<section class="property-section">
-
-  <div class="property-title">
-    Artboard
-  </div>
-
-
-  <div class="field-grid">
-
-    <div class="field">
-
-      <label>
-        Width
-      </label>
-
-      <input
-        id="artboardWidth"
-        type="number"
-        value="1200"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        Height
-      </label>
-
-      <input
-        id="artboardHeight"
-        type="number"
-        value="1800"
-      >
-
-    </div>
-
-  </div>
-
-
-  <div class="field">
-
-    <label>
-      Units
-    </label>
-
-    <select id="artboardUnits">
-
-      <option>Pixels</option>
-      <option>Inches</option>
-      <option>Millimeters</option>
-      <option>Points</option>
-
-    </select>
-
-  </div>
-
-
-  <button
-    class="add-layer"
-    id="applySize"
-  >
-    Apply Artboard Dimensions
-  </button>
-
-</section>
-
-
-<!-- =====================================================
-     BACKGROUND COLOR
-===================================================== -->
-
-<section class="property-section">
-
-  <div class="property-title">
-    Background Color
-  </div>
-
-
-  <div class="background-card">
-
-    <div
-      class="background-preview"
-      id="backgroundPreview"
-    ></div>
-
-
-    <div class="background-controls">
-
-      <input
-        type="color"
-        id="backgroundColor"
-        value="#ffffff"
-      >
-
-      <input
-        type="text"
-        id="backgroundHex"
-        value="#ffffff"
-      >
-
-    </div>
-
-
-    <div class="transparency">
-
-      Background belongs to the
-      <strong>Artboard</strong>, not a
-      normal object layer.
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     FILL
-===================================================== -->
-
-<section class="property-section">
-
-  <div class="property-title">
-    Fill
-  </div>
-
-
-  <div class="color-control">
-
-    <input
-      type="color"
-      id="fillColor"
-      value="#9b6cff"
-    >
-
-    <span>
-      Fill
-    </span>
-
-    <small id="fillHex">
-      #9B6CFF
-    </small>
-
-  </div>
-
-
-  <button
-    class="add-layer"
-    id="removeFill"
-  >
-    Remove Fill
-  </button>
-
-</section>
-
-
-<!-- =====================================================
-     STROKE
-===================================================== -->
-
-<section class="property-section">
-
-  <div class="property-title">
-    Stroke
-  </div>
-
-
-  <div class="color-control">
-
-    <input
-      type="color"
-      id="strokeColor"
-      value="#111111"
-    >
-
-    <span>
-      Stroke
-    </span>
-
-    <small id="strokeHex">
-      #111111
-    </small>
-
-  </div>
-
-
-  <div class="field">
-
-    <label>
-      Stroke Width
-    </label>
-
-    <input
-      id="strokeWidth"
-      type="number"
-      value="2"
-      min="0"
-    >
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     TRANSFORM
-===================================================== -->
-
-<section class="property-section">
-
-  <div class="property-title">
-    Transform
-  </div>
-
-
-  <div class="field-grid">
-
-    <div class="field">
-
-      <label>
-        X
-      </label>
-
-      <input
-        value="0"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        Y
-      </label>
-
-      <input
-        value="0"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        W
-      </label>
-
-      <input
-        value="100"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        H
-      </label>
-
-      <input
-        value="100"
-      >
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     APPEARANCE
-===================================================== -->
-
-<section class="property-section">
-
-  <div class="property-title">
-    Appearance
-  </div>
-
-
-  <div class="field">
-
-    <label>
-      Opacity
-    </label>
-
-    <input
-      id="opacity"
-      type="range"
-      min="0"
-      max="100"
-      value="100"
-    >
-
-  </div>
-
-
-  <div class="field">
-
-    <label>
-      Blend Mode
-    </label>
-
-    <select>
-
-      <option>Normal</option>
-      <option>Multiply</option>
-      <option>Screen</option>
-      <option>Overlay</option>
-      <option>Darken</option>
-      <option>Lighten</option>
-
-    </select>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     ALIGNMENT
-===================================================== -->
-
-<section class="property-section">
-
-  <div class="property-title">
-    Align
-  </div>
-
-
-  <div class="align-grid">
-
-    <button>
-      ←
-    </button>
-
-    <button>
-      ↔
-    </button>
-
-    <button>
-      →
-    </button>
-
-    <button>
-      ↑
-    </button>
-
-    <button>
-      ↕
-    </button>
-
-    <button>
-      ↓
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     COMMUNITY
-===================================================== -->
-
-<section class="property-section">
-
-  <div class="property-title">
-    Community
-  </div>
-
-  <div class="template-box">
-
-    <strong>
-      CREATE → CONTRIBUTE → EARN
-    </strong>
-
-    <br><br>
-
-    Create your own templates and assets.
-
-    <br><br>
-
-    Submit them to the community.
-
-    <br><br>
-
-    Approved contributions earn points.
-
-  </div>
-
-</section>
+<button id="homeBtn">Home</button>
 
 </div>
 
-</aside>
+<div class="status" id="status">
+Select a tool and work on an artboard.
+</div>
 
 </main>
 
 
-<!-- =====================================================
-     BOTTOM TOOLBAR
-===================================================== -->
+<!-- RIGHT -->
+<aside class="right">
 
+<section class="property-section">
+
+<div class="property-title">
+Selected Artboard
+</div>
+
+<div class="field">
+<label>Name</label>
+<input id="boardName">
+</div>
+
+<div class="value-row">
+
+<div class="field">
+<label>Width</label>
+<input type="number" id="boardWidth">
+</div>
+
+<div class="field">
+<label>Height</label>
+<input type="number" id="boardHeight">
+</div>
+
+</div>
+
+<button class="tool primary full" id="applyBoardSize">
+Apply Artboard Size
+</button>
+
+<div class="field" style="margin-top:8px">
+<label>Background Color</label>
+
+<div class="color-row">
+<input type="color" id="boardBackground">
+<input class="search" id="boardBackgroundHex" value="#ffffff">
+</div>
+
+</div>
+
+</section>
+
+
+<section class="property-section">
+
+<div class="property-title">
+Appearance
+</div>
+
+<div class="field">
+<label>Fill</label>
+
+<div class="color-row">
+<input type="color" id="fillColor" value="#9b6cff">
+<input class="search" id="fillHex" value="#9b6cff">
+</div>
+
+</div>
+
+
+<div class="field">
+<label>Stroke</label>
+
+<div class="color-row">
+<input type="color" id="strokeColor" value="#111111">
+<input class="search" id="strokeHex" value="#111111">
+</div>
+
+</div>
+
+
+<div class="field">
+<label>Stroke Width</label>
+<input type="number" id="strokeWidth" min="0" max="100" value="2">
+</div>
+
+
+<div class="field">
+<label>Opacity</label>
+<input type="range" id="opacity" min="0" max="1" step=".01" value="1">
+</div>
+
+</section>
+
+
+<section class="property-section">
+
+<div class="property-title">
+Object
+</div>
+
+<div class="field">
+<label>Name</label>
+<input id="objectName">
+</div>
+
+<button class="tool danger" id="deleteObjectBtn">
+Delete Selected
+</button>
+
+</section>
+
+
+<section class="property-section">
+
+<div class="property-title">
+Community
+</div>
+
+<div style="font-size:10px;color:var(--muted);line-height:1.6">
+Create → Contribute → Earn.
+<br><br>
+Designers can submit their own templates and assets to the community. Approved human-created contributions can earn points.
+</div>
+
+</section>
+
+</aside>
+
+</div>
+
+
+<!-- TOOLBAR -->
 <footer class="toolbar">
 
-  <button
-    class="tool active"
-    data-tool="select"
-  >
-    ↖ Select
-  </button>
+<button class="tool-button active" data-tool="select">
+↖ Select
+</button>
 
-  <button
-    class="tool"
-    data-tool="direct"
-  >
-    ◇ Direct Select
-  </button>
+<button class="tool-button" data-tool="direct">
+◇ Direct Select
+</button>
 
+<div class="tool-separator"></div>
 
-  <div class="tool-separator"></div>
+<button class="tool-button" data-tool="pen">
+⌁ Pen
+</button>
 
+<button class="tool-button" data-tool="pencil">
+✎ Pencil
+</button>
 
-  <button
-    class="tool"
-    data-tool="pen"
-  >
-    ⌁ Pen
-  </button>
+<button class="tool-button" data-tool="brush">
+🖌 Brush
+</button>
 
-  <button
-    class="tool"
-    data-tool="pencil"
-  >
-    ✎ Pencil
-  </button>
+<button class="tool-button" data-tool="addAnchor">
+＋ Anchor
+</button>
 
-  <button
-    class="tool"
-    data-tool="brush"
-  >
-    🖌 Brush
-  </button>
+<button class="tool-button" data-tool="deleteAnchor">
+− Anchor
+</button>
 
+<button class="tool-button" data-tool="curve">
+⌒ Curve
+</button>
 
-  <button
-    class="tool"
-    data-tool="addAnchor"
-  >
-    ＋ Anchor
-  </button>
+<div class="tool-separator"></div>
 
-  <button
-    class="tool"
-    data-tool="removeAnchor"
-  >
-    − Anchor
-  </button>
+<button class="tool-button" data-tool="rectangle">
+□ Rectangle
+</button>
 
-  <button
-    class="tool"
-    data-tool="curve"
-  >
-    ⌒ Curve
-  </button>
+<button class="tool-button" data-tool="circle">
+○ Circle
+</button>
 
+<button class="tool-button" data-tool="line">
+／ Line
+</button>
 
-  <div class="tool-separator"></div>
+<button class="tool-button" data-tool="text">
+T Text
+</button>
 
+<div class="tool-separator"></div>
 
-  <button
-    class="tool"
-    data-tool="rectangle"
-  >
-    □ Rectangle
-  </button>
+<button class="tool-button" data-tool="artboard">
+▣ Artboard
+</button>
 
-  <button
-    class="tool"
-    data-tool="circle"
-  >
-    ○ Circle
-  </button>
+<button class="tool-button" data-tool="hand">
+✋ Hand
+</button>
 
-  <button
-    class="tool"
-    data-tool="line"
-  >
-    ／ Line
-  </button>
-
-  <button
-    class="tool"
-    data-tool="text"
-  >
-    T Text
-  </button>
-
-
-  <div class="tool-separator"></div>
-
-
-  <button
-    class="tool"
-    data-tool="hand"
-  >
-    ✋ Hand
-  </button>
-
-  <button
-    class="tool"
-    data-tool="zoom"
-  >
-    🔍 Zoom
-  </button>
+<button class="tool-button" data-tool="zoom">
+🔍 Zoom
+</button>
 
 </footer>
 
 </div>
 
 
-<!-- =====================================================
-     CUSTOM ARTBOARD MODAL
-===================================================== -->
+<!-- ARTBOARD MODAL -->
+<div class="modal" id="artboardModal">
 
-<div
-  class="modal"
-  id="artboardModal"
->
+<div class="modal-box">
 
-  <div class="modal-box">
+<h2>Create New Artboard</h2>
 
-    <h2>
-      Custom Artboard
-    </h2>
+<p>
+This creates a completely independent artboard beside your existing artboard.
+</p>
 
-    <p>
-      Create a new independent artboard.
-      You can resize every artboard later.
-    </p>
+<div class="modal-grid">
 
+<div class="field wide">
+<label>Artboard Name</label>
+<input id="newBoardName" value="Artboard 2">
+</div>
 
-    <div class="modal-grid">
+<div class="field">
+<label>Width</label>
+<input type="number" id="newBoardWidth" value="1200">
+</div>
 
-      <div class="field">
+<div class="field">
+<label>Height</label>
+<input type="number" id="newBoardHeight" value="1800">
+</div>
 
-        <label>
-          Artboard Name
-        </label>
+<div class="field">
+<label>Background</label>
+<input type="color" id="newBoardBackground" value="#ffffff">
+</div>
 
-        <input
-          id="customName"
-          value="Custom Artboard"
-        >
+</div>
 
-      </div>
+<div class="modal-actions">
 
+<button class="headbtn" id="cancelArtboard">
+Cancel
+</button>
 
-      <div class="field">
+<button class="headbtn primary" id="createArtboard">
+Create Artboard
+</button>
 
-        <label>
-          Units
-        </label>
+</div>
 
-        <select id="customUnits">
-
-          <option>Pixels</option>
-          <option>Inches</option>
-          <option>Millimeters</option>
-          <option>Points</option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Width
-        </label>
-
-        <input
-          id="customWidth"
-          type="number"
-          value="1200"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Height
-        </label>
-
-        <input
-          id="customHeight"
-          type="number"
-          value="1800"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Background
-        </label>
-
-        <input
-          id="customBackground"
-          type="color"
-          value="#ffffff"
-        >
-
-      </div>
-
-    </div>
-
-
-    <div class="modal-actions">
-
-      <button id="closeModal">
-        Cancel
-      </button>
-
-      <button
-        class="primary"
-        id="createArtboard"
-      >
-        Create Artboard
-      </button>
-
-    </div>
-
-  </div>
+</div>
 
 </div>
 
 
 <script>
-
 /* =========================================================
-   JUST ANGLES ARTBOARD ENGINE
+   JUST ANGLES — WORKING VECTOR ARTBOARD ENGINE
 ========================================================= */
+
+const workspace = document.getElementById("workspace");
+const canvasArea = document.getElementById("canvasArea");
 
 const state = {
-
   tool:"select",
-
-  zoom:1,
-
+  zoom:0.55,
+  panX:80,
+  panY:80,
   artboards:[],
-
-  activeArtboard:null,
-
+  activeBoard:null,
   activeObject:null,
-
-  history:[],
-
-  historyIndex:-1,
-
   drawing:false,
-
-  currentPath:null,
-
-  pathPoints:[]
-
+  drawData:null,
+  drag:null,
+  history:[],
+  historyIndex:-1,
+  assets:[]
 };
 
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function $(id){
-  return document.getElementById(id);
-}
-
+let idCounter=1;
 
 function uid(prefix){
-
-  return prefix + "-" +
-    Date.now() +
-    "-" +
-    Math.random()
-      .toString(36)
-      .slice(2,7);
-
+  return prefix + "_" + Date.now().toString(36) + "_" + (idCounter++);
 }
 
-
-function currentArtboard(){
-
+function activeBoard(){
   return state.artboards.find(
-    board =>
-      board.id === state.activeArtboard
+    b => b.id === state.activeBoard
   );
+}
 
+function activeObject(){
+  const board = activeBoard();
+  if(!board || !state.activeObject) return null;
+
+  return board.objects.find(
+    o => o.id === state.activeObject
+  );
+}
+
+function setStatus(text){
+  document.getElementById("status").textContent = text;
 }
 
 
@@ -2559,86 +1219,187 @@ function currentArtboard(){
    HISTORY
 ========================================================= */
 
-function snapshot(){
-
-  const clean =
-    state.artboards.map(board => ({
-      ...board,
-      objects:board.objects.map(
-        object => ({...object})
-      )
-    }));
+function saveHistory(){
+  const snapshot = JSON.stringify({
+    artboards:state.artboards,
+    activeBoard:state.activeBoard
+  });
 
   state.history =
-    state.history.slice(
-      0,
-      state.historyIndex + 1
-    );
+    state.history.slice(0,state.historyIndex + 1);
 
-  state.history.push(
-    JSON.stringify(clean)
-  );
+  state.history.push(snapshot);
 
-  state.historyIndex++;
-
-}
-
-
-function restoreHistory(index){
-
-  if(index < 0) return;
-
-  if(index >= state.history.length)
-    return;
-
-  state.artboards =
-    JSON.parse(
-      state.history[index]
-    );
-
-  const board =
-    currentArtboard();
-
-  if(board){
-
-    render();
-
+  if(state.history.length > 60){
+    state.history.shift();
   }
 
+  state.historyIndex = state.history.length - 1;
 }
+
+function restoreHistory(index){
+  if(index < 0 || index >= state.history.length) return;
+
+  const data =
+    JSON.parse(state.history[index]);
+
+  state.artboards = data.artboards;
+  state.activeBoard = data.activeBoard;
+  state.activeObject = null;
+
+  render();
+}
+
+document.getElementById("undoBtn").onclick = () => {
+  if(state.historyIndex <= 0) return;
+
+  state.historyIndex--;
+  restoreHistory(state.historyIndex);
+};
+
+document.getElementById("redoBtn").onclick = () => {
+  if(state.historyIndex >= state.history.length - 1) return;
+
+  state.historyIndex++;
+  restoreHistory(state.historyIndex);
+};
 
 
 /* =========================================================
-   CREATE INITIAL ARTBOARD
+   ARTBOARD CREATION
 ========================================================= */
 
-function createInitialArtboard(){
+function createArtboard(options={}){
+  const previous =
+    state.artboards[state.artboards.length - 1];
 
   const board = {
-
     id:uid("artboard"),
-
-    name:"Artboard 1",
-
-    width:1200,
-
-    height:1800,
-
-    background:"#ffffff",
-
+    name:options.name || `Artboard ${state.artboards.length + 1}`,
+    width:Number(options.width || 1200),
+    height:Number(options.height || 1800),
+    background:options.background || "#ffffff",
+    x:0,
+    y:0,
     objects:[]
-
   };
 
+  /*
+   * IMPORTANT:
+   * Every new artboard is positioned beside
+   * the existing artboards instead of replacing them.
+   */
+  if(previous){
+    board.x =
+      previous.x +
+      previous.width +
+      120;
+    board.y = previous.y;
+  }
+
   state.artboards.push(board);
+  state.activeBoard = board.id;
+  state.activeObject = null;
 
-  state.activeArtboard =
-    board.id;
-
-  snapshot();
-
+  saveHistory();
   render();
 
+  setStatus(
+    `${board.name} created beside the existing artboard.`
+  );
+}
+
+
+/* INITIAL ARTBOARD */
+createArtboard({
+  name:"Artboard 1",
+  width:1200,
+  height:1800,
+  background:"#ffffff"
+});
+
+
+/* =========================================================
+   ARTBOARD MODAL
+========================================================= */
+
+const modal =
+  document.getElementById("artboardModal");
+
+function openArtboardModal(){
+  modal.classList.add("show");
+}
+
+function closeArtboardModal(){
+  modal.classList.remove("show");
+}
+
+document.getElementById("newArtboardBtn").onclick =
+  openArtboardModal;
+
+document.getElementById("customArtboardBtn").onclick =
+  openArtboardModal;
+
+document.getElementById("templateArtboardBtn").onclick =
+  openArtboardModal;
+
+document.getElementById("customTemplateBtn").onclick =
+  openArtboardModal;
+
+document.getElementById("presetTemplateBtn").onclick =
+  openArtboardModal;
+
+document.getElementById("cancelArtboard").onclick =
+  closeArtboardModal;
+
+document.getElementById("createArtboard").onclick = () => {
+
+  createArtboard({
+    name:document.getElementById("newBoardName").value || "Artboard",
+    width:Math.max(
+      1,
+      Number(document.getElementById("newBoardWidth").value)
+    ),
+    height:Math.max(
+      1,
+      Number(document.getElementById("newBoardHeight").value)
+    ),
+    background:
+      document.getElementById("newBoardBackground").value
+  });
+
+  closeArtboardModal();
+};
+
+
+/* =========================================================
+   BOARD COORDINATES
+========================================================= */
+
+function boardPoint(event,board){
+
+  const rect =
+    canvasArea.getBoundingClientRect();
+
+  return {
+    x:
+      (event.clientX - rect.left - state.panX)
+      / state.zoom - board.x,
+
+    y:
+      (event.clientY - rect.top - state.panY)
+      / state.zoom - board.y
+  };
+}
+
+function screenPoint(event){
+  const rect =
+    canvasArea.getBoundingClientRect();
+
+  return {
+    x:event.clientX - rect.left,
+    y:event.clientY - rect.top
+  };
 }
 
 
@@ -2648,404 +1409,241 @@ function createInitialArtboard(){
 
 function render(){
 
-  renderArtboards();
+  workspace.innerHTML = "";
 
-  renderLayers();
+  state.artboards.forEach(board => {
 
-  updateRightPanel();
+    const element =
+      document.createElement("div");
 
-}
+    element.className =
+      "artboard" +
+      (board.id === state.activeBoard ? " active" : "");
+
+    element.style.left = board.x + "px";
+    element.style.top = board.y + "px";
+    element.style.width = board.width + "px";
+    element.style.height = board.height + "px";
+    element.style.background = board.background;
+
+    const title =
+      document.createElement("div");
+
+    title.className = "artboard-title";
+
+    title.textContent =
+      `${board.name} · ${board.width} × ${board.height}px`;
+
+    element.appendChild(title);
 
 
-function renderArtboards(){
+    const svg =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "svg"
+      );
 
-  const inner =
-    $("canvasInner");
+    svg.setAttribute(
+      "viewBox",
+      `0 0 ${board.width} ${board.height}`
+    );
 
-  inner
-    .querySelectorAll(".artboard")
-    .forEach(el => el.remove());
+    svg.setAttribute(
+      "width",
+      board.width
+    );
+
+    svg.setAttribute(
+      "height",
+      board.height
+    );
 
 
-  state.artboards.forEach(
-    (board,index)=>{
+    board.objects.forEach(object => {
 
-      const element =
-        document.createElement("div");
+      const node =
+        createObjectNode(object,board);
 
-      element.className =
-        "artboard";
-
-      if(
-        board.id ===
-        state.activeArtboard
-      ){
-
-        element.classList.add(
-          "selected"
-        );
-
+      if(node){
+        svg.appendChild(node);
       }
 
-
-      /*
-       * Display scale is intentionally
-       * smaller than document dimensions
-       * so large artboards fit the workspace.
-       */
-
-      const displayScale =
-        0.4;
-
-      element.style.width =
-        board.width *
-        displayScale +
-        "px";
-
-      element.style.height =
-        board.height *
-        displayScale +
-        "px";
+    });
 
 
-      element.style.left =
-        400 +
-        index * 560 +
-        "px";
-
-      element.style.top =
-        300 +
-        (index % 2) * 100 +
-        "px";
+    element.appendChild(svg);
 
 
-      element.style.background =
-        board.background;
+    element.addEventListener("mousedown",event => {
 
+      if(
+        event.target === element ||
+        event.target === svg
+      ){
 
-      element.dataset.id =
-        board.id;
+        state.activeBoard = board.id;
+        state.activeObject = null;
 
-
-      const name =
-        document.createElement("div");
-
-      name.className =
-        "artboard-name";
-
-      name.textContent =
-        board.name;
-
-      element.appendChild(name);
-
-
-      const size =
-        document.createElement("div");
-
-      size.className =
-        "artboard-size";
-
-      size.textContent =
-        board.width +
-        " × " +
-        board.height;
-
-      element.appendChild(size);
-
-
-      /*
-       * SVG is the actual drawing surface.
-       */
-
-      const svg =
-        document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "svg"
-        );
-
-      svg.setAttribute(
-        "viewBox",
-        `0 0 ${board.width} ${board.height}`
-      );
-
-
-      svg.addEventListener(
-        "mousedown",
-        e => {
-
-          if(
-            e.target === svg &&
-            (
-              state.tool === "pen" ||
-              state.tool === "pencil" ||
-              state.tool === "brush"
-            )
-          ){
-
-            beginDrawing(
-              e,
-              board,
-              svg
-            );
-
-          }
-
+        if(state.tool === "rectangle"){
+          beginShape(event,board,"rectangle");
         }
-      );
 
-
-      board.objects.forEach(
-        object => {
-
-          const node =
-            createSVGObject(
-              object
-            );
-
-          if(node){
-
-            svg.appendChild(node);
-
-          }
-
+        else if(state.tool === "circle"){
+          beginShape(event,board,"circle");
         }
-      );
 
-
-      element.appendChild(svg);
-
-
-      element.addEventListener(
-        "mousedown",
-        e => {
-
-          if(
-            e.target === element ||
-            e.target === name ||
-            e.target === size
-          ){
-
-            selectArtboard(
-              board.id
-            );
-
-          }
-
+        else if(state.tool === "line"){
+          beginShape(event,board,"line");
         }
-      );
+
+        else if(
+          state.tool === "pencil" ||
+          state.tool === "brush"
+        ){
+          beginFreehand(event,board);
+        }
+
+        else if(state.tool === "pen"){
+          penClick(event,board);
+        }
+
+        else if(state.tool === "text"){
+          addText(event,board);
+        }
+
+        else if(state.tool === "artboard"){
+          setStatus("Artboard selected.");
+        }
+
+        render();
+      }
+
+    });
 
 
-      inner.appendChild(element);
+    workspace.appendChild(element);
+  });
 
-    }
-  );
-
+  applyWorkspaceTransform();
+  updatePanels();
+  renderLayers();
 }
 
 
-function createSVGObject(object){
+/* =========================================================
+   OBJECT NODE CREATION
+========================================================= */
 
-  let node;
+function createObjectNode(object,board){
 
+  let node = null;
+
+  const ns =
+    "http://www.w3.org/2000/svg";
 
   if(object.type === "rect"){
 
-    node =
-      document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "rect"
-      );
+    node = document.createElementNS(ns,"rect");
 
-    node.setAttribute(
-      "x",
-      object.x
-    );
+    node.setAttribute("x",object.x);
+    node.setAttribute("y",object.y);
+    node.setAttribute("width",object.width);
+    node.setAttribute("height",object.height);
 
-    node.setAttribute(
-      "y",
-      object.y
-    );
+  }
 
-    node.setAttribute(
-      "width",
-      object.width
-    );
+  else if(object.type === "circle"){
 
-    node.setAttribute(
-      "height",
-      object.height
-    );
+    node = document.createElementNS(ns,"circle");
 
-    node.setAttribute(
-      "fill",
-      object.fill
-    );
+    node.setAttribute("cx",object.cx);
+    node.setAttribute("cy",object.cy);
+    node.setAttribute("r",object.r);
 
-    node.setAttribute(
-      "stroke",
-      object.stroke
-    );
+  }
 
-    node.setAttribute(
-      "stroke-width",
-      object.strokeWidth
-    );
+  else if(object.type === "line"){
+
+    node = document.createElementNS(ns,"line");
+
+    node.setAttribute("x1",object.x1);
+    node.setAttribute("y1",object.y1);
+    node.setAttribute("x2",object.x2);
+    node.setAttribute("y2",object.y2);
+
+  }
+
+  else if(object.type === "path"){
+
+    node = document.createElementNS(ns,"path");
+
+    node.setAttribute("d",object.d);
+
+  }
+
+  else if(object.type === "text"){
+
+    node = document.createElementNS(ns,"text");
+
+    node.setAttribute("x",object.x);
+    node.setAttribute("y",object.y);
+    node.setAttribute("font-size",object.fontSize || 48);
+    node.setAttribute("font-family","Arial");
+    node.setAttribute("font-weight",object.fontWeight || 700);
+    node.textContent = object.text;
+
+  }
+
+  else if(object.type === "image"){
+
+    node = document.createElementNS(ns,"image");
+
+    node.setAttribute("href",object.src);
+    node.setAttribute("x",object.x);
+    node.setAttribute("y",object.y);
+    node.setAttribute("width",object.width);
+    node.setAttribute("height",object.height);
+    node.setAttribute("preserveAspectRatio","none");
 
   }
 
 
-  if(object.type === "circle"){
+  if(!node) return null;
 
-    node =
-      document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "circle"
-      );
 
-    node.setAttribute(
-      "cx",
-      object.x
-    );
+  node.classList.add("object");
 
-    node.setAttribute(
-      "cy",
-      object.y
-    );
+  if(object.id === state.activeObject){
+    node.classList.add("selected");
+  }
 
-    node.setAttribute(
-      "r",
-      object.radius
-    );
 
+  if(object.type !== "image"){
     node.setAttribute(
       "fill",
-      object.fill
+      object.fill || "none"
     );
+
+    if(object.type === "line" || object.type === "path"){
+      node.setAttribute(
+        "fill",
+        object.closed ? object.fill || "transparent" : "none"
+      );
+    }
 
     node.setAttribute(
       "stroke",
-      object.stroke
+      object.stroke || "none"
     );
 
     node.setAttribute(
       "stroke-width",
-      object.strokeWidth
-    );
-
-  }
-
-
-  if(object.type === "line"){
-
-    node =
-      document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "line"
-      );
-
-    node.setAttribute(
-      "x1",
-      object.x1
+      object.strokeWidth || 0
     );
 
     node.setAttribute(
-      "y1",
-      object.y1
-    );
-
-    node.setAttribute(
-      "x2",
-      object.x2
-    );
-
-    node.setAttribute(
-      "y2",
-      object.y2
-    );
-
-    node.setAttribute(
-      "stroke",
-      object.stroke
-    );
-
-    node.setAttribute(
-      "stroke-width",
-      object.strokeWidth
-    );
-
-  }
-
-
-  if(object.type === "text"){
-
-    node =
-      document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "text"
-      );
-
-    node.setAttribute(
-      "x",
-      object.x
-    );
-
-    node.setAttribute(
-      "y",
-      object.y
-    );
-
-    node.setAttribute(
-      "fill",
-      object.fill
-    );
-
-    node.setAttribute(
-      "font-size",
-      object.fontSize
-    );
-
-    node.setAttribute(
-      "font-family",
-      "Arial"
-    );
-
-    node.setAttribute(
-      "font-weight",
-      object.fontWeight
-    );
-
-    node.textContent =
-      object.text;
-
-  }
-
-
-  if(object.type === "path"){
-
-    node =
-      document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "path"
-      );
-
-    node.setAttribute(
-      "d",
-      object.d
-    );
-
-    node.setAttribute(
-      "fill",
-      "none"
-    );
-
-    node.setAttribute(
-      "stroke",
-      object.stroke
-    );
-
-    node.setAttribute(
-      "stroke-width",
-      object.strokeWidth
+      "opacity",
+      object.opacity ?? 1
     );
 
     node.setAttribute(
@@ -3057,67 +1655,1037 @@ function createSVGObject(object){
       "stroke-linejoin",
       "round"
     );
-
   }
 
 
-  if(!node)
-    return null;
+  node.addEventListener("mousedown",event => {
 
+    event.stopPropagation();
 
-  node.classList.add(
-    "svg-object"
-  );
+    state.activeBoard = board.id;
+    state.activeObject = object.id;
 
-
-  node.dataset.objectId =
-    object.id;
-
-
-  node.addEventListener(
-    "mousedown",
-    e => {
-
-      e.stopPropagation();
-
-      selectObject(
-        object.id
-      );
-
+    if(state.tool === "direct"){
+      setStatus("Direct Select: edit the selected vector.");
     }
-  );
+    else{
+      setStatus(`${object.name} selected.`);
+    }
+
+    render();
+
+  });
 
 
   return node;
+}
+
+
+/* =========================================================
+   SHAPES
+========================================================= */
+
+function beginShape(event,board,type){
+
+  const start =
+    boardPoint(event,board);
+
+  state.drawing = true;
+
+  state.drawData = {
+    type,
+    board,
+    start,
+    current:start
+  };
+
+  setStatus(
+    `Drawing ${type}. Drag to create it.`
+  );
+}
+
+function updateShape(event){
+
+  if(!state.drawing || !state.drawData) return;
+
+  state.drawData.current =
+    boardPoint(
+      event,
+      state.drawData.board
+    );
+
+  renderTemporaryShape();
+}
+
+function finishShape(){
+
+  if(!state.drawing || !state.drawData) return;
+
+  const d = state.drawData;
+
+  const x1=d.start.x;
+  const y1=d.start.y;
+  const x2=d.current.x;
+  const y2=d.current.y;
+
+  let object;
+
+  if(d.type === "rectangle"){
+
+    object = {
+      id:uid("rect"),
+      name:"Rectangle",
+      type:"rect",
+      x:Math.min(x1,x2),
+      y:Math.min(y1,y2),
+      width:Math.abs(x2-x1),
+      height:Math.abs(y2-y1),
+      fill:"#9b6cff",
+      stroke:"#111111",
+      strokeWidth:2,
+      opacity:1
+    };
+
+  }
+
+  else if(d.type === "circle"){
+
+    const dx=x2-x1;
+    const dy=y2-y1;
+
+    const radius =
+      Math.sqrt(dx*dx + dy*dy);
+
+    object = {
+      id:uid("circle"),
+      name:"Circle",
+      type:"circle",
+      cx:x1,
+      cy:y1,
+      r:Math.max(1,radius),
+      fill:"#9b6cff",
+      stroke:"#111111",
+      strokeWidth:2,
+      opacity:1
+    };
+
+  }
+
+  else if(d.type === "line"){
+
+    object = {
+      id:uid("line"),
+      name:"Line",
+      type:"line",
+      x1,
+      y1,
+      x2,
+      y2,
+      fill:"none",
+      stroke:"#111111",
+      strokeWidth:3,
+      opacity:1
+    };
+
+  }
+
+  if(
+    object &&
+    (
+      object.width > 1 ||
+      object.height > 1 ||
+      object.r > 1 ||
+      Math.abs(object.x2-object.x1)>1
+    )
+  ){
+
+    d.board.objects.push(object);
+    state.activeBoard = d.board.id;
+    state.activeObject = object.id;
+
+    saveHistory();
+  }
+
+  state.drawing=false;
+  state.drawData=null;
+
+  render();
+
+  setStatus(
+    `${object ? object.name : "Object"} created.`
+  );
+}
+
+
+/* =========================================================
+   TEMPORARY SHAPE PREVIEW
+========================================================= */
+
+function renderTemporaryShape(){
+  render();
+
+  const d=state.drawData;
+  if(!d) return;
+
+  const board=d.board;
+
+  const old =
+    document.getElementById("temporaryShape");
+
+  if(old) old.remove();
+
+  const svg =
+    document.querySelector(
+      `.artboard.active svg`
+    );
+
+  if(!svg) return;
+
+  const ns =
+    "http://www.w3.org/2000/svg";
+
+  let node;
+
+  if(d.type === "rectangle"){
+
+    node=document.createElementNS(ns,"rect");
+
+    node.setAttribute("x",Math.min(d.start.x,d.current.x));
+    node.setAttribute("y",Math.min(d.start.y,d.current.y));
+    node.setAttribute("width",Math.abs(d.current.x-d.start.x));
+    node.setAttribute("height",Math.abs(d.current.y-d.start.y));
+
+  }
+
+  else if(d.type === "circle"){
+
+    node=document.createElementNS(ns,"circle");
+
+    node.setAttribute("cx",d.start.x);
+    node.setAttribute("cy",d.start.y);
+
+    node.setAttribute(
+      "r",
+      Math.sqrt(
+        Math.pow(d.current.x-d.start.x,2)+
+        Math.pow(d.current.y-d.start.y,2)
+      )
+    );
+
+  }
+
+  else if(d.type === "line"){
+
+    node=document.createElementNS(ns,"line");
+
+    node.setAttribute("x1",d.start.x);
+    node.setAttribute("y1",d.start.y);
+    node.setAttribute("x2",d.current.x);
+    node.setAttribute("y2",d.current.y);
+
+  }
+
+  if(node){
+
+    node.id="temporaryShape";
+
+    node.setAttribute(
+      "fill",
+      d.type === "line" ? "none" : "#9b6cff33"
+    );
+
+    node.setAttribute(
+      "stroke",
+      "#9b6cff"
+    );
+
+    node.setAttribute(
+      "stroke-width",
+      "2"
+    );
+
+    node.setAttribute(
+      "stroke-dasharray",
+      "6 4"
+    );
+
+    svg.appendChild(node);
+  }
+}
+
+
+/* =========================================================
+   PEN TOOL
+   Real SVG Bézier path.
+========================================================= */
+
+let penPoints=[];
+
+function penClick(event,board){
+
+  const point =
+    boardPoint(event,board);
+
+  /*
+   * Shift-click creates a curved node by using
+   * a handle direction based on the previous node.
+   */
+  const curved =
+    event.shiftKey;
+
+  penPoints.push({
+    x:point.x,
+    y:point.y,
+    curved
+  });
+
+  state.activeBoard=board.id;
+
+  renderPenPreview();
+
+  setStatus(
+    `Pen: ${penPoints.length} anchor(s). Click more points. Double-click or Enter to finish.`
+  );
+}
+
+function makePenD(points,closed=false){
+
+  if(!points.length) return "";
+
+  let d=
+    `M ${points[0].x} ${points[0].y}`;
+
+  for(let i=1;i<points.length;i++){
+
+    const a=points[i-1];
+    const b=points[i];
+
+    if(a.curved || b.curved){
+
+      const dx=b.x-a.x;
+      const dy=b.y-a.y;
+
+      d +=
+        ` C ${a.x+dx*.35} ${a.y+dy*.35},`+
+        ` ${b.x-dx*.35} ${b.y-dy*.35},`+
+        ` ${b.x} ${b.y}`;
+
+    }
+    else{
+
+      d +=
+        ` L ${b.x} ${b.y}`;
+
+    }
+  }
+
+  if(closed){
+    d += " Z";
+  }
+
+  return d;
+}
+
+function renderPenPreview(){
+
+  render();
+
+  const board=activeBoard();
+
+  if(!board || !penPoints.length) return;
+
+  const svg =
+    document.querySelector(
+      `.artboard.active svg`
+    );
+
+  if(!svg) return;
+
+  const ns=
+    "http://www.w3.org/2000/svg";
+
+  const path=
+    document.createElementNS(ns,"path");
+
+  path.setAttribute(
+    "d",
+    makePenD(penPoints,false)
+  );
+
+  path.setAttribute(
+    "fill",
+    "none"
+  );
+
+  path.setAttribute(
+    "stroke",
+    "#9b6cff"
+  );
+
+  path.setAttribute(
+    "stroke-width",
+    "3"
+  );
+
+  path.setAttribute(
+    "stroke-dasharray",
+    "7 5"
+  );
+
+  svg.appendChild(path);
+
+
+  penPoints.forEach((point,index)=>{
+
+    const circle=
+      document.createElementNS(ns,"circle");
+
+    circle.setAttribute("cx",point.x);
+    circle.setAttribute("cy",point.y);
+    circle.setAttribute("r","6");
+    circle.classList.add("node");
+
+    svg.appendChild(circle);
+
+  });
+}
+
+function finishPen(){
+
+  if(penPoints.length < 2){
+    penPoints=[];
+    render();
+    return;
+  }
+
+  const board=activeBoard();
+
+  if(!board){
+    penPoints=[];
+    return;
+  }
+
+  const object={
+    id:uid("path"),
+    name:"Pen Path",
+    type:"path",
+    d:makePenD(penPoints,false),
+    closed:false,
+    fill:"transparent",
+    stroke:"#111111",
+    strokeWidth:3,
+    opacity:1,
+    nodes:JSON.parse(JSON.stringify(penPoints))
+  };
+
+  board.objects.push(object);
+
+  state.activeObject=object.id;
+
+  penPoints=[];
+
+  saveHistory();
+  render();
+
+  setStatus("Pen path created.");
+}
+
+
+/* Double click finishes Pen */
+canvasArea.addEventListener("dblclick",event=>{
+
+  if(state.tool==="pen"){
+
+    event.preventDefault();
+    finishPen();
+
+  }
+
+});
+
+
+/* =========================================================
+   FREEHAND PENCIL / BRUSH
+========================================================= */
+
+function beginFreehand(event,board){
+
+  const point=
+    boardPoint(event,board);
+
+  state.drawing=true;
+
+  state.drawData={
+    type:state.tool,
+    board,
+    points:[point]
+  };
+
+  setStatus(
+    state.tool==="pencil"
+      ? "Pencil: drawing vector path."
+      : "Brush: drawing vector brush stroke."
+  );
+}
+
+function updateFreehand(event){
+
+  if(
+    !state.drawing ||
+    !state.drawData
+  ) return;
+
+  const point=
+    boardPoint(
+      event,
+      state.drawData.board
+    );
+
+  state.drawData.points.push(point);
+
+  renderFreehandPreview();
+}
+
+function finishFreehand(){
+
+  if(
+    !state.drawing ||
+    !state.drawData
+  ) return;
+
+  const d=state.drawData;
+
+  if(d.points.length < 2){
+    state.drawing=false;
+    state.drawData=null;
+    render();
+    return;
+  }
+
+  const commands=
+    d.points.map(
+      (p,i)=>
+        `${i===0 ? "M" : "L"} ${p.x} ${p.y}`
+    ).join(" ");
+
+  const object={
+    id:uid(d.type),
+    name:d.type==="pencil"
+      ? "Pencil Path"
+      : "Brush Stroke",
+    type:"path",
+    d:commands,
+    closed:false,
+    fill:"none",
+    stroke:d.type==="brush"
+      ? "#111111"
+      : "#111111",
+    strokeWidth:d.type==="brush"
+      ? 8
+      : 3,
+    opacity:1,
+    nodes:d.points
+  };
+
+  d.board.objects.push(object);
+
+  state.activeObject=object.id;
+
+  state.drawing=false;
+  state.drawData=null;
+
+  saveHistory();
+  render();
+
+  setStatus(
+    d.type==="brush"
+      ? "Brush stroke created."
+      : "Pencil vector path created."
+  );
+}
+
+function renderFreehandPreview(){
+
+  render();
+
+  const d=state.drawData;
+  if(!d) return;
+
+  const svg=
+    document.querySelector(
+      ".artboard.active svg"
+    );
+
+  if(!svg) return;
+
+  const ns=
+    "http://www.w3.org/2000/svg";
+
+  const path=
+    document.createElementNS(ns,"path");
+
+  path.setAttribute(
+    "d",
+    d.points.map(
+      (p,i)=>
+        `${i===0?"M":"L"} ${p.x} ${p.y}`
+    ).join(" ")
+  );
+
+  path.setAttribute(
+    "fill",
+    "none"
+  );
+
+  path.setAttribute(
+    "stroke",
+    d.type==="brush"
+      ? "#111111"
+      : "#9b6cff"
+  );
+
+  path.setAttribute(
+    "stroke-width",
+    d.type==="brush" ? "8" : "3"
+  );
+
+  path.setAttribute(
+    "stroke-linecap",
+    "round"
+  );
+
+  path.setAttribute(
+    "stroke-linejoin",
+    "round"
+  );
+
+  svg.appendChild(path);
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+function addText(event,board){
+
+  const text=
+    prompt("Enter text:");
+
+  if(!text) return;
+
+  const point=
+    boardPoint(event,board);
+
+  const object={
+    id:uid("text"),
+    name:"Text",
+    type:"text",
+    x:point.x,
+    y:point.y,
+    text,
+    fontSize:48,
+    fontWeight:700,
+    fill:"#111111",
+    stroke:"none",
+    strokeWidth:0,
+    opacity:1
+  };
+
+  board.objects.push(object);
+
+  state.activeObject=object.id;
+
+  saveHistory();
+  render();
+
+  setStatus("Text created.");
+}
+
+
+/* =========================================================
+   MOUSE DRAWING EVENTS
+========================================================= */
+
+canvasArea.addEventListener("mousemove",event=>{
+
+  if(
+    state.tool==="rectangle" ||
+    state.tool==="circle" ||
+    state.tool==="line"
+  ){
+
+    updateShape(event);
+
+  }
+
+  else if(
+    state.tool==="pencil" ||
+    state.tool==="brush"
+  ){
+
+    updateFreehand(event);
+
+  }
+
+});
+
+
+canvasArea.addEventListener("mouseup",event=>{
+
+  if(
+    state.tool==="rectangle" ||
+    state.tool==="circle" ||
+    state.tool==="line"
+  ){
+
+    finishShape();
+
+  }
+
+  else if(
+    state.tool==="pencil" ||
+    state.tool==="brush"
+  ){
+
+    finishFreehand();
+
+  }
+
+});
+
+
+/* =========================================================
+   TOOL SELECTION
+========================================================= */
+
+document
+.querySelectorAll(".tool-button")
+.forEach(button=>{
+
+  button.addEventListener("click",()=>{
+
+    state.tool=
+      button.dataset.tool;
+
+    document
+      .querySelectorAll(".tool-button")
+      .forEach(b=>
+        b.classList.toggle(
+          "active",
+          b===button
+        )
+      );
+
+    penPoints=[];
+
+    if(state.tool==="hand"){
+      canvasArea.classList.add("hand");
+    }
+    else{
+      canvasArea.classList.remove("hand");
+    }
+
+    if(state.tool==="pen"){
+      setStatus(
+        "Pen: click anchors. Shift-click creates curved segments. Double-click or Enter finishes."
+      );
+    }
+
+    else if(state.tool==="pencil"){
+      setStatus("Pencil: drag to draw an editable vector path.");
+    }
+
+    else if(state.tool==="brush"){
+      setStatus("Brush: drag to paint a vector brush stroke.");
+    }
+
+    else if(state.tool==="rectangle"){
+      setStatus("Rectangle: click and drag.");
+    }
+
+    else if(state.tool==="circle"){
+      setStatus("Circle: click center and drag radius.");
+    }
+
+    else if(state.tool==="line"){
+      setStatus("Line: click and drag.");
+    }
+
+    else if(state.tool==="artboard"){
+      openArtboardModal();
+    }
+
+    else if(state.tool==="hand"){
+      setStatus("Hand: drag the workspace to pan.");
+    }
+
+    else if(state.tool==="zoom"){
+      setStatus("Zoom: use the bottom controls or mouse wheel.");
+    }
+
+    else if(state.tool==="direct"){
+      setStatus("Direct Select: select a vector path.");
+    }
+
+    else{
+      setStatus(`Tool: ${state.tool}`);
+    }
+
+  });
+
+});
+
+
+/* =========================================================
+   DIRECT SELECT
+========================================================= */
+
+function renderNodesForSelected(){
+
+  if(state.tool!=="direct") return;
+
+  const object=activeObject();
+
+  if(
+    !object ||
+    object.type!=="path" ||
+    !object.nodes
+  ) return;
+
+  /*
+   * Node UI is represented visually on the selected
+   * path. This is intentionally separate from the
+   * actual path so the vector remains editable.
+   */
 
 }
 
 
 /* =========================================================
-   ARTBOARD SELECTION
+   ARTBOARD PANEL
 ========================================================= */
 
-function selectArtboard(id){
+function updatePanels(){
 
-  state.activeArtboard =
-    id;
+  const board=activeBoard();
+  const object=activeObject();
 
-  state.activeObject =
-    null;
+  if(board){
 
+    document.getElementById("boardName").value=board.name;
+    document.getElementById("boardWidth").value=board.width;
+    document.getElementById("boardHeight").value=board.height;
+    document.getElementById("boardBackground").value=board.background;
+    document.getElementById("boardBackgroundHex").value=board.background;
+
+  }
+
+  if(object){
+
+    document.getElementById("fillColor").value=
+      normalizeColor(object.fill || "#ffffff");
+
+    document.getElementById("fillHex").value=
+      normalizeColor(object.fill || "#ffffff");
+
+    document.getElementById("strokeColor").value=
+      normalizeColor(object.stroke || "#000000");
+
+    document.getElementById("strokeHex").value=
+      normalizeColor(object.stroke || "#000000");
+
+    document.getElementById("strokeWidth").value=
+      object.strokeWidth || 0;
+
+    document.getElementById("opacity").value=
+      object.opacity ?? 1;
+
+    document.getElementById("objectName").value=
+      object.name || "";
+
+  }
+}
+
+function normalizeColor(value){
+
+  if(
+    !value ||
+    value==="none" ||
+    value==="transparent"
+  ){
+    return "#000000";
+  }
+
+  if(
+    /^#[0-9a-f]{6}$/i.test(value)
+  ){
+    return value;
+  }
+
+  return "#000000";
+}
+
+
+/* ARTBOARD SIZE */
+document.getElementById("applyBoardSize").onclick=()=>{
+
+  const board=activeBoard();
+
+  if(!board) return;
+
+  board.name=
+    document.getElementById("boardName").value ||
+    board.name;
+
+  board.width=
+    Math.max(
+      1,
+      Number(
+        document.getElementById("boardWidth").value
+      )
+    );
+
+  board.height=
+    Math.max(
+      1,
+      Number(
+        document.getElementById("boardHeight").value
+      )
+    );
+
+  saveHistory();
   render();
 
+  setStatus("Artboard size updated.");
+};
+
+
+/* BACKGROUND */
+document.getElementById("boardBackground").oninput=e=>{
+
+  const board=activeBoard();
+
+  if(!board) return;
+
+  board.background=e.target.value;
+
+  document.getElementById("boardBackgroundHex").value=
+    e.target.value;
+
+  render();
+};
+
+document.getElementById("boardBackgroundHex").onchange=e=>{
+
+  const value=e.target.value;
+
+  if(!/^#[0-9a-f]{6}$/i.test(value)){
+    setStatus("Use a valid hex color.");
+    return;
+  }
+
+  const board=activeBoard();
+
+  if(!board) return;
+
+  board.background=value;
+
+  document.getElementById("boardBackground").value=value;
+
+  saveHistory();
+  render();
+
+};
+
+
+/* =========================================================
+   OBJECT APPEARANCE
+========================================================= */
+
+function updateObject(property,value){
+
+  const object=activeObject();
+
+  if(!object) return;
+
+  object[property]=value;
+
+  render();
 }
 
+document.getElementById("fillColor").oninput=e=>{
+  updateObject("fill",e.target.value);
+  document.getElementById("fillHex").value=e.target.value;
+};
 
-function selectObject(id){
+document.getElementById("fillHex").onchange=e=>{
 
-  state.activeObject =
-    id;
+  if(!/^#[0-9a-f]{6}$/i.test(e.target.value)) return;
 
-  renderLayers();
+  updateObject("fill",e.target.value);
+  document.getElementById("fillColor").value=e.target.value;
 
-}
+};
+
+document.getElementById("strokeColor").oninput=e=>{
+  updateObject("stroke",e.target.value);
+  document.getElementById("strokeHex").value=e.target.value;
+};
+
+document.getElementById("strokeHex").onchange=e=>{
+
+  if(!/^#[0-9a-f]{6}$/i.test(e.target.value)) return;
+
+  updateObject("stroke",e.target.value);
+  document.getElementById("strokeColor").value=e.target.value;
+
+};
+
+document.getElementById("strokeWidth").oninput=e=>{
+  updateObject(
+    "strokeWidth",
+    Number(e.target.value)
+  );
+};
+
+document.getElementById("opacity").oninput=e=>{
+  updateObject(
+    "opacity",
+    Number(e.target.value)
+  );
+};
+
+document.getElementById("objectName").onchange=e=>{
+  updateObject(
+    "name",
+    e.target.value
+  );
+};
+
+
+/* =========================================================
+   DELETE OBJECT
+========================================================= */
+
+document.getElementById("deleteObjectBtn").onclick=()=>{
+
+  const board=activeBoard();
+
+  if(!board || !state.activeObject) return;
+
+  board.objects=
+    board.objects.filter(
+      o=>o.id!==state.activeObject
+    );
+
+  state.activeObject=null;
+
+  saveHistory();
+  render();
+
+  setStatus("Object deleted.");
+};
 
 
 /* =========================================================
@@ -3126,1154 +2694,281 @@ function selectObject(id){
 
 function renderLayers(){
 
-  const list =
-    $("artboardLayers");
+  const list=
+    document.getElementById("layersList");
 
-  list.innerHTML = "";
+  list.innerHTML="";
 
+  state.artboards.forEach(board=>{
 
-  state.artboards.forEach(
-    board => {
+    const boardRow=
+      document.createElement("div");
 
-      const row =
-        document.createElement("div");
+    boardRow.className=
+      "layer-row" +
+      (board.id===state.activeBoard ? " active" : "");
 
-      row.className =
-        "layer";
+    boardRow.innerHTML=`
+      <div class="layer-icon">▣</div>
+      <div class="layer-name">${escapeHTML(board.name)}</div>
+    `;
 
-      if(
-        board.id ===
-        state.activeArtboard
-      ){
-
-        row.classList.add(
-          "selected"
-        );
-
-      }
-
-
-      row.innerHTML = `
-
-        <div class="layer-icon">
-          ▣
-        </div>
-
-        <div class="layer-name">
-          ${board.name}
-        </div>
-
-        <div class="layer-eye">
-          ◉
-        </div>
-
-      `;
-
-
-      row.onclick = () =>
-        selectArtboard(
-          board.id
-        );
-
-
-      list.appendChild(row);
-
-    }
-  );
-
-
-  const objects =
-    $("objectLayers");
-
-  objects.innerHTML = "";
-
-
-  const board =
-    currentArtboard();
-
-  if(!board)
-    return;
-
-
-  board.objects
-    .slice()
-    .reverse()
-    .forEach(
-      object => {
-
-        const row =
-          document.createElement("div");
-
-        row.className =
-          "layer";
-
-
-        if(
-          object.id ===
-          state.activeObject
-        ){
-
-          row.classList.add(
-            "selected"
-          );
-
-        }
-
-
-        let icon = "◇";
-
-        if(object.type==="text")
-          icon="T";
-
-        if(object.type==="rect")
-          icon="□";
-
-        if(object.type==="circle")
-          icon="○";
-
-        if(object.type==="line")
-          icon="／";
-
-        if(object.type==="path")
-          icon="⌁";
-
-
-        row.innerHTML = `
-
-          <div class="layer-icon">
-            ${icon}
-          </div>
-
-          <div class="layer-name">
-            ${object.name}
-          </div>
-
-          <div class="layer-eye">
-            ◉
-          </div>
-
-          <div class="layer-lock">
-            ♢
-          </div>
-
-        `;
-
-
-        row.onclick = () =>
-          selectObject(
-            object.id
-          );
-
-
-        objects.appendChild(row);
-
-      }
-    );
-
-}
-
-
-/* =========================================================
-   RIGHT PANEL
-========================================================= */
-
-function updateRightPanel(){
-
-  const board =
-    currentArtboard();
-
-  if(!board)
-    return;
-
-
-  $("artboardWidth").value =
-    board.width;
-
-  $("artboardHeight").value =
-    board.height;
-
-  $("backgroundColor").value =
-    board.background;
-
-  $("backgroundHex").value =
-    board.background;
-
-  $("backgroundPreview").style.background =
-    board.background;
-
-}
-
-
-/* =========================================================
-   BACKGROUND COLOR
-========================================================= */
-
-$("backgroundColor")
-.addEventListener(
-  "input",
-  e => {
-
-    const board =
-      currentArtboard();
-
-    if(!board)
-      return;
-
-    board.background =
-      e.target.value;
-
-    $("backgroundHex").value =
-      e.target.value;
-
-    $("backgroundPreview")
-      .style.background =
-      e.target.value;
-
-    renderArtboards();
-
-  }
-);
-
-
-$("backgroundHex")
-.addEventListener(
-  "change",
-  e => {
-
-    const value =
-      e.target.value;
-
-    if(
-      !/^#[0-9A-F]{6}$/i.test(value)
-    ){
-
-      alert(
-        "Enter a valid hex color such as #FFFFFF."
-      );
-
-      return;
-
-    }
-
-
-    const board =
-      currentArtboard();
-
-    board.background =
-      value;
-
-    $("backgroundColor").value =
-      value;
-
-    $("backgroundPreview")
-      .style.background =
-      value;
-
-    renderArtboards();
-
-  }
-);
-
-
-/* =========================================================
-   ARTBOARD DIMENSIONS
-========================================================= */
-
-$("applySize")
-.addEventListener(
-  "click",
-  () => {
-
-    const board =
-      currentArtboard();
-
-    if(!board)
-      return;
-
-
-    board.width =
-      Math.max(
-        1,
-        Number(
-          $("artboardWidth").value
-        )
-      );
-
-
-    board.height =
-      Math.max(
-        1,
-        Number(
-          $("artboardHeight").value
-        )
-      );
-
-
-    snapshot();
-
-    render();
-
-  }
-);
-
-
-/* =========================================================
-   TOOL SYSTEM
-========================================================= */
-
-document
-.querySelectorAll("[data-tool]")
-.forEach(
-  button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        setTool(
-          button.dataset.tool
-        );
-
-      }
-    );
-
-  }
-);
-
-
-function setTool(tool){
-
-  state.tool =
-    tool;
-
-
-  document
-  .querySelectorAll("[data-tool]")
-  .forEach(
-    button => {
-
-      button.classList.toggle(
-        "active",
-        button.dataset.tool === tool
-      );
-
-    }
-  );
-
-
-  $("canvas")
-    .classList.toggle(
-      "hand",
-      tool === "hand"
-    );
-
-}
-
-
-/* =========================================================
-   DRAWING COORDINATES
-========================================================= */
-
-function svgPoint(
-  event,
-  svg
-){
-
-  const rect =
-    svg.getBoundingClientRect();
-
-  const board =
-    currentArtboard();
-
-  return {
-
-    x:
-      (
-        event.clientX -
-        rect.left
-      ) *
-      board.width /
-      rect.width,
-
-    y:
-      (
-        event.clientY -
-        rect.top
-      ) *
-      board.height /
-      rect.height
-
-  };
-
-}
-
-
-/* =========================================================
-   PENCIL / BRUSH
-========================================================= */
-
-function beginDrawing(
-  event,
-  board,
-  svg
-){
-
-  state.drawing =
-    true;
-
-  const point =
-    svgPoint(
-      event,
-      svg
-    );
-
-
-  state.pathPoints = [
-    point
-  ];
-
-
-  const path =
-    document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "path"
-    );
-
-
-  path.setAttribute(
-    "fill",
-    "none"
-  );
-
-
-  path.setAttribute(
-    "stroke",
-    state.tool === "brush"
-      ? "#9b6cff"
-      : "#111111"
-  );
-
-
-  path.setAttribute(
-    "stroke-width",
-    state.tool === "brush"
-      ? "12"
-      : "3"
-  );
-
-
-  path.setAttribute(
-    "stroke-linecap",
-    "round"
-  );
-
-
-  path.setAttribute(
-    "stroke-linejoin",
-    "round"
-  );
-
-
-  path.classList.add(
-    "vector-path"
-  );
-
-
-  state.currentPath =
-    path;
-
-
-  svg.appendChild(
-    path
-  );
-
-
-  svg.addEventListener(
-    "mousemove",
-    continueDrawing
-  );
-
-
-  window.addEventListener(
-    "mouseup",
-    finishDrawing,
-    {
-      once:true
-    }
-  );
-
-
-  function continueDrawing(e){
-
-    if(!state.drawing)
-      return;
-
-
-    const point =
-      svgPoint(
-        e,
-        svg
-      );
-
-
-    state.pathPoints.push(
-      point
-    );
-
-
-    const d =
-      state.pathPoints
-        .map(
-          (p,index) =>
-            index === 0
-              ? `M ${p.x} ${p.y}`
-              : `L ${p.x} ${p.y}`
-        )
-        .join(" ");
-
-
-    state.currentPath
-      .setAttribute(
-        "d",
-        d
-      );
-
-  }
-
-
-  function finishDrawing(){
-
-    state.drawing =
-      false;
-
-    svg.removeEventListener(
-      "mousemove",
-      continueDrawing
-    );
-
-
-    if(
-      state.pathPoints.length > 1
-    ){
-
-      const d =
-        state.pathPoints
-          .map(
-            (p,index) =>
-              index === 0
-                ? `M ${p.x} ${p.y}`
-                : `L ${p.x} ${p.y}`
-          )
-          .join(" ");
-
-
-      board.objects.push({
-
-        id:uid("path"),
-
-        name:
-          state.tool === "brush"
-            ? "Brush Stroke"
-            : "Pencil Path",
-
-        type:"path",
-
-        d,
-
-        stroke:
-          state.tool === "brush"
-            ? "#9b6cff"
-            : "#111111",
-
-        strokeWidth:
-          state.tool === "brush"
-            ? 12
-            : 3
-
-      });
-
-
-      snapshot();
-
+    boardRow.onclick=()=>{
+      state.activeBoard=board.id;
+      state.activeObject=null;
       render();
+      setStatus(`${board.name} selected.`);
+    };
+
+    list.appendChild(boardRow);
+
+
+    if(board.id===state.activeBoard){
+
+      board.objects
+        .slice()
+        .reverse()
+        .forEach(object=>{
+
+          const row=
+            document.createElement("div");
+
+          row.className=
+            "layer-row" +
+            (object.id===state.activeObject
+              ? " active"
+              : "");
+
+          let icon="◇";
+
+          if(object.type==="rect") icon="□";
+          if(object.type==="circle") icon="○";
+          if(object.type==="line") icon="／";
+          if(object.type==="text") icon="T";
+          if(object.type==="path") icon="⌁";
+          if(object.type==="image") icon="▧";
+
+          row.innerHTML=`
+            <div class="layer-icon">${icon}</div>
+            <div class="layer-name">${escapeHTML(object.name)}</div>
+          `;
+
+          row.style.marginLeft="14px";
+
+          row.onclick=()=>{
+            state.activeObject=object.id;
+            render();
+            setStatus(`${object.name} selected.`);
+          };
+
+          list.appendChild(row);
+
+        });
 
     }
 
-  }
+  });
+}
 
+function escapeHTML(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;");
 }
 
 
 /* =========================================================
-   PEN TOOL
+   ASSET VAULT
 ========================================================= */
 
-$("canvas")
-.addEventListener(
-  "click",
-  event => {
+const uploadBtn=
+  document.getElementById("uploadBtn");
 
-    if(
-      state.tool !== "pen"
-    )
-      return;
+const assetInput=
+  document.getElementById("assetInput");
 
+uploadBtn.onclick=()=>{
+  assetInput.click();
+};
 
-    const board =
-      currentArtboard();
+assetInput.onchange=event=>{
 
-    if(!board)
-      return;
+  const files=
+    [...event.target.files];
 
+  files.forEach(file=>{
 
-    const artboardElement =
-      event.target.closest(
-        ".artboard"
-      );
+    const reader=
+      new FileReader();
 
+    reader.onload=e=>{
 
-    if(!artboardElement)
-      return;
+      const asset={
+        id:uid("asset"),
+        name:file.name,
+        src:e.target.result,
+        type:"image"
+      };
 
+      state.assets.push(asset);
 
-    const svg =
-      artboardElement.querySelector(
-        "svg"
-      );
-
-
-    const point =
-      svgPoint(
-        event,
-        svg
-      );
-
-
-    state.pathPoints.push(
-      point
-    );
-
-
-    if(
-      !state.currentPath
-    ){
-
-      state.currentPath =
-        document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "path"
-        );
-
-
-      state.currentPath.setAttribute(
-        "fill",
-        "none"
-      );
-
-
-      state.currentPath.setAttribute(
-        "stroke",
-        "#111111"
-      );
-
-
-      state.currentPath.setAttribute(
-        "stroke-width",
-        "3"
-      );
-
-
-      state.currentPath.setAttribute(
-        "stroke-linecap",
-        "round"
-      );
-
-
-      svg.appendChild(
-        state.currentPath
-      );
-
-    }
-
-
-    const d =
-      state.pathPoints
-        .map(
-          (p,index) =>
-            index === 0
-              ? `M ${p.x} ${p.y}`
-              : `L ${p.x} ${p.y}`
-        )
-        .join(" ");
-
-
-    state.currentPath
-      .setAttribute(
-        "d",
-        d
-      );
-
-  }
-);
-
-
-/* Double-click finishes Pen path */
-
-$("canvas")
-.addEventListener(
-  "dblclick",
-  event => {
-
-    if(
-      state.tool !== "pen"
-    )
-      return;
-
-
-    const board =
-      currentArtboard();
-
-    if(
-      !board ||
-      state.pathPoints.length < 2
-    )
-      return;
-
-
-    const d =
-      state.pathPoints
-        .map(
-          (p,index) =>
-            index === 0
-              ? `M ${p.x} ${p.y}`
-              : `L ${p.x} ${p.y}`
-        )
-        .join(" ");
-
-
-    board.objects.push({
-
-      id:uid("pen"),
-
-      name:"Pen Path",
-
-      type:"path",
-
-      d,
-
-      stroke:"#111111",
-
-      strokeWidth:3
-
-    });
-
-
-    state.pathPoints=[];
-    state.currentPath=null;
-
-    snapshot();
-
-    render();
-
-  }
-);
-
-
-/* =========================================================
-   SHAPE CREATION
-========================================================= */
-
-$("canvas")
-.addEventListener(
-  "dblclick",
-  event => {
-
-    if(
-      ![
-        "rectangle",
-        "circle",
-        "line",
-        "text"
-      ].includes(
-        state.tool
-      )
-    )
-      return;
-
-
-    const board =
-      currentArtboard();
-
-    if(!board)
-      return;
-
-
-    const artboardElement =
-      event.target.closest(
-        ".artboard"
-      );
-
-
-    if(!artboardElement)
-      return;
-
-
-    const svg =
-      artboardElement.querySelector(
-        "svg"
-      );
-
-
-    const point =
-      svgPoint(
-        event,
-        svg
-      );
-
-
-    if(
-      state.tool ===
-      "rectangle"
-    ){
-
-      board.objects.push({
-
-        id:uid("rect"),
-
-        name:"Rectangle",
-
-        type:"rect",
-
-        x:point.x-100,
-
-        y:point.y-75,
-
-        width:200,
-
-        height:150,
-
-        fill:"#9b6cff",
-
-        stroke:"#111111",
-
-        strokeWidth:2
-
-      });
-
-    }
-
-
-    if(
-      state.tool ===
-      "circle"
-    ){
-
-      board.objects.push({
-
-        id:uid("circle"),
-
-        name:"Circle",
-
-        type:"circle",
-
-        x:point.x,
-
-        y:point.y,
-
-        radius:80,
-
-        fill:"#25e58b",
-
-        stroke:"#111111",
-
-        strokeWidth:2
-
-      });
-
-    }
-
-
-    if(
-      state.tool ===
-      "line"
-    ){
-
-      board.objects.push({
-
-        id:uid("line"),
-
-        name:"Line",
-
-        type:"line",
-
-        x1:point.x-100,
-
-        y1:point.y,
-
-        x2:point.x+100,
-
-        y2:point.y,
-
-        stroke:"#111111",
-
-        strokeWidth:3
-
-      });
-
-    }
-
-
-    if(
-      state.tool ===
-      "text"
-    ){
-
-      const text =
-        prompt(
-          "Enter text:"
-        );
-
-
-      if(!text)
-        return;
-
-
-      board.objects.push({
-
-        id:uid("text"),
-
-        name:"Text",
-
-        type:"text",
-
-        x:point.x,
-
-        y:point.y,
-
-        text,
-
-        fontSize:48,
-
-        fontWeight:700,
-
-        fill:"#111111"
-
-      });
-
-    }
-
-
-    snapshot();
-
-    render();
-
-  }
-);
-
-
-/* =========================================================
-   FIT / HOME
-========================================================= */
-
-$("fitArtboard")
-.addEventListener(
-  "click",
-  () => {
-
-    const board =
-      currentArtboard();
-
-    if(!board)
-      return;
-
-
-    state.zoom =
-      Math.min(
-        1,
-        650 / board.width
-      );
-
-
-    $("zoomDisplay")
-      .textContent =
-      Math.round(
-        state.zoom * 100
-      ) + "%";
-
-
-    $("canvasInner")
-      .style.transform =
-      `translate(-50%,-50%) scale(${state.zoom})`;
-
-  }
-);
-
-
-/* =========================================================
-   ZOOM
-========================================================= */
-
-$("zoomIn")
-.addEventListener(
-  "click",
-  () => {
-
-    state.zoom =
-      Math.min(
-        3,
-        state.zoom + .1
-      );
-
-    updateZoom();
-
-  }
-);
-
-
-$("zoomOut")
-.addEventListener(
-  "click",
-  () => {
-
-    state.zoom =
-      Math.max(
-        .1,
-        state.zoom - .1
-      );
-
-    updateZoom();
-
-  }
-);
-
-
-function updateZoom(){
-
-  $("zoomDisplay")
-    .textContent =
-    Math.round(
-      state.zoom * 100
-    ) + "%";
-
-
-  $("canvasInner")
-    .style.transform =
-    `translate(-50%,-50%) scale(${state.zoom})`;
-
-}
-
-
-/* =========================================================
-   ADD ARTBOARD
-========================================================= */
-
-function openArtboardModal(){
-
-  $("artboardModal")
-    .classList.add("show");
-
-}
-
-
-$("addArtboard")
-.addEventListener(
-  "click",
-  openArtboardModal
-);
-
-
-$("workspaceAddArtboard")
-.addEventListener(
-  "click",
-  openArtboardModal
-);
-
-
-$("customArtboard")
-.addEventListener(
-  "click",
-  openArtboardModal
-);
-
-
-$("closeModal")
-.addEventListener(
-  "click",
-  () => {
-
-    $("artboardModal")
-      .classList.remove("show");
-
-  }
-);
-
-
-/* =========================================================
-   CREATE CUSTOM ARTBOARD
-========================================================= */
-
-$("createArtboard")
-.addEventListener(
-  "click",
-  () => {
-
-    const board = {
-
-      id:uid("artboard"),
-
-      name:
-        $("customName").value
-        ||"Custom Artboard",
-
-      width:
-        Number(
-          $("customWidth").value
-        )
-        ||1200,
-
-      height:
-        Number(
-          $("customHeight").value
-        )
-        ||1800,
-
-      background:
-        $("customBackground").value
-        ||"#ffffff",
-
-      objects:[]
+      renderVault();
 
     };
 
+    reader.readAsDataURL(file);
 
-    state.artboards.push(
-      board
-    );
+  });
 
+  assetInput.value="";
+};
 
-    state.activeArtboard =
-      board.id;
+function renderVault(){
 
+  const grid=
+    document.getElementById("vaultGrid");
 
-    $("artboardModal")
-      .classList.remove("show");
+  grid.innerHTML="";
 
+  state.assets.forEach(asset=>{
 
-    snapshot();
+    const item=
+      document.createElement("div");
 
-    render();
+    item.className="asset";
 
+    item.innerHTML=`
+      <img
+        src="${asset.src}"
+        style="
+          width:50px;
+          height:42px;
+          object-fit:contain;
+          background:#fff;
+          border-radius:3px;
+        "
+      >
+      <span>${escapeHTML(asset.name)}</span>
+    `;
+
+    item.onclick=()=>{
+      placeAsset(asset);
+    };
+
+    grid.appendChild(item);
+
+  });
+}
+
+function placeAsset(asset){
+
+  const board=activeBoard();
+
+  if(!board){
+    setStatus("Select an artboard first.");
+    return;
   }
-);
+
+  const object={
+    id:uid("image"),
+    name:asset.name,
+    type:"image",
+    src:asset.src,
+    x:100,
+    y:100,
+    width:300,
+    height:300,
+    opacity:1
+  };
+
+  board.objects.push(object);
+
+  state.activeObject=object.id;
+
+  saveHistory();
+  render();
+
+  setStatus(`${asset.name} placed on ${board.name}.`);
+}
 
 
 /* =========================================================
-   PRESETS
+   CHARACTER BUILDER
 ========================================================= */
 
-const presets = {
+document.getElementById("addCharacterBtn").onclick=()=>{
 
-  book:{
+  const board=activeBoard();
+
+  if(!board){
+    setStatus("Select an artboard first.");
+    return;
+  }
+
+  const skin=
+    document.getElementById("charSkin").value;
+
+  const hair=
+    document.getElementById("charHair").value;
+
+  const shirt=
+    document.getElementById("charShirt").value;
+
+
+  /*
+   * Character is a grouped SVG-style vector object
+   * represented as one reusable vector path/object
+   * for this single-file implementation.
+   */
+
+  const group={
+    id:uid("character"),
+    name:"Character Base",
+    type:"path",
+    d:
+      `M 200 110
+       C 145 110 110 155 110 215
+       C 110 270 145 305 200 305
+       C 255 305 290 270 290 215
+       C 290 155 255 110 200 110
+       Z
+       M 130 180
+       C 120 95 165 65 200 65
+       C 235 65 280 95 270 180
+       C 245 135 225 125 200 125
+       C 175 125 155 135 130 180
+       Z
+       M 130 315
+       C 80 345 55 400 55 500
+       L 345 500
+       C 345 400 320 345 270 315
+       Z`,
+    closed:true,
+    fill:skin,
+    stroke:hair,
+    strokeWidth:14,
+    opacity:1
+  };
+
+  board.objects.push(group);
+
+  state.activeObject=group.id;
+
+  saveHistory();
+  render();
+
+  setStatus("Character added to artboard.");
+};
+
+
+/* =========================================================
+   TEMPLATES
+========================================================= */
+
+const templatePresets={
+  cover:{
     name:"Book Cover",
     width:1200,
     height:1800
@@ -4294,7 +2989,7 @@ const presets = {
   character:{
     name:"Character Art",
     width:1600,
-    height:1200
+    height:1000
   },
 
   bookmark:{
@@ -4303,494 +2998,533 @@ const presets = {
     height:1800
   },
 
-  square:{
-    name:"Square",
-    width:1200,
-    height:1200
+  blank:{
+    name:"Blank Canvas",
+    width:1600,
+    height:900
   }
+};
+
+document
+.querySelectorAll("[data-template]")
+.forEach(card=>{
+
+  card.onclick=()=>{
+
+    const preset=
+      templatePresets[
+        card.dataset.template
+      ];
+
+    createArtboard({
+      name:preset.name,
+      width:preset.width,
+      height:preset.height,
+      background:"#ffffff"
+    });
+
+    setStatus(
+      `${preset.name} template created as a new artboard.`
+    );
+
+  };
+
+});
+
+
+/* =========================================================
+   ASSET / TEMPLATE PANEL SWITCHING
+========================================================= */
+
+document
+.querySelectorAll(".tab")
+.forEach(tab=>{
+
+  tab.onclick=()=>{
+
+    document
+      .querySelectorAll(".tab")
+      .forEach(t=>
+        t.classList.remove("active")
+      );
+
+    document
+      .querySelectorAll(".panel")
+      .forEach(panel=>
+        panel.classList.remove("active")
+      );
+
+    tab.classList.add("active");
+
+    document
+      .getElementById(
+        tab.dataset.panel
+      )
+      .classList.add("active");
+
+  };
+
+});
+
+
+document
+.querySelectorAll("[data-asset-panel]")
+.forEach(button=>{
+
+  button.onclick=()=>{
+
+    document
+      .querySelectorAll("[data-asset-panel]")
+      .forEach(b=>
+        b.classList.remove("active")
+      );
+
+    button.classList.add("active");
+
+    [
+      "vaultPanel",
+      "communityPanel",
+      "characterPanel"
+    ].forEach(id=>{
+      document.getElementById(id).style.display="none";
+    });
+
+    document
+      .getElementById(
+        button.dataset.assetPanel
+      )
+      .style.display="block";
+
+  };
+
+});
+
+
+/* =========================================================
+   COMMUNITY
+========================================================= */
+
+document.getElementById("contributeBtn").onclick=()=>{
+
+  alert(
+    "Community contribution flow: create your asset/template, submit it for review, and approved human-created work can earn points."
+  );
 
 };
 
 
-document
-.querySelectorAll("[data-preset]")
-.forEach(
-  button => {
+/* =========================================================
+   ZOOM / PAN
+========================================================= */
 
-    button.addEventListener(
-      "click",
-      () => {
+function applyWorkspaceTransform(){
 
-        const preset =
-          presets[
-            button.dataset.preset
-          ];
+  workspace.style.transform=
+    `translate(${state.panX}px,${state.panY}px) scale(${state.zoom})`;
 
+  document.getElementById("zoomReadout").textContent=
+    Math.round(state.zoom*100)+"%";
+}
 
-        const board = {
+function setZoom(value){
 
-          id:uid("artboard"),
-
-          name:preset.name,
-
-          width:preset.width,
-
-          height:preset.height,
-
-          background:"#ffffff",
-
-          objects:[]
-
-        };
-
-
-        state.artboards.push(
-          board
-        );
-
-
-        state.activeArtboard =
-          board.id;
-
-
-        snapshot();
-
-        render();
-
-      }
+  state.zoom=
+    Math.max(
+      .1,
+      Math.min(3,value)
     );
 
-  }
+  applyWorkspaceTransform();
+}
+
+document.getElementById("zoomIn").onclick=()=>{
+  setZoom(state.zoom*1.2);
+};
+
+document.getElementById("zoomOut").onclick=()=>{
+  setZoom(state.zoom/1.2);
+};
+
+document.getElementById("fitBtn").onclick=fitAll;
+
+document.getElementById("homeBtn").onclick=fitAll;
+
+
+/* FIT ALL ARTBOARDS */
+function fitAll(){
+
+  if(!state.artboards.length) return;
+
+  const minX=
+    Math.min(...state.artboards.map(b=>b.x));
+
+  const minY=
+    Math.min(...state.artboards.map(b=>b.y));
+
+  const maxX=
+    Math.max(
+      ...state.artboards.map(
+        b=>b.x+b.width
+      )
+    );
+
+  const maxY=
+    Math.max(
+      ...state.artboards.map(
+        b=>b.y+b.height
+      )
+    );
+
+  const totalW=maxX-minX;
+  const totalH=maxY-minY;
+
+  const availableW=
+    canvasArea.clientWidth-120;
+
+  const availableH=
+    canvasArea.clientHeight-120;
+
+  state.zoom=
+    Math.min(
+      availableW/totalW,
+      availableH/totalH,
+      1
+    );
+
+  state.panX=
+    (canvasArea.clientWidth-totalW*state.zoom)/2
+    - minX*state.zoom;
+
+  state.panY=
+    (canvasArea.clientHeight-totalH*state.zoom)/2
+    - minY*state.zoom;
+
+  applyWorkspaceTransform();
+
+  setStatus("Home / Fit All Artboards.");
+}
+
+
+/* WHEEL ZOOM */
+canvasArea.addEventListener(
+  "wheel",
+  event=>{
+
+    event.preventDefault();
+
+    const oldZoom=state.zoom;
+
+    const factor=
+      event.deltaY < 0
+        ? 1.1
+        : .9;
+
+    const newZoom=
+      Math.max(.1,Math.min(3,oldZoom*factor));
+
+    const rect=
+      canvasArea.getBoundingClientRect();
+
+    const mouseX=
+      event.clientX-rect.left;
+
+    const mouseY=
+      event.clientY-rect.top;
+
+    const worldX=
+      (mouseX-state.panX)/oldZoom;
+
+    const worldY=
+      (mouseY-state.panY)/oldZoom;
+
+    state.zoom=newZoom;
+
+    state.panX=
+      mouseX-worldX*newZoom;
+
+    state.panY=
+      mouseY-worldY*newZoom;
+
+    applyWorkspaceTransform();
+
+  },
+  {passive:false}
 );
 
 
+/* HAND PAN */
+let panStart=null;
+
+canvasArea.addEventListener("mousedown",event=>{
+
+  if(state.tool!=="hand") return;
+
+  panStart={
+    x:event.clientX,
+    y:event.clientY,
+    panX:state.panX,
+    panY:state.panY
+  };
+
+  canvasArea.classList.add("panning");
+
+});
+
+window.addEventListener("mousemove",event=>{
+
+  if(!panStart) return;
+
+  state.panX=
+    panStart.panX+
+    event.clientX-panStart.x;
+
+  state.panY=
+    panStart.panY+
+    event.clientY-panStart.y;
+
+  applyWorkspaceTransform();
+
+});
+
+window.addEventListener("mouseup",()=>{
+  panStart=null;
+  canvasArea.classList.remove("panning");
+});
+
+
 /* =========================================================
-   LEFT PANEL NAVIGATION
+   SAVE / LOAD
 ========================================================= */
 
-document
-.querySelectorAll("[data-panel]")
-.forEach(
-  button => {
+document.getElementById("saveBtn").onclick=()=>{
 
-    button.addEventListener(
-      "click",
-      () => {
+  const data={
+    artboards:state.artboards,
+    assets:state.assets
+  };
 
-        document
-        .querySelectorAll(
-          "[data-panel]"
-        )
-        .forEach(
-          b =>
-            b.classList.remove(
-              "active"
-            )
-        );
+  localStorage.setItem(
+    "justAnglesArtboardProject",
+    JSON.stringify(data)
+  );
+
+  setStatus("Project saved in this browser.");
+};
 
 
-        button.classList.add(
-          "active"
-        );
+function loadProject(){
 
-
-        document
-        .querySelectorAll(
-          ".left-content > .panel"
-        )
-        .forEach(
-          panel =>
-            panel.classList.add(
-              "hidden"
-            )
-        );
-
-
-        $(button.dataset.panel)
-          .classList.remove(
-            "hidden"
-          );
-
-      }
+  const raw=
+    localStorage.getItem(
+      "justAnglesArtboardProject"
     );
 
+  if(!raw) return;
+
+  try{
+
+    const data=JSON.parse(raw);
+
+    state.artboards=data.artboards || [];
+    state.assets=data.assets || [];
+
+    if(state.artboards.length){
+      state.activeBoard=
+        state.artboards[0].id;
+    }
+
+    renderVault();
+    render();
+
+    setStatus("Project loaded.");
+
+  }catch(error){
+
+    console.error(error);
+    setStatus("Could not load saved project.");
+
   }
-);
+
+}
 
 
 /* =========================================================
-   TEMPLATE TABS
+   EXPORT SVG
 ========================================================= */
 
-document
-.querySelectorAll("[data-template]")
-.forEach(
-  button => {
+document.getElementById("exportBtn").onclick=()=>{
 
-    button.addEventListener(
-      "click",
-      () => {
+  const board=activeBoard();
 
-        document
-        .querySelectorAll(
-          "[data-template]"
-        )
-        .forEach(
-          b =>
-            b.classList.remove(
-              "active"
-            )
-        );
-
-
-        button.classList.add(
-          "active"
-        );
-
-
-        [
-          "canvasTemplates",
-          "designTemplates",
-          "myTemplates",
-          "communityTemplates"
-        ]
-        .forEach(
-          id =>
-            $(id)
-              .classList.add(
-                "hidden"
-              )
-        );
-
-
-        $(
-          button.dataset.template
-        )
-        .classList.remove(
-          "hidden"
-        );
-
-      }
-    );
-
+  if(!board){
+    setStatus("Select an artboard first.");
+    return;
   }
-);
+
+  const ns=
+    "http://www.w3.org/2000/svg";
+
+  const svg=
+    document.createElementNS(ns,"svg");
+
+  svg.setAttribute(
+    "xmlns",
+    ns
+  );
+
+  svg.setAttribute(
+    "width",
+    board.width
+  );
+
+  svg.setAttribute(
+    "height",
+    board.height
+  );
+
+  svg.setAttribute(
+    "viewBox",
+    `0 0 ${board.width} ${board.height}`
+  );
 
 
-/* =========================================================
-   SAVE TEMPLATE
-========================================================= */
+  const background=
+    document.createElementNS(ns,"rect");
 
-$("saveTemplate")
-.addEventListener(
-  "click",
-  () => {
+  background.setAttribute("x",0);
+  background.setAttribute("y",0);
+  background.setAttribute("width",board.width);
+  background.setAttribute("height",board.height);
+  background.setAttribute("fill",board.background);
 
-    const board =
-      currentArtboard();
-
-    if(!board)
-      return;
+  svg.appendChild(background);
 
 
-    const name =
-      prompt(
-        "Name this template:",
-        board.name +
-        " Template"
-      );
+  board.objects.forEach(object=>{
 
+    const node=
+      createObjectNode(object,board);
 
-    if(!name)
-      return;
+    if(node){
 
+      node.classList.remove("object");
+      node.classList.remove("selected");
 
-    const list =
-      $("myTemplateList");
-
-
-    const card =
-      document.createElement(
-        "button"
-      );
-
-
-    card.className =
-      "template";
-
-
-    card.style.width =
-      "100%";
-
-
-    card.style.marginTop =
-      "7px";
-
-
-    card.innerHTML = `
-
-      <div class="template-thumb">
-        ✦
-      </div>
-
-      <div class="template-title">
-        ${name}
-      </div>
-
-      <div class="template-meta">
-        ${board.width} × ${board.height}
-      </div>
-
-    `;
-
-
-    list.appendChild(
-      card
-    );
-
-  }
-);
-
-
-/* =========================================================
-   COMMUNITY SUBMISSION
-========================================================= */
-
-$("submitCommunity")
-.addEventListener(
-  "click",
-  () => {
-
-    const board =
-      currentArtboard();
-
-    if(!board)
-      return;
-
-
-    alert(
-      "Your design is ready to be submitted to the Just Angles community for review. Approved human-created contributions earn community points."
-    );
-
-  }
-);
-
-
-/* =========================================================
-   KEYBOARD SHORTCUTS
-========================================================= */
-
-document.addEventListener(
-  "keydown",
-  event => {
-
-    if(
-      event.target.tagName ===
-      "INPUT"
-    )
-      return;
-
-
-    const key =
-      event.key.toLowerCase();
-
-
-    const shortcuts = {
-
-      v:"select",
-
-      a:"direct",
-
-      p:"pen",
-
-      n:"pencil",
-
-      b:"brush",
-
-      h:"hand",
-
-      z:"zoom"
-
-    };
-
-
-    if(
-      shortcuts[key]
-    ){
-
-      setTool(
-        shortcuts[key]
-      );
+      svg.appendChild(node);
 
     }
 
+  });
+
+
+  const source=
+    new XMLSerializer()
+      .serializeToString(svg);
+
+  const blob=
+    new Blob(
+      [source],
+      {type:"image/svg+xml"}
+    );
+
+  const url=
+    URL.createObjectURL(blob);
+
+  const a=
+    document.createElement("a");
+
+  a.href=url;
+
+  a.download=
+    `${board.name.replace(/\s+/g,"-")}.svg`;
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+  setStatus("SVG exported.");
+};
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener("keydown",event=>{
+
+  if(
+    event.key==="Enter" &&
+    state.tool==="pen"
+  ){
+
+    finishPen();
+
+  }
+
+  if(
+    event.key==="Escape" &&
+    state.tool==="pen"
+  ){
+
+    penPoints=[];
+    render();
+    setStatus("Pen path cancelled.");
+
+  }
+
+  if(
+    (event.metaKey || event.ctrlKey) &&
+    event.key.toLowerCase()==="z"
+  ){
+
+    event.preventDefault();
+
+    document.getElementById("undoBtn").click();
+
+  }
+
+  if(
+    (event.metaKey || event.ctrlKey) &&
+    event.key.toLowerCase()==="y"
+  ){
+
+    event.preventDefault();
+
+    document.getElementById("redoBtn").click();
+
+  }
+
+  if(
+    event.key==="Delete" ||
+    event.key==="Backspace"
+  ){
+
+    const tag=
+      document.activeElement?.tagName;
 
     if(
-      event.key ===
-      "Home"
+      tag!=="INPUT" &&
+      tag!=="TEXTAREA" &&
+      tag!=="SELECT"
     ){
 
-      $("fitArtboard")
+      document
+        .getElementById("deleteObjectBtn")
         .click();
 
     }
 
-
-    if(
-      event.key ===
-      "Escape"
-    ){
-
-      $("artboardModal")
-        .classList.remove(
-          "show"
-        );
-
-    }
-
   }
-);
+
+});
 
 
 /* =========================================================
-   UNDO
+   START
 ========================================================= */
 
-$("undo")
-.addEventListener(
-  "click",
-  () => {
-
-    if(
-      state.historyIndex <= 0
-    ){
-
-      return;
-
-    }
-
-
-    state.historyIndex--;
-
-    restoreHistory(
-      state.historyIndex
-    );
-
-  }
-);
-
-
-/* =========================================================
-   REDO
-========================================================= */
-
-$("redo")
-.addEventListener(
-  "click",
-  () => {
-
-    if(
-      state.historyIndex >=
-      state.history.length - 1
-    ){
-
-      return;
-
-    }
-
-
-    state.historyIndex++;
-
-    restoreHistory(
-      state.historyIndex
-    );
-
-  }
-);
-
-
-/* =========================================================
-   EXPORT
-========================================================= */
-
-$("export")
-.addEventListener(
-  "click",
-  () => {
-
-    const board =
-      currentArtboard();
-
-    if(!board)
-      return;
-
-
-    const svg =
-      document.querySelector(
-        ".artboard.selected svg"
-      );
-
-
-    if(!svg)
-      return;
-
-
-    const serializer =
-      new XMLSerializer();
-
-
-    const source =
-      serializer.serializeToString(
-        svg
-      );
-
-
-    const blob =
-      new Blob(
-        [source],
-        {
-          type:"image/svg+xml"
-        }
-      );
-
-
-    const url =
-      URL.createObjectURL(
-        blob
-      );
-
-
-    const link =
-      document.createElement(
-        "a"
-      );
-
-
-    link.href =
-      url;
-
-
-    link.download =
-      board.name +
-      ".svg";
-
-
-    link.click();
-
-
-    URL.revokeObjectURL(
-      url
-    );
-
-  }
-);
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
-createInitialArtboard();
+render();
+fitAll();
 
 </script>
 
