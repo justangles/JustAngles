@@ -21,7 +21,7 @@ header{height:48px;display:flex;align-items:center;gap:12px;padding:0 14px;backg
 .tool{width:100%;padding:8px 9px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:5px;color:#fff;font-weight:650}.tool:hover{border-color:var(--blue)}.danger{color:var(--danger)}
 .layer{display:flex;align-items:center;gap:6px;padding:6px;background:var(--canvas);border:1px solid var(--line);border-radius:4px;font-size:10px}.layer.sel{border-color:var(--blue)}.layer .name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.layer button{background:0;border:0;color:var(--muted)}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.asset{min-height:60px;background:var(--canvas);border:1px solid var(--line);border-radius:5px;color:#fff;font-size:9px;padding:5px}.asset:hover{border-color:var(--mint)}.preview{height:34px;display:flex;align-items:center;justify-content:center;font-size:20px}
-.canvas-area{position:relative;min-width:0;min-height:0;background:#0c0e11;display:flex;align-items:center;justify-content:center;overflow:hidden}.scroll{width:100%;height:100%;overflow:auto;display:flex;align-items:center;justify-content:center;padding:70px}.canvas-wrap{position:relative;box-shadow:0 20px 70px #0008}canvas{display:block}
+.canvas-label{position:absolute;top:10px;left:12px;z-index:8;background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:5px 8px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.4px}.canvas-area{position:relative;min-width:0;min-height:0;background:#0c0e11;display:flex;align-items:center;justify-content:center;overflow:hidden}.scroll{width:100%;height:100%;overflow:auto;display:flex;align-items:center;justify-content:center;padding:70px}.canvas-wrap{position:relative;box-shadow:0 20px 70px #0008}canvas{display:block}
 .dock{position:absolute;bottom:25px;left:50%;transform:translateX(-50%);display:flex;gap:3px;padding:5px;background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 10px 35px #0008;z-index:5}.dock button{border:0;background:0;color:var(--muted);padding:7px 8px;border-radius:5px;font-weight:700}.dock button.active,.dock button:hover{background:var(--blue);color:#fff}
 .status{position:absolute;bottom:0;left:0;right:0;height:25px;border-top:1px solid var(--line);background:#16181bcc;color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:10px}
 .inspector-title{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);font-weight:800;border-bottom:1px solid var(--line);padding-bottom:8px}.inspector{display:none;flex-direction:column;gap:9px}.row{display:grid;grid-template-columns:1fr 1fr;gap:6px}.field{display:flex;flex-direction:column;gap:4px}.field label{font-size:10px;color:var(--muted);font-weight:700}.color{display:flex;gap:5px}.color input[type=color]{width:40px;padding:0}.empty{text-align:center;color:var(--muted);padding:12px;font-size:10px}.swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}.swatch{height:22px;border:1px solid var(--line);border-radius:3px}.charpreview{height:105px;background:var(--canvas);border:1px solid var(--line);border-radius:6px;display:flex;justify-content:center;align-items:center}
@@ -34,7 +34,7 @@ header{height:48px;display:flex;align-items:center;gap:12px;padding:0 14px;backg
 <header>
 <a class="logo" href="index.html"><svg viewBox="0 0 100 100" fill="none"><polygon points="50,10 90,85 10,85" stroke="#00FF88" stroke-width="12"/><polygon points="50,30 75,75 25,75" stroke="#FF9F43" stroke-width="8"/></svg>Just Angles — Artboard</a>
 <nav class="menu"><button>File</button><button>Edit</button><button>View</button><button>Object</button><button>Arrange</button><button>Help</button></nav>
-<div class="project">Untitled Artboard</div><button class="headbtn" id="save">Save</button><button class="headbtn" id="load">Load</button><button class="headbtn primary" id="export">Export SVG</button>
+<div class="project">Untitled Artboard</div><button class="headbtn" id="undo" title="Undo">↶ Undo</button><button class="headbtn" id="redo" title="Redo">↷ Redo</button><button class="headbtn" id="canvasLock">Canvas 🔓</button><button class="headbtn" id="save">Save</button><button class="headbtn" id="load">Load</button><button class="headbtn primary" id="export">Export SVG</button>
 </header>
 <div class="workspace">
 <aside class="left">
@@ -52,10 +52,18 @@ header{height:48px;display:flex;align-items:center;gap:12px;padding:0 14px;backg
 <div id="character" class="source" style="display:none"><div class="section">Character Builder</div><div style="font-size:10px;color:var(--muted)">Afrocentric defaults. Universal customization.</div><div class="charpreview"><svg width="90" height="100" viewBox="0 0 90 100"><circle cx="45" cy="42" r="25" fill="#8D5B4C"/><path d="M17 40C10 14 25 4 45 6C65 4 80 16 73 40C66 25 57 19 45 19C33 19 24 25 17 40Z" fill="#171313"/><rect x="38" y="65" width="14" height="24" rx="5" fill="#7A4B3D"/><path d="M22 95Q45 72 68 95" fill="#0c8ce9"/></svg></div><div class="section">Suggested Skin Tones</div><div class="swatches" id="skins"></div><div class="field"><label>Custom skin color</label><div class="color"><input type="color" id="skin" value="#8D5B4C"><span style="font-size:10px;color:var(--muted)">Any color is allowed.</span></div></div><button class="tool" id="characterBtn">＋ Add Character Base</button><button class="tool" id="hairBtn">＋ Add Hair Asset</button></div>
 </section>
 
-<section class="panel" id="templates"><input class="search" placeholder="Search templates"><div class="section">Starter Templates</div><div class="grid" id="templatesGrid"></div><div style="font-size:10px;color:var(--muted)">Templates are editable starting arrangements, not locked artwork.</div></section>
+<section class="panel" id="templates">
+<input class="search" id="templateSearch" placeholder="Search templates">
+<div class="section">Starter Template Canvases</div>
+<div style="font-size:10px;color:var(--muted)">Choose the canvas/page setup first. These change size and guides; they do not add artwork.</div>
+<div class="grid" id="canvasTemplates"></div>
+<div class="section" style="margin-top:8px">Starter Template Designs</div>
+<div style="font-size:10px;color:var(--muted)">Ready-made human-designed starting compositions. Every element remains editable.</div>
+<div class="grid" id="designTemplates"></div>
+</section>
 </aside>
 
-<main class="canvas-area"><div class="scroll"><div class="canvas-wrap"><canvas id="canvas" width="1600" height="900"></canvas></div></div>
+<main class="canvas-area"><div class="canvas-label" id="canvasLabel">CANVAS · 1600 × 900 px</div><div class="scroll"><div class="canvas-wrap"><canvas id="canvas" width="1600" height="900"></canvas></div></div>
 <div class="dock"><button class="active" data-tool="select">↖ Select</button><button data-tool="direct">◇ Direct</button><button data-tool="pen">⌁ Pen</button><button data-tool="addAnchor">＋ Anchor</button><button data-tool="deleteAnchor">− Anchor</button><button data-tool="curve">⌒ Curve</button><button data-tool="rect">□ Shape</button><button data-tool="circle">○ Circle</button><button data-tool="text">T Text</button><button data-tool="hand">✋ Hand</button></div><div class="status" id="status">Ready — human-made assets only.</div></main>
 
 <aside class="right"><div class="inspector-title">Design Inspector</div><div id="none" class="empty">Select an object to edit its properties.</div><div class="inspector" id="inspector">
@@ -69,21 +77,112 @@ header{height:48px;display:flex;align-items:center;gap:12px;padding:0 14px;backg
 <script>
 const c=new fabric.Canvas('canvas',{backgroundColor:'#101215',preserveObjectStacking:true});
 let tool='select',points=[],preview=null,count=1,vault=[];
+let history=[],redoHistory=[],historyBusy=false,canvasLocked=false,historyTimer=null;
+function snapshot(){return JSON.stringify(c.toJSON(['name','jaType','jaNodes','jaClosed','jaSource']))}
+function pushHistory(){if(historyBusy)return;clearTimeout(historyTimer);historyTimer=setTimeout(()=>{const s=snapshot();if(history[history.length-1]!==s){history.push(s);if(history.length>80)history.shift();redoHistory=[];}},80)}
+function restoreState(s){historyBusy=true;c.loadFromJSON(JSON.parse(s),()=>{c.renderAll();layers();inspect();historyBusy=false;})}
+function undo(){if(history.length<2)return status('Nothing to undo.');const current=history.pop();redoHistory.push(current);restoreState(history[history.length-1]);status('Undo.')}
+function redo(){if(!redoHistory.length)return status('Nothing to redo.');const s=redoHistory.pop();history.push(s);restoreState(s);status('Redo.')}
+function confirmChange(message,action){if(c.getObjects().length===0){action();return;}const ok=window.confirm(message);if(ok)action();}
+
 const skins=['#2D1A12','#3B2219','#5C382A','#70402F','#8D5B4C','#A96F52','#C68642','#D49A6A','#E0AC69','#F0BE8B','#6B3E2E','#4A2A20'];
 const $=id=>document.getElementById(id),status=t=>$('status').textContent=t;
 
-function setTool(t){tool=t;document.querySelectorAll('.dock button').forEach(b=>b.classList.toggle('active',b.dataset.tool===t));c.isDrawingMode=false;c.selection=t==='select'||t==='direct';if(t==='pen'){points=[];removePreview();status('Pen: click anchors. Double-click or Enter finishes.')}else status(t==='direct'?'Direct Select: select a vector path to edit it.':'Tool: '+t)}
+function setTool(t){
+  tool=t;
+  document.querySelectorAll('.dock button').forEach(b=>b.classList.toggle('active',b.dataset.tool===t));
+  c.isDrawingMode=false;
+  c.selection=(t==='select'||t==='direct');
+  clearNodeHandles();
+  if(t==='pen'){points=[];removePreview();status('Pen: click to place anchor points. Double-click/Enter finishes. Click the first point to close.')}
+  else if(t==='direct'){status('Direct Select: click a vector path, then drag its anchor points.')}
+  else status('Tool: '+t);
+}
 function removePreview(){if(preview){c.remove(preview);preview=null;c.renderAll()}}
-function previewPath(){removePreview();if(!points.length)return;let d=[['M',points[0].x,points[0].y]];for(let i=1;i<points.length;i++)d.push(['L',points[i].x,points[i].y]);preview=new fabric.Path(d,{fill:'',stroke:'#00FF88',strokeWidth:2,dashArray:[5,5],selectable:false,evented:false});c.add(preview);c.renderAll()}
-function finishPen(close=false){if(points.length<2){points=[];removePreview();return}removePreview();let d=[['M',points[0].x,points[0].y]];for(let i=1;i<points.length;i++)d.push(['L',points[i].x,points[i].y]);if(close)d.push(['Z']);let p=new fabric.Path(d,{fill:close?'rgba(0,255,136,.12)':'',stroke:'#00FF88',strokeWidth:2,strokeLineCap:'round',strokeLineJoin:'round',name:'Pen Path '+count++,jaType:'vectorPath',jaNodes:points.map(x=>({x:x.x,y:x.y})),jaClosed:close});c.add(p).setActiveObject(p);c.renderAll();layers();setTool('select')}
-c.on('mouse:down',e=>{if(tool!=='pen')return;let p=c.getPointer(e.e);if(points.length>2&&Math.hypot(p.x-points[0].x,p.y-points[0].y)<10){finishPen(true);return}points.push(p);previewPath()});
+function previewPath(){
+  removePreview(); if(!points.length)return;
+  let d=[['M',points[0].x,points[0].y]];
+  for(let i=1;i<points.length;i++)d.push(['L',points[i].x,points[i].y]);
+  preview=new fabric.Path(d,{fill:'',stroke:'#00FF88',strokeWidth:2,dashArray:[5,5],selectable:false,evented:false});
+  c.add(preview);c.renderAll();
+}
+function finishPen(close=false){
+  if(points.length<2){points=[];removePreview();return}
+  removePreview();
+  const nodes=points.map(p=>({x:p.x,y:p.y}));
+  const minX=Math.min(...nodes.map(p=>p.x)),minY=Math.min(...nodes.map(p=>p.y));
+  const local=nodes.map(p=>({x:p.x-minX,y:p.y-minY}));
+  let d=[['M',local[0].x,local[0].y]];
+  for(let i=1;i<local.length;i++)d.push(['L',local[i].x,local[i].y]);
+  if(close)d.push(['Z']);
+  const p=new fabric.Path(d,{
+    left:minX,top:minY,fill:close?'rgba(0,255,136,.12)':'',
+    stroke:'#00FF88',strokeWidth:2,strokeLineCap:'round',strokeLineJoin:'round',
+    name:'Pen Path '+count++,jaType:'vectorPath',jaNodes:nodes,jaClosed:close,
+    objectCaching:false
+  });
+  p.set({perPixelTargetFind:true});
+  c.add(p).setActiveObject(p);c.renderAll();layers();inspect();pushHistory();
+  points=[];setTool('select');
+}
+function nodeWorld(o,node){return {x:o.left+node.x,y:o.top+node.y}}
+function clearNodeHandles(){if(window._nodeHandles){window._nodeHandles.forEach(h=>c.remove(h));window._nodeHandles=[];c.renderAll()}}
+function redrawVectorPath(o){
+  const ns=o.jaNodes||[]; if(ns.length<2)return;
+  const minX=Math.min(...ns.map(p=>p.x)),minY=Math.min(...ns.map(p=>p.y));
+  const local=ns.map(p=>({x:p.x-minX,y:p.y-minY}));
+  o.set({left:minX,top:minY,path:(()=>{let d=[['M',local[0].x,local[0].y]];for(let i=1;i<local.length;i++)d.push(['L',local[i].x,local[i].y]);if(o.jaClosed)d.push(['Z']);return d})(),scaleX:1,scaleY:1});
+  o.setCoords();c.renderAll();
+}
+function showNodeHandles(o){
+  clearNodeHandles(); if(!o||o.jaType!=='vectorPath')return;
+  window._nodeHandles=[];
+  (o.jaNodes||[]).forEach((node,i)=>{
+    const wp=nodeWorld(o,node);
+    const h=new fabric.Circle({left:wp.x-5,top:wp.y-5,radius:5,fill:'#0c8ce9',stroke:'#fff',strokeWidth:1,hasControls:false,hasBorders:false,selectable:true,evented:true,
+      originX:'left',originY:'top',jaNodeIndex:i,jaOwner:o});
+    h.on('moving',()=>{
+      const nx=h.left+5-o.left,ny=h.top+5-o.top;
+      o.jaNodes[i]={x:nx,y:ny};redrawVectorPath(o);
+      const wp2=nodeWorld(o,o.jaNodes[i]);h.set({left:wp2.x-5,top:wp2.y-5});
+      c.renderAll();
+    });
+    h.on('modified',()=>pushHistory());
+    c.add(h);window._nodeHandles.push(h);
+  });
+  c.bringToFront(...window._nodeHandles);c.renderAll();
+}
+c.on('mouse:down',e=>{
+  if(tool!=='pen')return;
+  const p=c.getPointer(e.e);
+  if(points.length>2&&Math.hypot(p.x-points[0].x,p.y-points[0].y)<12){finishPen(true);return}
+  points.push(p);previewPath();
+});
 c.on('mouse:dblclick',()=>tool==='pen'&&finishPen(false));
-document.addEventListener('keydown',e=>{if(tool==='pen'&&e.key==='Enter')finishPen(false);if(tool==='pen'&&e.key==='Escape'){points=[];removePreview();setTool('select')}if((e.key==='Delete'||e.key==='Backspace')&&c.getActiveObject()&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName))del()});
-
+c.on('mouse:down',e=>{
+  if(tool==='direct' && e.target && e.target.jaType==='vectorPath'){
+    c.setActiveObject(e.target);showNodeHandles(e.target);status('Vector path selected — drag blue anchor points.');
+  }
+});
+document.addEventListener('keydown',e=>{
+  if(tool==='pen'&&e.key==='Enter')finishPen(false);
+  if(tool==='pen'&&e.key==='Escape'){points=[];removePreview();setTool('select')}
+  if((e.key==='Delete'||e.key==='Backspace')&&c.getActiveObject()&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName))del();
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo();}
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='y'){e.preventDefault();redo();}
+});
 function addRect(){setTool('select');let o=new fabric.Rect({left:570,top:320,width:240,height:160,fill:'#00FF88',stroke:'#111',strokeWidth:2,name:'Rectangle'});c.add(o).setActiveObject(o);c.renderAll();layers()}
 function addCircle(){setTool('select');let o=new fabric.Circle({left:620,top:330,radius:80,fill:'#FF9F43',stroke:'#111',strokeWidth:2,name:'Circle'});c.add(o).setActiveObject(o);c.renderAll();layers()}
 function addText(){setTool('select');let o=new fabric.IText('Your text',{left:650,top:250,fontSize:48,fill:'#fff',fontFamily:'Inter',name:'Text'});c.add(o).setActiveObject(o);c.renderAll();layers()}
-function addCharacter(){setTool('select');let skin=$('skin').value,head=new fabric.Circle({left:690,top:255,radius:70,fill:skin,name:'Skin'}),hair=new fabric.Circle({left:645,top:195,radius:110,fill:'#171313',name:'Hair'}),neck=new fabric.Rect({left:720,top:375,width:45,height:65,fill:skin,name:'Skin'}),body=new fabric.Triangle({left:625,top:420,width:250,height:250,fill:'#0c8ce9',name:'Body'}),g=new fabric.Group([hair,head,neck,body],{name:'Character Base',jaType:'character'});c.add(g).setActiveObject(g);c.renderAll();layers()}
+function addCharacter(){
+  setTool('select');
+  let skin=$('skin').value;
+  let head=new fabric.Circle({left:690,top:255,radius:70,fill:skin,name:'Head'});
+  let neck=new fabric.Rect({left:720,top:375,width:45,height:65,fill:skin,name:'Neck'});
+  let body=new fabric.Triangle({left:625,top:420,width:250,height:250,fill:'#0c8ce9',name:'Body'});
+  let g=new fabric.Group([head,neck,body],{name:'Character Base',jaType:'character'});
+  c.add(g).setActiveObject(g);c.renderAll();layers();status('Character base added — hair and other features remain separate assets.');
+}
 function addHair(){let o=new fabric.Circle({left:610,top:180,radius:125,fill:'#171313',stroke:'#000',strokeWidth:2,name:'Afro Hair',jaType:'hair'});c.add(o).setActiveObject(o);c.renderAll();layers()}
 function del(){let o=c.getActiveObject();if(!o)return;c.remove(o);c.discardActiveObject();c.renderAll();layers();inspect()}
 function duplicate(){let o=c.getActiveObject();if(!o)return;o.clone(n=>{n.set({left:o.left+20,top:o.top+20,name:(o.name||'Object')+' Copy'});c.add(n).setActiveObject(n);c.renderAll();layers()})}
@@ -95,25 +194,138 @@ prop('x',(o,v)=>o.set('left',+v||0));prop('y',(o,v)=>o.set('top',+v||0));prop('w
 function color(id,text,propn){$(id).oninput=e=>{$(text).value=e.target.value;let o=c.getActiveObject();if(o){o.set(propn,e.target.value);c.renderAll()}}}color('fill','fillText','fill');color('stroke','strokeText','stroke');
 $('fillText').onchange=e=>{let o=c.getActiveObject();if(o)o.set('fill',e.target.value);c.renderAll()};$('strokeText').onchange=e=>{let o=c.getActiveObject();if(o)o.set('stroke',e.target.value);c.renderAll()};
 $('strokeWidth').oninput=e=>{let o=c.getActiveObject();if(o){o.set('strokeWidth',+e.target.value);$('strokeLabel').textContent=e.target.value+' px';c.renderAll()}};$('name').onchange=e=>{let o=c.getActiveObject();if(o){o.name=e.target.value||'Object';layers()}};$('lock').onchange=e=>{let o=c.getActiveObject();if(o){let x=e.target.checked;o.set({lockMovementX:x,lockMovementY:x,lockScalingX:x,lockScalingY:x,lockRotation:x,hasControls:!x});layers()}};
-c.on('selection:created',()=>{layers();inspect()});c.on('selection:updated',()=>{layers();inspect()});c.on('selection:cleared',()=>{layers();inspect()});c.on('object:modified',()=>{layers();inspect()});c.on('object:added',layers);
+c.on('selection:created',e=>{layers();inspect();if(tool==='direct'&&e.selected&&e.selected[0]?.jaType==='vectorPath')showNodeHandles(e.selected[0]);});
+c.on('selection:updated',e=>{layers();inspect();if(tool==='direct'&&e.selected&&e.selected[0]?.jaType==='vectorPath')showNodeHandles(e.selected[0]);});c.on('selection:cleared',()=>{layers();inspect()});c.on('object:modified',()=>{layers();inspect()});c.on('object:added',layers);
 
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.panel).classList.add('active')});
 document.querySelectorAll('[data-source]').forEach(b=>b.onclick=()=>{b.parentElement.querySelectorAll('.subtab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.source').forEach(x=>x.style.display='none');$(b.dataset.source).style.display='flex';$(b.dataset.source).style.flexDirection='column';$(b.dataset.source).style.gap='9px'});
 skins.forEach(x=>{let s=document.createElement('div');s.className='swatch';s.style.background=x;s.title=x;s.onclick=()=>{$('skin').value=x};$('skins').append(s)});
 [['▲','Shapes'],['↗','Lines'],['●','Colors'],['▧','Backgrounds'],['▒','Textures'],['□','Frames'],['✦','Icons'],['≈','Brushes'],['◆','Patterns']].forEach(([i,n])=>{let b=document.createElement('button');b.className='asset';b.innerHTML='<div class="preview">'+i+'</div>'+n;b.onclick=()=>n==='Shapes'?addRect():n==='Lines'?addLine():status('Community '+n+' library selected.');$('communityGrid').append(b)});
 function addLine(){let o=new fabric.Line([500,300,750,300],{stroke:'#00FF88',strokeWidth:4,name:'Community Line'});c.add(o).setActiveObject(o);c.renderAll();layers()}
-[['Blank Artboard','blank'],['Webtoon Panel','webtoon'],['Novel Page','novel'],['Book Cover','cover'],['Character Sheet','character'],['Comic Page','comic']].forEach(([n,t])=>{let b=document.createElement('button');b.className='asset';b.innerHTML='<div class="preview">▧</div>'+n;b.onclick=()=>template(t);$('templatesGrid').append(b)});
-function clear(){c.getObjects().slice().forEach(o=>c.remove(o));c.discardActiveObject()}
-function template(t){clear();if(t==='webtoon'){for(let i=0;i<3;i++)c.add(new fabric.Rect({left:420,top:100+i*240,width:760,height:190,fill:'#fff',stroke:'#111',strokeWidth:2,name:'Webtoon Panel '+(i+1)}))}if(t==='novel'){c.add(new fabric.Rect({left:500,top:60,width:600,height:780,fill:'#fff',stroke:'#222',strokeWidth:2,name:'Novel Page'}));c.add(new fabric.IText('Chapter Title',{left:610,top:130,fontSize:38,fill:'#111',name:'Chapter Title'}))}if(t==='cover'){c.add(new fabric.Rect({left:520,top:50,width:560,height:800,fill:'#252a32',name:'Book Cover'}));c.add(new fabric.IText('TITLE',{left:650,top:340,fontSize:62,fill:'#fff',fontWeight:'700',name:'Cover Title'}))}if(t==='character'){c.add(new fabric.IText('CHARACTER SHEET',{left:590,top:70,fontSize:36,fill:'#fff',name:'Sheet Title'}));addCharacter()}if(t==='comic'){for(let r=0;r<2;r++)for(let q=0;q<2;q++)c.add(new fabric.Rect({left:390+q*410,top:120+r*330,width:370,height:290,fill:'#fff',stroke:'#111',strokeWidth:3,name:'Comic Panel'}))}c.renderAll();layers();status('Template loaded — all elements are editable.')}
+renderTemplateCards();
+const communitySets={
+  Shapes:[
+    ['▭','Rectangle',()=>addRect()],['○','Circle',()=>addCircle()],
+    ['△','Triangle',()=>{let o=new fabric.Triangle({left:600,top:300,width:180,height:160,fill:'#ff9f43',name:'Triangle'});c.add(o).setActiveObject(o);c.renderAll();layers();}],
+    ['☆','Star',()=>{let o=new fabric.Polygon([{x:0,y:-70},{x:20,y:-22},{x:68,y:-22},{x:30,y:8},{x:42,y:58},{x:0,y:30},{x:-42,y:58},{x:-30,y:8},{x:-68,y:-22},{x:-20,y:-22}],{left:700,top:380,fill:'#00ff88',name:'Star'});c.add(o).setActiveObject(o);c.renderAll();layers();}],
+    ['⬡','Hexagon',()=>{let pts=[];for(let i=0;i<6;i++){let a=i*Math.PI/3;pts.push({x:70*Math.cos(a),y:70*Math.sin(a)})}let o=new fabric.Polygon(pts,{left:700,top:380,fill:'#8c6cff',name:'Hexagon'});c.add(o).setActiveObject(o);c.renderAll();layers();}]
+  ],
+  Lines:[
+    ['—','Line',()=>addLine()],['→','Arrow',()=>addArrow()],['↗','Diagonal',()=>{let o=new fabric.Line([520,350,760,230],{stroke:'#00ff88',strokeWidth:4,name:'Diagonal Line'});c.add(o).setActiveObject(o);c.renderAll();layers();}],
+    ['⇢','Double Arrow',()=>addArrow(true)],['⋯','Dotted',()=>{let o=new fabric.Line([520,350,760,350],{stroke:'#ff9f43',strokeWidth:4,strokeDashArray:[3,12],name:'Dotted Line'});c.add(o).setActiveObject(o);c.renderAll();layers();}]
+  ],
+  Colors:[
+    ['●','Skin Tone Palette',()=>status('Palette selected — use Quick Color / custom color.')],
+    ['◐','Warm Palette',()=>status('Warm palette selected.')],['◑','Cool Palette',()=>status('Cool palette selected.')],
+    ['✦','Accent Palette',()=>status('Accent palette selected.')]
+  ],
+  Backgrounds:[
+    ['▧','Paper',()=>setBackground('#f4f0e8')],['▦','Grid',()=>setBackground('#e8edf2')],
+    ['▒','Dark',()=>setBackground('#15171a')],['░','Warm',()=>setBackground('#efe0c6')]
+  ],
+  Textures:[['▒','Paper Grain',()=>status('Human-made texture placeholder added to the library.')],['▓','Canvas',()=>status('Canvas texture selected.')],['░','Halftone',()=>status('Halftone texture selected.')]],
+  Frames:[['□','Panel Frame',()=>addFrame()],['▣','Photo Frame',()=>addFrame(true)]],
+  Icons:[['★','Star Icon',()=>addStarIcon()],['♥','Heart Icon',()=>addHeartIcon()],['◆','Diamond Icon',()=>addDiamondIcon()]],
+  Brushes:[['╱','Ink Brush',()=>status('Ink Brush selected.')],['≈','Pencil',()=>status('Pencil selected.')],['〰','Marker',()=>status('Marker selected.')]],
+  Patterns:[['◇','Pattern A',()=>status('Pattern selected.')],['◈','Pattern B',()=>status('Pattern selected.')]]
+};
+function setBackground(col){c.backgroundColor=col;c.renderAll();status('Canvas background changed.')}
+function addArrow(double=false){let o=new fabric.Line([500,350,760,350],{stroke:'#00ff88',strokeWidth:5,name:double?'Double Arrow':'Arrow'});c.add(o).setActiveObject(o);c.renderAll();layers()}
+function addFrame(photo=false){let o=new fabric.Rect({left:500,top:260,width:420,height:280,fill:'transparent',stroke:photo?'#ff9f43':'#00ff88',strokeWidth:8,name:photo?'Photo Frame':'Panel Frame'});c.add(o).setActiveObject(o);c.renderAll();layers()}
+function addStarIcon(){let o=new fabric.Text('★',{left:650,top:300,fontSize:110,fill:'#ff9f43',name:'Star Icon'});c.add(o).setActiveObject(o);c.renderAll();layers()}
+function addHeartIcon(){let o=new fabric.Text('♥',{left:650,top:300,fontSize:110,fill:'#ff5c8a',name:'Heart Icon'});c.add(o).setActiveObject(o);c.renderAll();layers()}
+function addDiamondIcon(){let o=new fabric.Text('◆',{left:650,top:300,fontSize:110,fill:'#00ff88',name:'Diamond Icon'});c.add(o).setActiveObject(o);c.renderAll();layers()}
+function renderCommunitySet(name){
+  const grid=$('communityGrid');grid.innerHTML='';
+  (communitySets[name]||[]).forEach(([icon,label,fn])=>{
+    const b=document.createElement('button');b.className='asset';b.innerHTML='<div class="preview">'+icon+'</div>'+label;
+    b.onclick=fn;grid.append(b);
+  });
+}
+document.querySelectorAll('#community .subtab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#community .subtab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');renderCommunitySet(b.textContent.trim());
+});
+renderCommunitySet('Shapes');
+
+function clear(){c.getObjects().slice().forEach(o=>c.remove(o));c.discardActiveObject();clearNodeHandles();c.renderAll()}
+function setCanvasSize(w,h,label){
+  confirmChange('Are you sure you want to change the canvas? Your current artwork will be cleared unless you save it first.',()=>{
+    clear();c.setDimensions({width:w,height:h});c.setViewportTransform([1,0,0,1,0,0]);
+    $('canvasLabel').textContent='CANVAS · '+w+' × '+h+' px';status(label+' canvas ready.');pushHistory();
+  });
+}
+function designTemplate(t){
+  confirmChange('Are you sure you want to replace the current artwork with this starter design?',()=>{
+    clear();
+    if(t==='bookCover'){
+      c.setDimensions({width:1200,height:1800});$('canvasLabel').textContent='CANVAS · 1200 × 1800 px';
+      c.backgroundColor='#252a32';
+      c.add(new fabric.IText('BOOK TITLE',{left:300,top:560,fontSize:96,fill:'#fff',fontWeight:'700',name:'Book Title'}));
+      c.add(new fabric.IText('Author Name',{left:430,top:710,fontSize:42,fill:'#fff',name:'Author Name'}));
+      c.add(new fabric.IText('VOLUME 01',{left:480,top:790,fontSize:28,fill:'#ff9f43',name:'Volume Number'}));
+    } else if(t==='titlePage'){
+      c.setDimensions({width:1200,height:1800});$('canvasLabel').textContent='CANVAS · 1200 × 1800 px';c.backgroundColor='#fff';
+      c.add(new fabric.IText('BOOK NAME HERE',{left:330,top:600,fontSize:76,fill:'#111',fontWeight:'700',name:'Book Name'}));
+      c.add(new fabric.IText('Author Name',{left:455,top:720,fontSize:38,fill:'#333',name:'Author Name'}));
+      c.add(new fabric.IText('VOLUME 01',{left:505,top:790,fontSize:26,fill:'#ff9f43',name:'Volume Number'}));
+    } else if(t==='webtoonTitle'){
+      c.setDimensions({width:1080,height:1920});$('canvasLabel').textContent='CANVAS · 1080 × 1920 px';c.backgroundColor='#fff';
+      c.add(new fabric.IText('EPISODE TITLE',{left:270,top:700,fontSize:72,fill:'#111',fontWeight:'700',name:'Episode Title'}));
+      c.add(new fabric.IText('by Creator Name',{left:365,top:800,fontSize:30,fill:'#555',name:'Creator Name'}));
+    } else if(t==='characterSheet'){
+      c.setDimensions({width:1600,height:1000});$('canvasLabel').textContent='CANVAS · 1600 × 1000 px';c.backgroundColor='#fff';
+      c.add(new fabric.IText('CHARACTER NAME',{left:80,top:70,fontSize:58,fill:'#111',fontWeight:'700',name:'Character Name'}));
+      c.add(new fabric.IText('Reference / Turnaround Sheet',{left:85,top:145,fontSize:24,fill:'#555',name:'Sheet Subtitle'}));
+      addCharacter();
+    }
+    c.renderAll();layers();inspect();pushHistory();status('Starter design loaded — every element is editable.');
+  });
+}
+function renderTemplateCards(){
+  const canvases=[
+    ['Blank Artboard','▧','1600×900','blank'],
+    ['Webtoon Vertical','▥','1080×1920','webtoon'],
+    ['Novel Page','▤','1200×1800','novel'],
+    ['Book Cover','▣','1200×1800','cover'],
+    ['Comic Page','▦','1600×1200','comic'],
+    ['Character Sheet','◫','1600×1000','sheet']
+  ];
+  const designs=[
+    ['Book Cover — Title / Author','▣','book title + author + volume','bookCover'],
+    ['Novel Title Page','▤','book name + author + volume','titlePage'],
+    ['Webtoon Episode Title','▥','episode title + creator','webtoonTitle'],
+    ['Character Sheet Starter','◫','name + reference layout','characterSheet']
+  ];
+  $('canvasTemplates').innerHTML='';$('designTemplates').innerHTML='';
+  canvases.forEach(([n,icon,size,t])=>{
+    const b=document.createElement('button');b.className='asset';b.innerHTML='<div class="preview">'+icon+'</div>'+n+'<div style="color:var(--muted);font-size:8px;margin-top:3px">'+size+'</div>';
+    b.onclick=()=>{const map={blank:[1600,900,'Blank'],webtoon:[1080,1920,'Webtoon Vertical'],novel:[1200,1800,'Novel Page'],cover:[1200,1800,'Book Cover'],comic:[1600,1200,'Comic Page'],sheet:[1600,1000,'Character Sheet']};const [w,h,l]=map[t];setCanvasSize(w,h,l)};$('canvasTemplates').append(b);
+  });
+  designs.forEach(([n,icon,desc,t])=>{
+    const b=document.createElement('button');b.className='asset';b.innerHTML='<div class="preview">'+icon+'</div>'+n+'<div style="color:var(--muted);font-size:8px;margin-top:3px">'+desc+'</div>';b.onclick=()=>designTemplate(t);$('designTemplates').append(b);
+  });
+}
 $('characterBtn').onclick=addCharacter;$('hairBtn').onclick=addHair;$('delete').onclick=del;$('duplicate').onclick=duplicate;$('group').onclick=group;
-$('bg').oninput=e=>{c.backgroundColor=e.target.value;c.renderAll()};$('grid').onchange=e=>{$('canvas').style.backgroundImage=e.target.checked?'linear-gradient(#ffffff10 1px,transparent 1px),linear-gradient(90deg,#ffffff10 1px,transparent 1px)':'none';$('canvas').style.backgroundSize=e.target.checked?'20px 20px':'auto'};
+$('bg').oninput=e=>{c.backgroundColor=e.target.value;c.renderAll()};$('grid').onchange=e=>{$('.canvas-area').style.backgroundImage=e.target.checked?'linear-gradient(#ffffff10 1px,transparent 1px),linear-gradient(90deg,#ffffff10 1px,transparent 1px)':'none';$('.canvas-area').style.backgroundSize=e.target.checked?'20px 20px':'auto'};
 document.querySelectorAll('.dock button').forEach(b=>b.onclick=()=>{let t=b.dataset.tool;if(t==='rect')addRect();else if(t==='circle')addCircle();else if(t==='text')addText();else if(t==='pen'||t==='direct'||t==='addAnchor'||t==='deleteAnchor'||t==='curve'||t==='select'||t==='hand')setTool(t)});
 $('upload').onclick=()=>$('file').click();$('file').onchange=e=>{let f=e.target.files[0];if(!f)return;let u=URL.createObjectURL(f),im=new Image();im.onload=()=>{let o=new fabric.Image(im,{left:450,top:250,name:f.name,jaSource:'my-vault'});o.scaleToWidth(Math.min(500,o.width||500));c.add(o).setActiveObject(o);c.renderAll();layers();vault.push({name:f.name,url:u});renderVault()};im.src=u};
 function renderVault(){$('vault').innerHTML=vault.length?vault.map((x,i)=>'<button class="asset" data-v="'+i+'"><div class="preview">▣</div>'+x.name.slice(0,16)+'</button>').join(''):'<div class="empty" style="grid-column:1/-1">Your vault is empty.</div>';document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{let a=vault[b.dataset.v],im=new Image();im.onload=()=>{let o=new fabric.Image(im,{left:450,top:250,name:a.name,jaSource:'my-vault'});o.scaleToWidth(Math.min(500,o.width||500));c.add(o).setActiveObject(o);c.renderAll();layers()};im.src=a.url})}
 $('contribute').onclick=()=>$('modal').style.display='flex';$('cancel').onclick=()=>$('modal').style.display='none';$('submit').onclick=()=>{$('modal').style.display='none';status('Contribution submitted for review. No asset was published automatically.')};
+$('undo').onclick=undo;$('redo').onclick=redo;
+$('canvasLock').onclick=()=>{
+  canvasLocked=!canvasLocked;
+  $('canvasLock').textContent=canvasLocked?'Canvas 🔒':'Canvas 🔓';
+  $('canvasLock').style.borderColor=canvasLocked?'var(--mint)':'var(--line)';
+  c.selection=!canvasLocked && tool==='select';
+  status(canvasLocked?'Canvas locked — objects cannot be moved.':'Canvas unlocked — objects can be edited.');
+  c.getObjects().forEach(o=>{if(o===preview)return;o.selectable=!canvasLocked;o.evented=!canvasLocked;});
+  c.discardActiveObject();clearNodeHandles();c.renderAll();layers();
+};
+c.on('object:modified',pushHistory);
 $('save').onclick=()=>{localStorage.setItem('JA_ARTBOARD',JSON.stringify(c.toJSON(['name','jaType','jaNodes','jaClosed','jaSource'])));status('Project saved locally.')};$('load').onclick=()=>{let x=localStorage.getItem('JA_ARTBOARD');if(!x)return status('No saved project found.');c.loadFromJSON(JSON.parse(x),()=>{c.renderAll();layers();inspect();status('Project loaded.')})};
 $('export').onclick=()=>{let blob=new Blob([c.toSVG()],{type:'image/svg+xml'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='just-angles-artboard.svg';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);status('SVG exported.')};
-layers();inspect();renderVault();
+layers();inspect();renderVault();history=[snapshot()];
 </script>
 </body>
 </html>
