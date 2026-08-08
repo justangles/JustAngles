@@ -3,126 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Just Angles | 100% Human Vector Templates</title>
+    <title>Just Angles | Vector Canvas Editor</title>
+    <!-- Fabric.js Library for Vector Canvas Editing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <style>
         body {
             font-family: system-ui, -apple-system, sans-serif;
             background-color: #0d0d0d;
             color: #ffffff;
+            margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
-            padding: 40px 20px;
+            padding: 20px;
             box-sizing: border-box;
         }
-        .header { text-align: center; max-width: 600px; margin-bottom: 40px; }
-        h1 { font-size: 3rem; margin: 10px 0; }
-        p { font-size: 1.2rem; color: #a0a0a0; }
+        .header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 2.2rem; margin: 5px 0; }
         .tag {
             background-color: #1a1a1a;
             border: 1px solid #333;
-            padding: 6px 16px;
+            padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #00ff88;
             display: inline-block;
         }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        .workspace {
+            display: flex;
             gap: 20px;
-            width: 100%;
-            max-width: 900px;
-        }
-        .card {
-            background-color: #161616;
+            background: #161616;
             border: 1px solid #2a2a2a;
             border-radius: 12px;
             padding: 20px;
-            text-align: center;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: #00ff88;
-        }
-        .preview-box {
-            background: #0d0d0d;
-            border-radius: 8px;
-            height: 160px;
-            display: flex;
-            align-items: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            max-width: 950px;
+            width: 100%;
             justify-content: center;
-            margin-bottom: 15px;
-            border: 1px dashed #333;
+            flex-wrap: wrap;
         }
-        .card h3 { font-size: 1.1rem; margin: 5px 0; }
-        .card span { font-size: 0.85rem; color: #888; }
+        .toolbar {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 200px;
+        }
         .btn {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 8px 16px;
+            padding: 10px 14px;
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #333;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: left;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+        .btn-accent {
             background-color: #00ff88;
             color: #000;
-            font-weight: bold;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.9rem;
+            border: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .btn-accent:hover {
+            background-color: #00cc6d;
+            color: #000;
+        }
+        .canvas-container-wrap {
+            border: 1px dashed #444;
+            border-radius: 8px;
+            background: #050505;
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
+
     <div class="header">
         <div class="tag">100% Human Vectors • Zero AI Flags</div>
-        <h1>Just Angles</h1>
-        <p>The anti-AI template and vector ecosystem. Crafted by human designers for indie authors, creators, and engravers.</p>
+        <h1>Just Angles Editor</h1>
     </div>
 
-    <div class="gallery">
-        <div class="card">
-            <div class="preview-box">
-                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                    <polyline points="2 17 12 22 22 17"></polyline>
-                    <polyline points="2 12 12 17 22 12"></polyline>
-                </svg>
-            </div>
-            <h3>Book Cover Typography Kit</h3>
-            <span>Vector SVG • Layered</span><br>
-            <a href="#" class="btn">View Template</a>
+    <div class="workspace">
+        <!-- Controls Sidebar -->
+        <div class="toolbar">
+            <button class="btn" onclick="addHeading()">+ Add Heading</button>
+            <button class="btn" onclick="addSubtext()">+ Add Body Text</button>
+            <button class="btn" onclick="addSquare()">+ Add Square</button>
+            <button class="btn" onclick="addCircle()">+ Add Circle</button>
+            <button class="btn" style="color: #ff5555; border-color: #442222;" onclick="deleteSelected()">Delete Selected</button>
+            <hr style="border: 0; border-top: 1px solid #333; width: 100%; margin: 10px 0;">
+            <button class="btn btn-accent" onclick="exportSVG()">Export Clean SVG</button>
         </div>
 
-        <div class="card">
-            <div class="preview-box">
-                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                    <polyline points="21 15 16 10 5 21"></polyline>
-                </svg>
-            </div>
-            <h3>Social Graphic Layouts</h3>
-            <span>100% Clean Metadata</span><br>
-            <a href="#" class="btn">View Template</a>
-        </div>
-
-        <div class="card">
-            <div class="preview-box">
-                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
-                    <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
-                    <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
-                    <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
-                    <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
-                    <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
-                </svg>
-            </div>
-            <h3>Laser Vector Cut Lines</h3>
-            <span>Clean Anchor Paths</span><br>
-            <a href="#" class="btn">View Template</a>
+        <!-- Interactive Vector Canvas -->
+        <div class="canvas-container-wrap">
+            <canvas id="editorCanvas" width="500" height="500"></canvas>
         </div>
     </div>
+
+    <script>
+        // Initialize Fabric.js Canvas
+        const canvas = new fabric.Canvas('editorCanvas', {
+            backgroundColor: '#111111'
+        });
+
+        // Add Default Template Elements
+        const defaultTitle = new fabric.IText('Just Angles', {
+            left: 140,
+            top: 180,
+            fontFamily: 'system-ui, sans-serif',
+            fontSize: 40,
+            fill: '#ffffff',
+            fontWeight: 'bold'
+        });
+
+        const defaultSub = new fabric.IText('Clean Human Vector Design', {
+            left: 130,
+            top: 240,
+            fontFamily: 'system-ui, sans-serif',
+            fontSize: 18,
+            fill: '#00ff88'
+        });
+
+        canvas.add(defaultTitle, defaultSub);
+
+        // Helper Functions
+        function addHeading() {
+            const text = new fabric.IText('New Heading', {
+                left: 150, top: 100,
+                fontSize: 32, fill: '#ffffff', fontWeight: 'bold'
+            });
+            canvas.add(text);
+            canvas.setActiveObject(text);
+        }
+
+        function addSubtext() {
+            const text = new fabric.IText('Edit this text...', {
+                left: 150, top: 150,
+                fontSize: 18, fill: '#aaaaaa'
+            });
+            canvas.add(text);
+            canvas.setActiveObject(text);
+        }
+
+        function addSquare() {
+            const rect = new fabric.Rect({
+                left: 200, top: 200, fill: 'transparent',
+                stroke: '#00ff88', strokeWidth: 3, width: 100, height: 100
+            });
+            canvas.add(rect);
+            canvas.setActiveObject(rect);
+        }
+
+        function addCircle() {
+            const circle = new fabric.Circle({
+                left: 200, top: 200, fill: 'transparent',
+                stroke: '#00ff88', strokeWidth: 3, radius: 50
+            });
+            canvas.add(circle);
+            canvas.setActiveObject(circle);
+        }
+
+        function deleteSelected() {
+            const active = canvas.getActiveObject();
+            if (active) canvas.remove(active);
+        }
+
+        function exportSVG() {
+            const svgData = canvas.toSVG();
+            const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'just-angles-template.svg';
+            link.click();
+        }
+    </script>
 </body>
 </html>
