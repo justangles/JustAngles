@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Just Angles | The Anti-AI Vector & Layout Platform</title>
+    <title>Just Angles | Anti-AI Design Engine</title>
     <style>
         :root {
             --mint: #00FF88;
             --orange: #FF9F43;
-            --bg-main: #1C2026;       /* Mid-Tone Charcoal Backdrop */
-            --bg-surface: #252A32;    /* Card & Panel Surface */
-            --bg-canvas: #121518;     /* Inner Canvas Backdrop */
-            --border-muted: #343B46;  /* Sleek Borders */
+            --bg-main: #1C2026;
+            --bg-surface: #252A32;
+            --bg-canvas: #121518;
+            --border-muted: #343B46;
             --text-main: #FFFFFF;
             --text-muted: #9DA8B6;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-main);
             color: var(--text-main);
             margin: 0;
@@ -28,7 +28,6 @@
             min-height: 100vh;
         }
 
-        /* Navigation Bar */
         nav {
             width: 100%;
             max-width: 1200px;
@@ -46,48 +45,25 @@
             gap: 12px;
             font-weight: 800;
             font-size: 1.5rem;
-            letter-spacing: -0.5px;
-        }
-
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
             text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.2s;
+            color: #FFF;
         }
 
-        .nav-links a:hover {
-            color: var(--mint);
-        }
+        .logo-icon { width: 36px; height: 36px; }
 
-        .btn-nav-artboard {
+        .nav-links { display: flex; gap: 14px; align-items: center; }
+
+        .btn-artboard {
             background-color: var(--mint);
             color: #0B0E11;
             padding: 10px 18px;
             border-radius: 8px;
             font-weight: 700;
             text-decoration: none;
-            transition: transform 0.15s, background-color 0.15s;
+            transition: transform 0.15s;
         }
 
-        .btn-nav-artboard:hover {
-            background-color: #00E67A;
-            transform: translateY(-1px);
-        }
-
-        .btn-nav-layout {
+        .btn-layout {
             background-color: #2F3642;
             color: var(--text-main);
             border: 1px solid var(--border-muted);
@@ -98,13 +74,8 @@
             transition: transform 0.15s, border-color 0.15s;
         }
 
-        .btn-nav-layout:hover {
-            border-color: var(--orange);
-            color: var(--orange);
-            transform: translateY(-1px);
-        }
+        .btn-artboard:hover, .btn-layout:hover { transform: translateY(-2px); }
 
-        /* Hero Section */
         .hero {
             text-align: center;
             max-width: 850px;
@@ -123,84 +94,17 @@
             margin-bottom: 24px;
         }
 
-        .badge span {
-            color: var(--orange);
-        }
-
         h1 {
-            font-size: 3.8rem;
-            line-height: 1.08;
-            margin: 0 0 24px 0;
+            font-size: 3.6rem;
+            line-height: 1.1;
+            margin: 0 0 20px 0;
             letter-spacing: -1.5px;
             font-weight: 800;
         }
 
-        .hero p {
-            font-size: 1.3rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 36px;
-        }
+        p { font-size: 1.25rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 32px; }
 
-        .hero-cta-group {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* Core Feature Cards */
-        .capabilities {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1200px;
-            padding: 0 32px;
-            box-sizing: border-box;
-            margin-bottom: 60px;
-        }
-
-        .cap-card {
-            background-color: var(--bg-surface);
-            border: 1px solid var(--border-muted);
-            border-radius: 12px;
-            padding: 24px;
-        }
-
-        .cap-card h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.2rem;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .cap-card p {
-            margin: 0;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        /* Gallery Grid */
-        .grid-header {
-            width: 100%;
-            max-width: 1200px;
-            padding: 0 32px;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .grid-header h2 {
-            font-size: 1.75rem;
-            margin: 0;
-            letter-spacing: -0.5px;
-        }
+        .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
         .gallery {
             display: grid;
@@ -220,34 +124,17 @@
             transition: transform 0.2s, border-color 0.2s;
         }
 
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: var(--orange);
-        }
+        .card:hover { transform: translateY(-4px); border-color: var(--orange); }
 
         .preview-box {
             background: var(--bg-canvas);
             border-radius: 10px;
-            height: 200px;
+            height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             border: 1px dashed var(--border-muted);
-        }
-
-        .card h3 {
-            font-size: 1.3rem;
-            margin: 0 0 8px 0;
-        }
-
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
         }
 
         .btn-card {
@@ -260,115 +147,59 @@
             text-decoration: none;
             font-weight: 600;
             font-size: 0.95rem;
-            transition: background-color 0.2s, color 0.2s;
         }
 
-        .btn-card:hover {
-            background-color: var(--mint);
-            color: #000;
-        }
+        .btn-card:hover { background-color: var(--mint); color: #000; }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
     <nav>
-        <div class="logo">
+        <a href="index.html" class="logo">
             <svg class="logo-icon" viewBox="0 0 100 100" fill="none">
                 <polygon points="50,10 90,85 10,85" stroke="#00FF88" stroke-width="12" stroke-linejoin="round"/>
                 <polygon points="50,30 75,75 25,75" stroke="#FF9F43" stroke-width="8" stroke-linejoin="round"/>
             </svg>
             Just Angles
-        </div>
+        </a>
         <div class="nav-links">
-            <a href="artboard.html" class="btn-nav-artboard">Artboard Editor</a>
-            <a href="layout.html" class="btn-nav-layout">Layout Editor</a>
+            <a href="artboard.html" class="btn-artboard">Open Artboard Editor</a>
+            <a href="layout.html" class="btn-layout">Open Layout Editor</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <div class="hero">
-        <div class="badge">100% Anti-AI Platform • <span>Community Driven</span></div>
-        <h1>Design freely without algorithm flags.</h1>
-        <p>The anti-AI graphic template and design platform. Built for authors, illustrators, engravers, and webcomic creators.</p>
-        <div class="hero-cta-group">
-            <a href="artboard.html" class="btn-nav-artboard" style="font-size: 1.1rem; padding: 14px 28px;">Open Artboard Editor</a>
-            <a href="layout.html" class="btn-nav-layout" style="font-size: 1.1rem; padding: 14px 28px;">Open Layout Editor</a>
+        <div class="badge">100% Anti-AI Engine • Zero Algorithm Flags</div>
+        <h1>Vector precision & multi-canvas publishing.</h1>
+        <p>Pure human vector assets and layout tools for indie authors, comic storytellers, and engravers.</p>
+        <div class="hero-actions">
+            <a href="artboard.html" class="btn-artboard" style="font-size: 1.1rem; padding: 14px 28px;">Vector Artboard Engine (Figma Style)</a>
+            <a href="layout.html" class="btn-layout" style="font-size: 1.1rem; padding: 14px 28px;">Layout & Print Editor (InDesign / Canva Style)</a>
         </div>
-    </div>
-
-    <!-- Core Capabilities -->
-    <div class="capabilities" id="features">
-        <div class="cap-card">
-            <h3><span style="color:var(--mint);">✦</span> Vector Art Engine</h3>
-            <p>Bezier curve pen nodes, freehand pencil drawing, and clean anchor paths. Pure scalable vector output.</p>
-        </div>
-        <div class="cap-card">
-            <h3><span style="color:var(--orange);">✦</span> Layout Design</h3>
-            <p>Book cover spreads, Google Fonts hierarchy, trim bleed margins, and uniform page formatting.</p>
-        </div>
-        <div class="cap-card">
-            <h3><span style="color:var(--mint);">✦</span> Multi-Canvas Artboards</h3>
-            <p>Create multiple artboard frames on an infinite workspace to design mockups and assets side-by-side.</p>
-        </div>
-        <div class="cap-card">
-            <h3><span style="color:var(--orange);">✦</span> Afrocentric Scene Builder</h3>
-            <p>Modular vector assets with melanin skin tones, afro hair styles, and community creator contributions.</p>
-        </div>
-    </div>
-
-    <!-- Featured Workspaces -->
-    <div class="grid-header" id="templates">
-        <h2>Choose Your Workspace</h2>
-        <span style="color: var(--orange); font-size: 0.95rem; font-weight: 600;">100% Human Vector Lineage</span>
     </div>
 
     <div class="gallery">
         <div class="card">
             <div class="preview-box">
-                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#FF9F43" stroke-width="2">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#FF9F43" stroke-width="2">
                     <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                     <polyline points="2 17 12 22 22 17"></polyline>
-                    <polyline points="2 12 12 17 22 12"></polyline>
                 </svg>
             </div>
             <h3>Book Cover & Print Layouts</h3>
-            <div class="card-meta">
-                <span>InDesign Spreads • Bleed Ready</span>
-                <span style="color: var(--orange);">Margins Set</span>
-            </div>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Margins, bleeds, Google fonts, and page spreads.</p>
             <a href="layout.html" class="btn-card">Launch Layout Editor</a>
         </div>
 
         <div class="card">
             <div class="preview-box">
-                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#00FF88" stroke-width="2">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#00FF88" stroke-width="2">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                     <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                    <polyline points="21 15 16 10 5 21"></polyline>
                 </svg>
             </div>
-            <h3>Webtoon Avatar & Multi-Artboards</h3>
-            <div class="card-meta">
-                <span>Figma Style • Pen Tool</span>
-                <span style="color: var(--mint);">Afrocentric Assets</span>
-            </div>
-            <a href="artboard.html" class="btn-card">Launch Artboard Editor</a>
-        </div>
-
-        <div class="card">
-            <div class="preview-box">
-                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#00FF88" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
-                    <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
-                </svg>
-            </div>
-            <h3>Laser Vector Cut Lines</h3>
-            <div class="card-meta">
-                <span>Transparent SVG Export</span>
-                <span style="color: var(--orange);">Ray5 Ready</span>
-            </div>
+            <h3>Multi-Artboard & Afrocentric Avatars</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Bezier pen nodes, white frames, and community assets.</p>
             <a href="artboard.html" class="btn-card">Launch Artboard Editor</a>
         </div>
     </div>
