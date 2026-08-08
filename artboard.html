@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just Angles | Vector Artboard Editor</title>
+    <!-- Fabric.js Vector Canvas Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <style>
+        :root {
+            --mint: #00FF88;
+            --orange: #FF9F43;
+            --bg-workspace: #1C2026;  /* Dark Infinite Workspace */
+            --bg-surface: #252A32;    /* Floating Toolbars & Panels */
+            --border-muted: #343B46;  /* Panel Borders */
+            --text-main: #FFFFFF;
+            --text-muted: #9DA8B6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-workspace);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Header Navigation */
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            box-sizing: border-box;
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border-muted);
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .logo-icon { width: 26px; height: 26px; }
+
+        .community-badge {
+            background: rgba(255, 159, 67, 0.15);
+            border: 1px solid var(--orange);
+            color: var(--orange);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            padding: 8px 14px;
+            background-color: #2F3642;
+            color: var(--text-main);
+            border: 1px solid var(--border-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover { border-color: var(--mint); color: var(--mint); }
+        .btn-mint { background-color: var(--mint); color: #000; font-weight: 700; border: none; }
+        .btn-mint:hover { background-color: #00E67A; color: #000; }
+
+        /* Workspace Layout */
+        .app-container {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 57px);
+            position: relative;
+        }
+
+        /* Left Tools & Asset Sidebar */
+        .sidebar-left {
+            width: 260px;
+            background-color: var(--bg-surface);
+            border-right: 1px solid var(--border-muted);
+            padding: 16px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            overflow-y: auto;
+            z-index: 5;
+        }
+
+        .sidebar-left h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin: 8px 0 2px 0;
+            border-bottom: 1px solid var(--border-muted);
+            padding-bottom: 4px;
+        }
+
+        .tool-btn {
+            padding: 9px 12px;
+            background-color: #2F3642;
+            color: var(--text-main);
+            border: 1px solid var(--border-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tool-btn:hover { border-color: var(--mint); color: var(--mint); }
+        .tool-btn.active { background-color: var(--mint); color: #000; border-color: var(--mint); }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        label { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
+
+        input[type="color"], select, input[type="range"] {
+            width: 100%;
+            background-color: #121518;
+            border: 1px solid var(--border-muted);
+            color: #FFF;
+            padding: 6px;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 0.85rem;
+        }
+
+        /* Main Workspace Stage */
+        .workspace-stage {
+            flex: 1;
+            background-color: var(--bg-workspace);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+            position: relative;
+        }
+
+        .canvas-viewport {
+            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        /* Right Layers Panel */
+        .sidebar-right {
+            width: 220px;
+            background-color: var(--bg-surface);
+            border-left: 1px solid var(--border-muted);
+            padding: 16px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 5;
+        }
+
+        .layer-item {
+            padding: 8px 10px;
+            background-color: #121518;
+            border: 1px solid var(--border-muted);
+            border-radius: 6px;
+            font-size: 0.82rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <a href="index.html" class="logo">
+            <svg class="logo-icon" viewBox="0 0 100 100" fill="none">
+                <polygon points="50,10 90,85 10,85" stroke="#00FF88" stroke-width="12" stroke-linejoin="round"/>
+                <polygon points="50,30 75,75 25,75" stroke="#FF9F43" stroke-width="8" stroke-linejoin="round"/>
+            </svg>
+            Just Angles — Vector Artboard Editor
+        </a>
+
+        <div class="community-badge">✦ Points Engine: 120 pts (Community Creator)</div>
+
+        <div class="header-actions">
+            <button class="btn-action" onclick="saveProjectVirtual()">Save Workspace</button>
+            <button class="btn-action" onclick="loadProjectVirtual()">Load Workspace</button>
+            <button class="btn-action btn-mint" onclick="exportTransparentSVG()">Export Transparent SVG</button>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Left Tools Sidebar -->
+        <div class="sidebar-left">
+            
+            <h3>Artboard Frames</h3>
+            <button class="tool-btn" onclick="addWhiteArtboard('Frame 1', 400, 550)">+ Add Frame 1 (Portrait)</button>
+            <button class="tool-btn" onclick="addWhiteArtboard('Frame 2', 400, 300)">+ Add Frame 2 (Card)</button>
+
+            <h3>Vector Pen & Pencil</h3>
+            <button id="selectToolBtn" class="tool-btn active" onclick="setSelectMode()">✦ Select / Node Tool</button>
+            <button id="penNodeToolBtn" class="tool-btn" onclick="addPenPath()">✒ Pen Tool (Bezier Node)</button>
+            <button id="drawToolBtn" class="tool-btn" onclick="setDrawMode()">✏ Vector Pencil</button>
+
+            <div class="control-group">
+                <label>Stroke / Path Color</label>
+                <input type="color" id="strokeColorPicker" value="#00FF88" onchange="updateStrokeColor(this.value)">
+            </div>
+
+            <div class="control-group">
+                <label>Stroke Width (<span id="brushSizeVal">3</span>px)</label>
+                <input type="range" id="brushSize" min="1" max="30" value="3" oninput="updateBrushSize(this.value)">
+            </div>
+
+            <h3>Afrocentric Asset System</h3>
+            <button class="tool-btn" onclick="addBaseAvatar()">+ Add Base Avatar</button>
+            <button class="tool-btn" onclick="addAfroHair()">+ Add Afro Hair Asset</button>
+            <button class="tool-btn" style="color:var(--orange); border-color:var(--orange);" onclick="submitAssetToCommunity()">+ Contribute Asset (+20 Pts)</button>
+
+            <h3>Actions</h3>
+            <button class="tool-btn" style="color:#FF5555; border-color:#552222;" onclick="deleteSelected()">Delete Selected</button>
+
+        </div>
+
+        <!-- Central Workspace with Dark Surround & White Artboards -->
+        <div class="workspace-stage">
+            <div class="canvas-viewport">
+                <canvas id="artboardCanvas" width="900" height="900"></canvas>
+            </div>
+        </div>
+
+        <!-- Right Layers Sidebar -->
+        <div class="sidebar-right">
+            <h3 style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); margin:0 0 6px 0;">Layers</h3>
+            <div id="layersList">
+                <div class="layer-item"><span>Frame 1 (Artboard)</span><span style="color:var(--mint);">Locked</span></div>
+                <div class="layer-item"><span>Vector Path 1</span><span style="color:var(--orange);">Visible</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Infinite Workspace Canvas
+        const canvas = new fabric.Canvas('artboardCanvas', {
+            backgroundColor: '#1C2026', // Dark Surround Workspace
+            selection: true
+        });
+
+        // Setup Pencil Brush
+        canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+        canvas.freeDrawingBrush.color = '#00FF88';
+        canvas.freeDrawingBrush.width = 3;
+
+        // Initialize Default White Artboards (Figma Style)
+        function initArtboards() {
+            // White Artboard Frame 1
+            const frame1 = new fabric.Rect({
+                left: 250, top: 50, width: 400, height: 500,
+                fill: '#FFFFFF', rx: 4, ry: 4,
+                selectable: false, evented: false, name: 'artboard_bg'
+            });
+
+            const label1 = new fabric.Text('Frame 1', {
+                left: 250, top: 25, fontSize: 14, fill: '#9DA8B6',
+                fontFamily: '-apple-system, sans-serif', selectable: false
+            });
+
+            canvas.add(frame1, label1);
+            canvas.sendToBack(frame1);
+        }
+
+        initArtboards();
+
+        // Add Dynamic White Artboards
+        function addWhiteArtboard(titleText, w, h) {
+            setSelectMode();
+            const topOffset = canvas.getObjects().length * 40 + 50;
+            const frame = new fabric.Rect({
+                left: 250, top: topOffset, width: w, height: h,
+                fill: '#FFFFFF', rx: 4, ry: 4,
+                selectable: false, evented: false, name: 'artboard_bg'
+            });
+
+            const label = new fabric.Text(titleText, {
+                left: 250, top: topOffset - 22, fontSize: 14, fill: '#9DA8B6',
+                fontFamily: '-apple-system, sans-serif', selectable: false
+            });
+
+            canvas.add(frame, label);
+            canvas.sendToBack(frame);
+        }
+
+        // Pen Tool (Bezier Curve Nodes)
+        function addPenPath() {
+            setSelectMode();
+            const path = new fabric.Path('M 100 100 Q 200 50 300 200 T 500 300', {
+                left: 300, top: 150,
+                fill: 'transparent', stroke: '#00FF88', strokeWidth: 3
+            });
+            canvas.add(path);
+            canvas.setActiveObject(path);
+        }
+
+        // Mode Toggles
+        function setSelectMode() {
+            canvas.isDrawingMode = false;
+            document.getElementById('selectToolBtn').classList.add('active');
+            document.getElementById('drawToolBtn').classList.remove('active');
+        }
+
+        function setDrawMode() {
+            canvas.isDrawingMode = true;
+            document.getElementById('drawToolBtn').classList.add('active');
+            document.getElementById('selectToolBtn').classList.remove('active');
+        }
+
+        function updateStrokeColor(color) {
+            canvas.freeDrawingBrush.color = color;
+            const active = canvas.getActiveObject();
+            if (active && active.stroke) {
+                active.set('stroke', color);
+                canvas.renderAll();
+            }
+        }
+
+        function updateBrushSize(size) {
+            document.getElementById('brushSizeVal').innerText = size;
+            canvas.freeDrawingBrush.width = parseInt(size, 10);
+        }
+
+        // Afrocentric Asset Additions
+        function addBaseAvatar() {
+            setSelectMode();
+            const head = new fabric.Circle({ left: 400, top: 180, radius: 60, fill: '#8D5B4C' });
+            const neck = new fabric.Rect({ left: 440, top: 280, width: 30, height: 45, fill: '#7A4B3D' });
+            const group = new fabric.Group([neck, head], { left: 380, top: 180 });
+            canvas.add(group);
+            canvas.setActiveObject(group);
+        }
+
+        function addAfroHair() {
+            setSelectMode();
+            const afro = new fabric.Circle({
+                left: 355, top: 125, radius: 90,
+                fill: '#1A1A1A', stroke: '#000000', strokeWidth: 2
+            });
+            canvas.add(afro);
+            canvas.setActiveObject(afro);
+        }
+
+        function submitAssetToCommunity() {
+            alert('Asset submitted to the JustAngles Anti-AI Community Library! You earned +20 points towards your creator tier.');
+        }
+
+        function deleteSelected() {
+            const active = canvas.getActiveObject();
+            if (active) canvas.remove(active);
+        }
+
+        // Virtual Project Storage
+        function saveProjectVirtual() {
+            localStorage.setItem('just_angles_artboard_project', JSON.stringify(canvas.toJSON()));
+            alert('Workspace state saved virtually in local browser memory!');
+        }
+
+        function loadProjectVirtual() {
+            const saved = localStorage.getItem('just_angles_artboard_project');
+            if (saved) {
+                canvas.loadFromJSON(saved, function() {
+                    canvas.renderAll();
+                    alert('Workspace reloaded successfully!');
+                });
+            } else {
+                alert('No saved workspace found.');
+            }
+        }
+
+        // Transparent SVG Export (Hides dark workspace background)
+        function exportTransparentSVG() {
+            // Temporarily hide background for transparent export
+            const currentBG = canvas.backgroundColor;
+            canvas.backgroundColor = 'transparent';
+            
+            const svgData = canvas.toSVG();
+            canvas.backgroundColor = currentBG;
+            canvas.renderAll();
+
+            const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'just-angles-transparent-artboard.svg';
+            link.click();
+        }
+    </script>
+</body>
+</html>
