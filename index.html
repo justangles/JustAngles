@@ -3,188 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Just Angles | Vector Canvas Editor</title>
-    <!-- Fabric.js Library for Vector Canvas Editing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <title>Just Angles | 100% Human Vector Design Platform</title>
     <style>
+        :root {
+            --mint: #00FF88;
+            --orange: #FF9F43;
+            --dark-bg: #121417;
+            --card-bg: #1C1F24;
+            --border-color: #2E343D;
+            --text-main: #FFFFFF;
+            --text-muted: #A0AAB5;
+        }
+
         body {
             font-family: system-ui, -apple-system, sans-serif;
-            background-color: #0d0d0d;
-            color: #ffffff;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
             margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
             box-sizing: border-box;
+            border-bottom: 1px solid var(--border-color);
         }
-        .header { text-align: center; margin-bottom: 20px; }
-        h1 { font-size: 2.2rem; margin: 5px 0; }
-        .tag {
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: #00ff88;
-            display: inline-block;
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
         }
-        .workspace {
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-links {
             display: flex;
             gap: 20px;
-            background: #161616;
-            border: 1px solid #2a2a2a;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-            max-width: 950px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--mint);
+        }
+
+        .btn-launch {
+            background-color: var(--mint);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-launch:hover {
+            background-color: #00cc6d;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            max-width: 750px;
+            margin: 60px 20px 40px 20px;
+        }
+
+        .badge {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--mint);
+            color: var(--mint);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .badge span {
+            color: var(--orange);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin: 0 0 20px 0;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        /* Template Showcase Grid */
+        .grid-title {
             width: 100%;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .toolbar {
+            max-width: 1100px;
+            padding: 0 30px;
+            box-sizing: border-box;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 200px;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
         }
-        .btn {
-            padding: 10px 14px;
-            background-color: #222;
-            color: #fff;
-            border: 1px solid #333;
-            border-radius: 6px;
-            cursor: pointer;
+
+        .grid-title h2 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1100px;
+            padding: 0 30px 60px 30px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 24px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--orange);
+        }
+
+        .preview-box {
+            background: var(--dark-bg);
+            border-radius: 10px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            border: 1px dashed var(--border-color);
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin: 0 0 6px 0;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .tag-orange {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .btn-card {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background-color: #2A3038;
+            color: var(--text-main);
+            border-radius: 8px;
+            text-decoration: none;
             font-weight: 600;
             font-size: 0.9rem;
-            text-align: left;
-            transition: all 0.2s;
+            transition: background-color 0.2s, color 0.2s;
         }
-        .btn:hover {
-            border-color: #00ff88;
-            color: #00ff88;
-        }
-        .btn-accent {
-            background-color: #00ff88;
+
+        .btn-card:hover {
+            background-color: var(--mint);
             color: #000;
-            border: none;
-            text-align: center;
-            margin-top: 10px;
-        }
-        .btn-accent:hover {
-            background-color: #00cc6d;
-            color: #000;
-        }
-        .canvas-container-wrap {
-            border: 1px dashed #444;
-            border-radius: 8px;
-            background: #050505;
-            overflow: hidden;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="tag">100% Human Vectors • Zero AI Flags</div>
-        <h1>Just Angles Editor</h1>
+    <!-- Top Navigation -->
+    <nav>
+        <div class="logo">
+            <!-- Geometric Triangle Logo Icon -->
+            <svg class="logo-icon" viewBox="0 0 100 100" fill="none">
+                <polygon points="50,10 90,85 10,85" stroke="#00FF88" stroke-width="12" stroke-linejoin="round"/>
+                <polygon points="50,30 75,75 25,75" stroke="#FF9F43" stroke-width="8" stroke-linejoin="round"/>
+            </svg>
+            Just Angles
+        </div>
+        <div class="nav-links">
+            <a href="#templates">Templates</a>
+            <a href="#about">Anti-AI Mission</a>
+            <a href="editor.html" class="btn-launch">Open Editor</a>
+        </div>
+    </nav>
+
+    <!-- Main Hero -->
+    <div class="hero">
+        <div class="badge">100% Human Vectors • <span>Zero AI Flags</span></div>
+        <h1>Design freely without algorithm flags.</h1>
+        <p>The anti-AI graphic template platform. Pure vector assets crafted by human creators for indie authors, engravers, and visual storytellers.</p>
+        <a href="editor.html" class="btn-launch" style="font-size: 1.1rem; padding: 14px 28px;">Start Designing Now</a>
     </div>
 
-    <div class="workspace">
-        <!-- Controls Sidebar -->
-        <div class="toolbar">
-            <button class="btn" onclick="addHeading()">+ Add Heading</button>
-            <button class="btn" onclick="addSubtext()">+ Add Body Text</button>
-            <button class="btn" onclick="addSquare()">+ Add Square</button>
-            <button class="btn" onclick="addCircle()">+ Add Circle</button>
-            <button class="btn" style="color: #ff5555; border-color: #442222;" onclick="deleteSelected()">Delete Selected</button>
-            <hr style="border: 0; border-top: 1px solid #333; width: 100%; margin: 10px 0;">
-            <button class="btn btn-accent" onclick="exportSVG()">Export Clean SVG</button>
+    <!-- Template Showcase Grid -->
+    <div class="grid-title" id="templates">
+        <h2>Featured Vector Templates</h2>
+        <span style="color: var(--orange); font-size: 0.9rem; font-weight: 600;">Updated Daily</span>
+    </div>
+
+    <div class="gallery">
+        <div class="card">
+            <div class="preview-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#00FF88" stroke-width="2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+            </div>
+            <h3>Book Cover Typography Kit</h3>
+            <div class="card-meta">
+                <span>Vector SVG • Layered</span>
+                <span class="tag-orange">Clean Metadata</span>
+            </div>
+            <a href="editor.html" class="btn-card">Edit Template</a>
         </div>
 
-        <!-- Interactive Vector Canvas -->
-        <div class="canvas-container-wrap">
-            <canvas id="editorCanvas" width="500" height="500"></canvas>
+        <div class="card">
+            <div class="preview-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#FF9F43" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+            </div>
+            <h3>Social Promo Layout</h3>
+            <div class="card-meta">
+                <span>Instagram / Threads</span>
+                <span class="tag-orange">0% AI Score</span>
+            </div>
+            <a href="editor.html" class="btn-card">Edit Template</a>
+        </div>
+
+        <div class="card">
+            <div class="preview-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#00FF88" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
+                    <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
+                    <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
+                </svg>
+            </div>
+            <h3>Laser Engraving Vector Paths</h3>
+            <div class="card-meta">
+                <span>Ray5 / Vector Cut</span>
+                <span class="tag-orange">Anchor Cleaned</span>
+            </div>
+            <a href="editor.html" class="btn-card">Edit Template</a>
         </div>
     </div>
 
-    <script>
-        // Initialize Fabric.js Canvas
-        const canvas = new fabric.Canvas('editorCanvas', {
-            backgroundColor: '#111111'
-        });
-
-        // Add Default Template Elements
-        const defaultTitle = new fabric.IText('Just Angles', {
-            left: 140,
-            top: 180,
-            fontFamily: 'system-ui, sans-serif',
-            fontSize: 40,
-            fill: '#ffffff',
-            fontWeight: 'bold'
-        });
-
-        const defaultSub = new fabric.IText('Clean Human Vector Design', {
-            left: 130,
-            top: 240,
-            fontFamily: 'system-ui, sans-serif',
-            fontSize: 18,
-            fill: '#00ff88'
-        });
-
-        canvas.add(defaultTitle, defaultSub);
-
-        // Helper Functions
-        function addHeading() {
-            const text = new fabric.IText('New Heading', {
-                left: 150, top: 100,
-                fontSize: 32, fill: '#ffffff', fontWeight: 'bold'
-            });
-            canvas.add(text);
-            canvas.setActiveObject(text);
-        }
-
-        function addSubtext() {
-            const text = new fabric.IText('Edit this text...', {
-                left: 150, top: 150,
-                fontSize: 18, fill: '#aaaaaa'
-            });
-            canvas.add(text);
-            canvas.setActiveObject(text);
-        }
-
-        function addSquare() {
-            const rect = new fabric.Rect({
-                left: 200, top: 200, fill: 'transparent',
-                stroke: '#00ff88', strokeWidth: 3, width: 100, height: 100
-            });
-            canvas.add(rect);
-            canvas.setActiveObject(rect);
-        }
-
-        function addCircle() {
-            const circle = new fabric.Circle({
-                left: 200, top: 200, fill: 'transparent',
-                stroke: '#00ff88', strokeWidth: 3, radius: 50
-            });
-            canvas.add(circle);
-            canvas.setActiveObject(circle);
-        }
-
-        function deleteSelected() {
-            const active = canvas.getActiveObject();
-            if (active) canvas.remove(active);
-        }
-
-        function exportSVG() {
-            const svgData = canvas.toSVG();
-            const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'just-angles-template.svg';
-            link.click();
-        }
-    </script>
 </body>
 </html>
