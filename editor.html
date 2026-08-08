@@ -3,170 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Just Angles | Vector Canvas Editor</title>
-    <!-- Fabric.js Library for Vector Canvas Editing -->
+    <title>Just Angles | Anti-AI Workspace</title>
+    <!-- Fabric.js Vector Engine -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <style>
+        :root {
+            --mint: #00FF88;
+            --orange: #FF9F43;
+            --bg-main: #1C2026;       /* Mid-Tone Charcoal */
+            --bg-surface: #252A32;    /* Workspace Panels */
+            --bg-canvas: #121518;     /* Canvas Backdrop */
+            --border-muted: #343B46;  /* Panel Borders */
+            --text-main: #FFFFFF;
+            --text-muted: #9DA8B6;
+        }
+
         body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background-color: #0d0d0d;
-            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
             margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
         }
-        .header { text-align: center; margin-bottom: 20px; }
-        h1 { font-size: 2.2rem; margin: 5px 0; }
-        .tag {
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: #00ff88;
-            display: inline-block;
-        }
-        .workspace {
-            display: flex;
-            gap: 20px;
-            background: #161616;
-            border: 1px solid #2a2a2a;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-            max-width: 950px;
+
+        /* Nav Header */
+        header {
             width: 100%;
-            justify-content: center;
-            flex-wrap: wrap;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 32px;
+            box-sizing: border-box;
+            border-bottom: 1px solid var(--border-muted);
         }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .logo-icon { width: 30px; height: 30px; }
+
+        .tag {
+            background: rgba(0, 255, 136, 0.12);
+            border: 1px solid var(--mint);
+            color: var(--mint);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Workspace Layout */
+        .workspace-container {
+            display: flex;
+            gap: 24px;
+            width: 100%;
+            max-width: 1200px;
+            padding: 24px 32px;
+            box-sizing: border-box;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Sidebar Controls */
         .toolbar {
+            width: 240px;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-muted);
+            border-radius: 14px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            width: 200px;
+            gap: 10px;
+            box-sizing: border-box;
         }
-        .btn {
+
+        .toolbar h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin: 10px 0 4px 0;
+        }
+
+        .tool-btn {
             padding: 10px 14px;
-            background-color: #222;
-            color: #fff;
-            border: 1px solid #333;
-            border-radius: 6px;
+            background-color: #2F3642;
+            color: var(--text-main);
+            border: 1px solid var(--border-muted);
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             font-size: 0.9rem;
             text-align: left;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .btn:hover {
-            border-color: #00ff88;
-            color: #00ff88;
+
+        .tool-btn:hover {
+            border-color: var(--mint);
+            color: var(--mint);
         }
-        .btn-accent {
-            background-color: #00ff88;
+
+        .tool-btn.active {
+            background-color: var(--mint);
             color: #000;
+            border-color: var(--mint);
+        }
+
+        .btn-export {
+            background-color: var(--mint);
+            color: #0B0E11;
+            font-weight: 700;
             border: none;
-            text-align: center;
-            margin-top: 10px;
-        }
-        .btn-accent:hover {
-            background-color: #00cc6d;
-            color: #000;
-        }
-        .canvas-container-wrap {
-            border: 1px dashed #444;
+            padding: 12px;
             border-radius: 8px;
-            background: #050505;
+            cursor: pointer;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .btn-export:hover { background-color: #00E67A; }
+
+        /* Canvas Stage */
+        .stage {
+            flex: 1;
+            min-width: 520px;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-muted);
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .canvas-wrapper {
+            background: var(--bg-canvas);
+            border: 1px dashed var(--border-muted);
+            border-radius: 10px;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="tag">100% Human Vectors • Zero AI Flags</div>
-        <h1>Just Angles Editor</h1>
-    </div>
+    <header>
+        <a href="index.html" class="logo">
+            <svg class="logo-icon" viewBox="0 0 100 100" fill="none">
+                <polygon points="50,10 90,85 10,85" stroke="#00FF88" stroke-width="12" stroke-linejoin="round"/>
+                <polygon points="50,30 75,75 25,75" stroke="#FF9F43" stroke-width="8" stroke-linejoin="round"/>
+            </svg>
+            Just Angles Editor
+        </a>
+        <div class="tag">100% Anti-AI Vector Engine</div>
+    </header>
 
-    <div class="workspace">
-        <!-- Controls Sidebar -->
+    <div class="workspace-container">
+        <!-- Tools Sidebar -->
         <div class="toolbar">
-            <button class="btn" onclick="addHeading()">+ Add Heading</button>
-            <button class="btn" onclick="addSubtext()">+ Add Body Text</button>
-            <button class="btn" onclick="addSquare()">+ Add Square</button>
-            <button class="btn" onclick="addCircle()">+ Add Circle</button>
-            <button class="btn" style="color: #ff5555; border-color: #442222;" onclick="deleteSelected()">Delete Selected</button>
-            <hr style="border: 0; border-top: 1px solid #333; width: 100%; margin: 10px 0;">
-            <button class="btn btn-accent" onclick="exportSVG()">Export Clean SVG</button>
+            <h3>Mode</h3>
+            <button id="selectModeBtn" class="tool-btn active" onclick="setSelectMode()">
+                <span>✦ Select / Move</span>
+            </button>
+            <button id="drawModeBtn" class="tool-btn" onclick="setDrawMode()">
+                <span>✏ Vector Pencil</span>
+                <span style="color: var(--orange); font-size: 0.75rem;">Freehand</span>
+            </button>
+
+            <h3>Layout & Text</h3>
+            <button class="tool-btn" onclick="addHeading()">+ Add Typography</button>
+            <button class="tool-btn" onclick="addArtboardBorder()">+ Artboard Frame</button>
+
+            <h3>Vector Shapes</h3>
+            <button class="tool-btn" onclick="addSquare()">+ Square Path</button>
+            <button class="tool-btn" onclick="addCircle()">+ Circle Path</button>
+
+            <h3>Actions</h3>
+            <button class="tool-btn" style="color: #FF5555; border-color: #552222;" onclick="deleteSelected()">Delete Item</button>
+
+            <hr style="border:0; border-top: 1px solid var(--border-muted); margin: 12px 0;">
+
+            <button class="btn-export" onclick="exportSVG()">Export Clean SVG</button>
         </div>
 
-        <!-- Interactive Vector Canvas -->
-        <div class="canvas-container-wrap">
-            <canvas id="editorCanvas" width="500" height="500"></canvas>
+        <!-- Canvas Stage -->
+        <div class="stage">
+            <div class="canvas-wrapper">
+                <canvas id="editorCanvas" width="600" height="600"></canvas>
+            </div>
         </div>
     </div>
 
     <script>
-        // Initialize Fabric.js Canvas
+        // Initialize Vector Canvas
         const canvas = new fabric.Canvas('editorCanvas', {
-            backgroundColor: '#111111'
+            backgroundColor: '#121518'
         });
 
-        // Add Default Template Elements
-        const defaultTitle = new fabric.IText('Just Angles', {
-            left: 140,
-            top: 180,
-            fontFamily: 'system-ui, sans-serif',
-            fontSize: 40,
-            fill: '#ffffff',
-            fontWeight: 'bold'
+        // Setup Freehand Pencil Brush Properties
+        canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+        canvas.freeDrawingBrush.color = '#00FF88';
+        canvas.freeDrawingBrush.width = 3;
+
+        // Mode Toggles
+        function setSelectMode() {
+            canvas.isDrawingMode = false;
+            document.getElementById('selectModeBtn').classList.add('active');
+            document.getElementById('drawModeBtn').classList.remove('active');
+        }
+
+        function setDrawMode() {
+            canvas.isDrawingMode = true;
+            document.getElementById('drawModeBtn').classList.add('active');
+            document.getElementById('selectModeBtn').classList.remove('active');
+        }
+
+        // Default Template Graphics
+        const title = new fabric.IText('Just Angles', {
+            left: 170, top: 220,
+            fontFamily: '-apple-system, sans-serif',
+            fontSize: 42, fill: '#ffffff', fontWeight: 'bold'
         });
 
-        const defaultSub = new fabric.IText('Clean Human Vector Design', {
-            left: 130,
-            top: 240,
-            fontFamily: 'system-ui, sans-serif',
-            fontSize: 18,
-            fill: '#00ff88'
+        const sub = new fabric.IText('Draw or Edit Clean Vector Paths', {
+            left: 155, top: 280,
+            fontFamily: '-apple-system, sans-serif',
+            fontSize: 18, fill: '#FF9F43'
         });
 
-        canvas.add(defaultTitle, defaultSub);
+        canvas.add(title, sub);
 
-        // Helper Functions
+        // Helper Tools
         function addHeading() {
-            const text = new fabric.IText('New Heading', {
-                left: 150, top: 100,
-                fontSize: 32, fill: '#ffffff', fontWeight: 'bold'
+            setSelectMode();
+            const text = new fabric.IText('Book Title Layout', {
+                left: 170, top: 120, fontSize: 28, fill: '#FFFFFF', fontWeight: 'bold'
             });
             canvas.add(text);
             canvas.setActiveObject(text);
         }
 
-        function addSubtext() {
-            const text = new fabric.IText('Edit this text...', {
-                left: 150, top: 150,
-                fontSize: 18, fill: '#aaaaaa'
+        function addArtboardBorder() {
+            setSelectMode();
+            const rect = new fabric.Rect({
+                left: 40, top: 40, width: 520, height: 520,
+                fill: 'transparent', stroke: '#343B46', strokeWidth: 2,
+                strokeDashArray: [6, 6], selectable: false
             });
-            canvas.add(text);
-            canvas.setActiveObject(text);
+            canvas.add(rect);
+            canvas.sendToBack(rect);
         }
 
         function addSquare() {
+            setSelectMode();
             const rect = new fabric.Rect({
-                left: 200, top: 200, fill: 'transparent',
-                stroke: '#00ff88', strokeWidth: 3, width: 100, height: 100
+                left: 240, top: 340, width: 120, height: 120,
+                fill: 'transparent', stroke: '#00FF88', strokeWidth: 3
             });
             canvas.add(rect);
             canvas.setActiveObject(rect);
         }
 
         function addCircle() {
+            setSelectMode();
             const circle = new fabric.Circle({
-                left: 200, top: 200, fill: 'transparent',
-                stroke: '#00ff88', strokeWidth: 3, radius: 50
+                left: 240, top: 340, radius: 60,
+                fill: 'transparent', stroke: '#FF9F43', strokeWidth: 3
             });
             canvas.add(circle);
             canvas.setActiveObject(circle);
@@ -182,7 +301,7 @@
             const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'just-angles-template.svg';
+            link.download = 'just-angles-vector.svg';
             link.click();
         }
     </script>
